@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class EpocApplication
 
 fun main(args: Array<String>) {
-	runApplication<EpocApplication>(*args)
+    runApplication<EpocApplication>(*args)
 }
