@@ -2,15 +2,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("org.springframework.boot") version "2.5.4"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	kotlin("jvm") version "1.5.30"
 	kotlin("plugin.spring") version "1.5.30"
 	kotlin("plugin.jpa") version "1.5.30"
 }
 
-val kotlinVersion = project.properties["kotlinVersion"]
-val jacksonVersion = project.properties["jacksonVersion"]
-val springBootVersion = project.properties["springBootVersion"]
+val kotlinVersion = "1.5.30"
+val jacksonVersion = "2.12.5"
+val springBootVersion = "2.5.4"
+val junitVersion = "5.7.2"
 
 group = "three.consulting"
 version = "0.0.1"
@@ -26,7 +26,13 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+	implementation("org.flywaydb:flyway-core:7.14.0")
+	implementation("org.postgresql:postgresql:42.2.23")
 	testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+	testImplementation("org.assertj:assertj-core:3.20.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+	testImplementation("io.zonky.test:embedded-database-spring-test:2.1.0")
 }
 
 tasks.withType<KotlinCompile> {
