@@ -1,4 +1,4 @@
-package three.consulting.epoc.domain
+package three.consulting.epoc.entity
 
 import java.time.LocalDateTime
 import javax.persistence.*

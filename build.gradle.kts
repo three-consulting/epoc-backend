@@ -26,6 +26,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.flywaydb:flyway-core:7.14.0")
     implementation("org.postgresql:postgresql:42.2.23")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
