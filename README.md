@@ -6,7 +6,16 @@
 - kotlin & gradle plugins for IDEA
 
 ### Run app
-On IDEA create new gradle configuration and use `bootRun` as the run argument
+On IDEA create new gradle configuration and use `bootRun` as the run argument with env variables
+
+SPRING_DATASOURCE_USERNAME=user
+SPRING_DATASOURCE_PASSWORD=password
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost/epoc
+
+Run a postgres db in a container
+```bash
+docker run --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 postgres
+```
 
 ## Run tests
 This app uses flyway for migrations, so JPA Buddy plugin for Intellij IDEA is a tool that can be used to create migration files.
