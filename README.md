@@ -8,9 +8,11 @@
 ### Run app
 On IDEA create new gradle configuration and use `bootRun` as the run argument with env variables
 
-SPRING_DATASOURCE_USERNAME=user
-SPRING_DATASOURCE_PASSWORD=password
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost/epoc
+|variable |value |
+|------|------|
+|SPRING_DATASOURCE_USERNAME|user|
+|SPRING_DATASOURCE_PASSWORD|password|
+|SPRING_DATASOURCE_URL|jdbc:postgresql://localhost/epoc|
 
 Run a postgres db in a container
 ```bash
