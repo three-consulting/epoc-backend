@@ -10,5 +10,5 @@ CREATE TABLE customer (
 
 ALTER TABLE customer ADD CONSTRAINT uc_customer_name UNIQUE (name);
 
-INSERT INTO customer(id, name, description, created, updated, enabled)
-VALUES (1, 'Maurin Makkara Oy', 'Get the pile', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE);
+INSERT INTO customer( name, description, created, updated, enabled)
+VALUES ( 'Maurin Makkara Oy', 'Get the pile', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE);
