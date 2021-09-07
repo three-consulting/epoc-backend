@@ -1,12 +1,14 @@
 package three.consulting.epoc.repository
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.service.CustomerService
+import three.consulting.epoc.service.UnableToCreateCustomerException
 
 @ContextConfiguration(classes = [CustomerService::class])
 class CustomerServiceIntegrationTest : IntegrationTest() {
@@ -26,5 +28,25 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
     fun `searching a customer for an invalid id returns null`() {
         val customer: CustomerDTO? = customerService.findCustomerForId(1000L)
         assertThat(customer).isNull()
+    }
+
+    @Test
+    fun `added customer is found from database`() {
+        val customer = CustomerDTO(
+            name = "Älykäs Oy",
+            description = "Innovating new innovation"
+        )
+        val addedCustomer: CustomerDTO = customerService.createCustomer(customer)
+        assertThat(addedCustomer.name).isEqualTo(customer.name)
+        assertThat(addedCustomer.description).isEqualTo(customer.description)
+        assertThat(addedCustomer.enabled).isEqualTo(true)
+    }
+
+    @Test
+    fun `adding customer with id fails`() {
+        val invalidCustomer = CustomerDTO(1,"Testi Oy", "Innovating new innovation!", enabled = true)
+        assertThatThrownBy { customerService.createCustomer(invalidCustomer) }
+            .isInstanceOf(UnableToCreateCustomerException::class.java)
+            .hasMessage("Cannot create a customer with existing id")
     }
 }
