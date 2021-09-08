@@ -49,4 +49,14 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
             .isInstanceOf(UnableToCreateCustomerException::class.java)
             .hasMessage("Cannot create a customer with existing id")
     }
+
+    @Test
+    fun `update customer with id changes updated time`() {
+        val existingCustomer =  customerService.findCustomerForId(1L)
+        if (existingCustomer != null) {
+            val updatedCustomer = customerService.updateCustomerForId(1L, existingCustomer)
+            assertThat(updatedCustomer.updated).isNotEqualTo(existingCustomer.updated)
+        }
+
+    }
 }
