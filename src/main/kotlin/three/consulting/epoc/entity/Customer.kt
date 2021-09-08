@@ -1,5 +1,6 @@
 package three.consulting.epoc.entity
 
+import three.consulting.epoc.dto.CustomerDTO
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -10,5 +11,13 @@ data class Customer(
     @field:Column(nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var enabled: Boolean = true,
-    @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1
-)
+    @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null
+) {
+    constructor(customerDTO: CustomerDTO) : this (
+        id = customerDTO.id,
+        name = customerDTO.name,
+        description = customerDTO.description,
+        enabled = customerDTO.enabled ?: true,
+        created = customerDTO.created ?: LocalDateTime.now()
+    )
+}

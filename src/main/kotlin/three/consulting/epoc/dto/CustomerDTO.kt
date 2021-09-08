@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
 
 data class CustomerDTO(
-    val id: Long,
+    val id: Long? = null,
     @field:NotBlank val name: String,
     val description: String? = null,
     val created: LocalDateTime? = null,
