@@ -28,4 +28,11 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.postForEntity("/customer", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
+
+    @Test
+    fun `update customer return 200`() {
+        val httpEntity = jsonPostEntity("src/test/resources/customer/validCreation.json")
+        val response = restTemplate.postForEntity("/customer/1", httpEntity, ObjectNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
 }
