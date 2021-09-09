@@ -66,6 +66,6 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
         val invalidCustomer = CustomerDTO(name = "Failure Ltd")
         assertThatThrownBy { customerService.updateCustomerForId(invalidCustomer) }
             .isInstanceOf(UnableToUpdateCustomerException::class.java)
-            .hasMessage("Missing customer id")
+            .hasMessage("Cannot update customer, missing customer id")
     }
 }

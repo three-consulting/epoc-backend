@@ -35,4 +35,4 @@ class CustomerService(private val customerRepository: CustomerRepository) {
 
 }
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
-class UnableToUpdateCustomerException : RuntimeException("Missing customer id")
+class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
