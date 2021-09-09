@@ -9,6 +9,7 @@ import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.service.CustomerService
 import three.consulting.epoc.service.UnableToCreateCustomerException
+import three.consulting.epoc.service.UnableToUpdateCustomerException
 
 @ContextConfiguration(classes = [CustomerService::class])
 class CustomerServiceIntegrationTest : IntegrationTest() {
@@ -58,5 +59,13 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
             assertThat(updatedCustomer.updated).isNotEqualTo(existingCustomer.updated)
         }
 
+    }
+
+    @Test
+    fun `update customer with invalid id raises error`() {
+        val invalidCustomer = CustomerDTO(10L, "Failure Ltd")
+        assertThatThrownBy { invalidCustomer.id?.let { customerService.updateCustomerForId(it, invalidCustomer) }}
+            .isInstanceOf(UnableToUpdateCustomerException::class.java)
+            .hasMessage("No customer found with given id")
     }
 }
