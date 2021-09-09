@@ -33,9 +33,9 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `update customer return 200`() {
-        val httpEntity = jsonPostEntity("src/test/resources/customer/validCreation.json")
+        val httpEntity = jsonPostEntity("src/test/resources/customer/validUpdate.json")
         val response = restTemplate.exchange(
-            URI("/customer/1"),
+            URI("/customer"),
             HttpMethod.PUT,
             httpEntity,
             ObjectNode::class.java
@@ -45,9 +45,9 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `update customer without name return 400`() {
-        val httpEntity = jsonPostEntity("src/test/resources/customer/invalidCreation.json")
+        val httpEntity = jsonPostEntity("src/test/resources/customer/invalidUpdate.json")
         val response = restTemplate.exchange(
-            URI("/customer/1"),
+            URI("/customer"),
             HttpMethod.PUT,
             httpEntity,
             ObjectNode::class.java

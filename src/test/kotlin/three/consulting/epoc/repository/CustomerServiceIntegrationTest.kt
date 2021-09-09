@@ -55,17 +55,17 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
     fun `update customer with id changes updated time`() {
         val existingCustomer =  customerService.findCustomerForId(1L)
         if (existingCustomer != null) {
-            val updatedCustomer = customerService.updateCustomerForId(1L, existingCustomer)
+            val updatedCustomer = customerService.updateCustomerForId(existingCustomer)
             assertThat(updatedCustomer.updated).isNotEqualTo(existingCustomer.updated)
         }
 
     }
 
     @Test
-    fun `update customer with invalid id raises error`() {
-        val invalidCustomer = CustomerDTO(10L, "Failure Ltd")
-        assertThatThrownBy { invalidCustomer.id?.let { customerService.updateCustomerForId(it, invalidCustomer) }}
+    fun `update customer without id raises error`() {
+        val invalidCustomer = CustomerDTO(name = "Failure Ltd")
+        assertThatThrownBy { customerService.updateCustomerForId(invalidCustomer) }
             .isInstanceOf(UnableToUpdateCustomerException::class.java)
-            .hasMessage("No customer found with given id")
+            .hasMessage("Missing customer id")
     }
 }

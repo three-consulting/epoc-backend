@@ -16,6 +16,6 @@ class CustomerController(private val customerService: CustomerService) {
     @PostMapping()
     fun createCustomer(@Valid @RequestBody customer: CustomerDTO) = customerService.createCustomer(customer)
 
-    @PutMapping(value = ["/{customerId}"])
-    fun updateCustomerForId(@PathVariable customerId: Long, @Valid @RequestBody customer: CustomerDTO) = customerService.updateCustomerForId(customerId, customer)
+    @PutMapping()
+    fun updateCustomerForId(@Valid @RequestBody customer: CustomerDTO) = customerService.updateCustomerForId(customer)
 }

@@ -25,9 +25,8 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         else throw UnableToCreateCustomerException()
     }
 
-    fun updateCustomerForId(id: Long, customerRequest: CustomerDTO): CustomerDTO {
-        val existingCustomer = customerRepository.findByIdOrNull(id)
-        if (existingCustomer != null) {
+    fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
+        if (customerRequest.id != null) {
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
         }
@@ -36,4 +35,4 @@ class CustomerService(private val customerRepository: CustomerRepository) {
 
 }
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
-class UnableToUpdateCustomerException : RuntimeException("No customer found with given id")
+class UnableToUpdateCustomerException : RuntimeException("Missing customer id")
