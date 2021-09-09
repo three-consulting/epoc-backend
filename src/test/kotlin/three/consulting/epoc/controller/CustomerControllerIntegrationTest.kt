@@ -3,8 +3,10 @@ package three.consulting.epoc.controller
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import three.consulting.epoc.utils.jsonPostEntity
+import java.net.URI
 
 class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
 
@@ -39,5 +41,17 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
             ObjectNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun `update customer without name return 400`() {
+        val httpEntity = jsonPostEntity("src/test/resources/customer/invalidCreation.json")
+        val response = restTemplate.exchange(
+            URI("/customer/1"),
+            HttpMethod.PUT,
+            httpEntity,
+            ObjectNode::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 }
