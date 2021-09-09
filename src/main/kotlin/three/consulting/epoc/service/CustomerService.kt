@@ -24,5 +24,15 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         }
         else throw UnableToCreateCustomerException()
     }
+
+    fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
+        if (customerRequest.id != null) {
+            val customer = Customer(customerRequest)
+            return CustomerDTO(customerRepository.save(customer))
+        }
+        else throw UnableToUpdateCustomerException()
+    }
+
 }
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
+class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")

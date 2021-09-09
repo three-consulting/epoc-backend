@@ -15,4 +15,7 @@ class CustomerController(private val customerService: CustomerService) {
 
     @PostMapping()
     fun createCustomer(@Valid @RequestBody customer: CustomerDTO) = customerService.createCustomer(customer)
+
+    @PutMapping()
+    fun updateCustomerForId(@Valid @RequestBody customer: CustomerDTO) = customerService.updateCustomerForId(customer)
 }
