@@ -18,4 +18,7 @@ class CustomerController(private val customerService: CustomerService) {
 
     @PutMapping()
     fun updateCustomerForId(@Valid @RequestBody customer: CustomerDTO) = customerService.updateCustomerForId(customer)
+
+    @DeleteMapping(value = ["/{customerId}"])
+    fun DeleteCustomerForId(@PathVariable customerId: Long) = customerService.deleteCustomer(customerId)
 }
