@@ -37,11 +37,11 @@ class CustomerService(private val customerRepository: CustomerRepository) {
     fun deleteCustomer(customerId: Long) {
         try {
             customerRepository.deleteById(customerId)
-        }catch (e: EmptyResultDataAccessException) {
-            throw UnableToDeleteCustomerException(customerId)
+        } catch (e: EmptyResultDataAccessException) {
+            throw UnableToDeleteCustomerException(customerId, e)
         }
     }
 }
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
 class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
-class UnableToDeleteCustomerException(id: Long) : RuntimeException("Cannot delete customer, no customer found for the given id: $id")
+class UnableToDeleteCustomerException(id: Long, exception: EmptyResultDataAccessException) : RuntimeException("Cannot delete customer, no customer found for the given id: $id", exception)
