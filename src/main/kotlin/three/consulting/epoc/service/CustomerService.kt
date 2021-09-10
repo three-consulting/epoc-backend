@@ -1,5 +1,6 @@
 package three.consulting.epoc.service
 
+import mu.KotlinLogging
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -7,10 +8,13 @@ import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.entity.Customer
 import three.consulting.epoc.repository.CustomerRepository
 
+private val logger = KotlinLogging.logger {}
+
 @Service
 class CustomerService(private val customerRepository: CustomerRepository) {
 
     fun findCustomerForId(id: Long): CustomerDTO? {
+        logger.info("Looking for customer with id: $id")
         val customer: Customer? = customerRepository.findByIdOrNull(id)
         if (customer != null) {
             return CustomerDTO(customer)
