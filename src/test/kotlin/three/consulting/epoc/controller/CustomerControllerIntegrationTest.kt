@@ -54,4 +54,26 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
+
+    @Test
+    fun `delete customer return 204`() {
+        val response = restTemplate.exchange(
+            URI("/customer/1"),
+            HttpMethod.DELETE,
+            null,
+            ObjectNode::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun `delete without path id return 400`() {
+        val response = restTemplate.exchange(
+            URI("/customer"),
+            HttpMethod.DELETE,
+            jsonPostEntity("src/test/resources/customer/validCreation.json"),
+            ObjectNode::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED)
+    }
 }
