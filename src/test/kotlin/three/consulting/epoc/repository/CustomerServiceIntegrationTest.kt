@@ -9,6 +9,7 @@ import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.service.CustomerService
 import three.consulting.epoc.service.UnableToCreateCustomerException
+import three.consulting.epoc.service.UnableToDeleteCustomerException
 import three.consulting.epoc.service.UnableToUpdateCustomerException
 
 @ContextConfiguration(classes = [CustomerService::class])
@@ -68,4 +69,19 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
             .isInstanceOf(UnableToUpdateCustomerException::class.java)
             .hasMessage("Cannot update customer, missing customer id")
     }
+
+    @Test
+    fun `delete customer removes customer from the database`() {
+        assertThat(customerService.findCustomerForId(2L)).isNotNull
+        customerService.deleteCustomer(2L)
+        assertThat(customerService.findCustomerForId(2L)).isNull()
+    }
+
+    @Test
+    fun `delete customer with non-existing id raises error`() {
+        assertThatThrownBy { customerService.deleteCustomer(1000L)}
+            .isInstanceOf(UnableToDeleteCustomerException::class.java)
+            .hasMessage("Cannot delete customer, no customer found for the given id: 1000")
+    }
 }
+

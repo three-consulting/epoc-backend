@@ -1,5 +1,6 @@
 package three.consulting.epoc.service
 
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import three.consulting.epoc.dto.CustomerDTO
@@ -33,6 +34,14 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         else throw UnableToUpdateCustomerException()
     }
 
+    fun deleteCustomer(customerId: Long) {
+        try {
+            customerRepository.deleteById(customerId)
+        }catch (e: EmptyResultDataAccessException) {
+            throw UnableToDeleteCustomerException(customerId)
+        }
+    }
 }
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
 class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
+class UnableToDeleteCustomerException(id: Long) : RuntimeException("Cannot delete customer, no customer found for the given id: $id")
