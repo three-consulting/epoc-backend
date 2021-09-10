@@ -71,7 +71,7 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.exchange(
             URI("/customer"),
             HttpMethod.DELETE,
-            jsonPostEntity("src/test/resources/customer/validCreation.json"),
+            null,
             ObjectNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED)
