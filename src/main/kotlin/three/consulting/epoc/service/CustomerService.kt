@@ -22,16 +22,14 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         if (customerRequest.id == null) {
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
-        }
-        else throw UnableToCreateCustomerException()
+        } else throw UnableToCreateCustomerException()
     }
 
     fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
         if (customerRequest.id != null) {
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
-        }
-        else throw UnableToUpdateCustomerException()
+        } else throw UnableToUpdateCustomerException()
     }
 
     fun deleteCustomer(customerId: Long) {
@@ -42,6 +40,8 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         }
     }
 }
+
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
 class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
-class UnableToDeleteCustomerException(id: Long, exception: EmptyResultDataAccessException) : RuntimeException("Cannot delete customer, no customer found for the given id: $id", exception)
+class UnableToDeleteCustomerException(id: Long, exception: EmptyResultDataAccessException) :
+    RuntimeException("Cannot delete customer, no customer found for the given id: $id", exception)
