@@ -19,28 +19,44 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         if (customer != null) {
             return CustomerDTO(customer)
         }
+        logger.info("No customer found for the id: $id")
         return null
     }
 
     fun createCustomer(customerRequest: CustomerDTO): CustomerDTO {
+        logger.info("Creating new customer")
         if (customerRequest.id == null) {
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
-        } else throw UnableToCreateCustomerException()
+        } else {
+            val exception = UnableToCreateCustomerException()
+            logger.error("Cannot create new customer", exception)
+            throw exception
+        }
     }
 
     fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
+        logger.info("Updating customer")
         if (customerRequest.id != null) {
+            logger.debug("Updating customer with id: ${customerRequest.id}")
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
-        } else throw UnableToUpdateCustomerException()
+        } else {
+            val exception = UnableToUpdateCustomerException()
+            logger.error("Cannot update customer", exception)
+            throw exception
+        }
     }
 
     fun deleteCustomer(customerId: Long) {
+        logger.info("Deleting customer")
         try {
+            logger.debug("Deleting customer with id: $customerId")
             customerRepository.deleteById(customerId)
         } catch (e: EmptyResultDataAccessException) {
-            throw UnableToDeleteCustomerException(customerId, e)
+            val exception = UnableToDeleteCustomerException(customerId, e)
+            logger.error("Cannot delete customer", exception)
+            throw exception
         }
     }
 }
