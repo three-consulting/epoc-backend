@@ -35,7 +35,7 @@ class EmployeeService(private val employeeRepository: EmployeeRepository) {
     }
 
     fun updateEmployeeForId(employeeRequest: EmployeeDTO): EmployeeDTO {
-        logger.info { "Updateing employee with id: ${employeeRequest.id}" }
+        logger.info { "Updating employee with id: ${employeeRequest.id}" }
         if (employeeRequest.id != null) {
             val employee = Employee(employeeRequest)
             return EmployeeDTO(employeeRepository.save(employee))
