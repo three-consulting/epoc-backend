@@ -14,12 +14,12 @@ private val logger = KotlinLogging.logger {}
 class CustomerService(private val customerRepository: CustomerRepository) {
 
     fun findCustomerForId(id: Long): CustomerDTO? {
-        logger.info("Looking for customer with id: $id")
+        logger.info {"Looking for customer with id: $id"}
         val customer: Customer? = customerRepository.findByIdOrNull(id)
         if (customer != null) {
             return CustomerDTO(customer)
         }
-        logger.info("No customer found for the id: $id")
+        logger.info {"No customer found for the id: $id"}
         return null
     }
 
@@ -30,38 +30,35 @@ class CustomerService(private val customerRepository: CustomerRepository) {
             return CustomerDTO(customerRepository.save(customer))
         } else {
             val exception = UnableToCreateCustomerException()
-            logger.error("Cannot create new customer", exception)
+            logger.error(exception) {"Failed creating a new customer" }
             throw exception
         }
     }
 
     fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
-        logger.info("Updating customer")
+        logger.info {"Updating customer with id: ${customerRequest.id}"}
         if (customerRequest.id != null) {
-            logger.debug("Updating customer with id: ${customerRequest.id}")
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
         } else {
             val exception = UnableToUpdateCustomerException()
-            logger.error("Cannot update customer", exception)
+            logger.error(exception) {"Cannot update customer"}
             throw exception
         }
     }
 
     fun deleteCustomer(customerId: Long) {
-        logger.info("Deleting customer")
         try {
-            logger.debug("Deleting customer with id: $customerId")
+            logger.info {"Deleting customer with id: $customerId"}
             customerRepository.deleteById(customerId)
         } catch (e: EmptyResultDataAccessException) {
-            val exception = UnableToDeleteCustomerException(customerId, e)
-            logger.error("Cannot delete customer", exception)
-            throw exception
+            logger.error(e) {"Cannot delete customer"}
+            throw UnableToDeleteCustomerException(customerId)
         }
     }
 }
 
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
 class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
-class UnableToDeleteCustomerException(id: Long, exception: EmptyResultDataAccessException) :
-    RuntimeException("Cannot delete customer, no customer found for the given id: $id", exception)
+class UnableToDeleteCustomerException(id: Long) :
+    RuntimeException("Cannot delete customer, no customer found for the given id: $id")
