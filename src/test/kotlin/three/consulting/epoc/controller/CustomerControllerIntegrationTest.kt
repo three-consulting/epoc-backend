@@ -30,7 +30,7 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `update customer return 200`() {
+    fun `update customer returns 200`() {
         val httpEntity = jsonPostEntity("src/test/resources/customer/validUpdate.json")
         val response = restTemplate.exchange(
             URI("/customer"),
@@ -42,7 +42,7 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `update customer without name return 400`() {
+    fun `update customer without name returns 400`() {
         val httpEntity = jsonPostEntity("src/test/resources/customer/invalidUpdate.json")
         val response = restTemplate.exchange(
             URI("/customer"),
@@ -54,7 +54,7 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `delete customer return 204`() {
+    fun `delete customer returns 204`() {
         val response = restTemplate.exchange(
             URI("/customer/1"),
             HttpMethod.DELETE,
@@ -65,7 +65,7 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `delete without path id return 400`() {
+    fun `delete without path id returns 400`() {
         val response = restTemplate.exchange(
             URI("/customer"),
             HttpMethod.DELETE,
