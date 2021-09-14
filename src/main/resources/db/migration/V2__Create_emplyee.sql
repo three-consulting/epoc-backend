@@ -9,7 +9,9 @@ CREATE TABLE employee (
   CONSTRAINT pk_employee PRIMARY KEY (id)
 );
 
+ALTER TABLE employee ADD CONSTRAINT uc_employee_email UNIQUE (email);
+
 INSERT INTO employee( first_name, last_name, email, start_date, created, updated)
 VALUES
     ( 'Testi', 'Tekijä', 'testi@tekija.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ( 'Testi', 'Tekijä', 'testi@tekija.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ( 'Test', 'Worker', 'test@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
