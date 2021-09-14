@@ -18,7 +18,7 @@ class EmployeeService(private val employeeRepository: EmployeeRepository) {
         val employee: Employee? = employeeRepository.findByIdOrNull(id)
         if (employee != null)
             return EmployeeDTO(employee)
-        logger.info("No employee found for id: $id")
+        logger.info { "No employee found for id: $id" }
         return null
     }
 
