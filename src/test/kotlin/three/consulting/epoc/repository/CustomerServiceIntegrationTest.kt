@@ -46,7 +46,7 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding customer with id fails`() {
-        val invalidCustomer = CustomerDTO(1,"Testi Oy", "Innovating new innovation!", enabled = true)
+        val invalidCustomer = CustomerDTO(1, "Testi Oy", "Innovating new innovation!", enabled = true)
         assertThatThrownBy { customerService.createCustomer(invalidCustomer) }
             .isInstanceOf(UnableToCreateCustomerException::class.java)
             .hasMessage("Cannot create a customer with existing id")
@@ -54,12 +54,11 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update customer with id changes updated time`() {
-        val existingCustomer =  customerService.findCustomerForId(1L)
+        val existingCustomer = customerService.findCustomerForId(1L)
         if (existingCustomer != null) {
             val updatedCustomer = customerService.updateCustomerForId(existingCustomer)
             assertThat(updatedCustomer.updated).isNotEqualTo(existingCustomer.updated)
         }
-
     }
 
     @Test
@@ -79,9 +78,8 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete customer with non-existing id raises error`() {
-        assertThatThrownBy { customerService.deleteCustomer(1000L)}
+        assertThatThrownBy { customerService.deleteCustomer(1000L) }
             .isInstanceOf(UnableToDeleteCustomerException::class.java)
             .hasMessage("Cannot delete customer, no customer found for the given id: 1000")
     }
 }
-

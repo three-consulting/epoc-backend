@@ -6,4 +6,3 @@ import java.nio.charset.Charset
 fun jsonReader(location: String): String {
     return File(location).readText(Charset.defaultCharset())
 }
-
