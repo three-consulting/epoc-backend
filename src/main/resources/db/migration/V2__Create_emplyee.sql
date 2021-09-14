@@ -11,4 +11,5 @@ CREATE TABLE employee (
 
 INSERT INTO employee( first_name, last_name, email, start_date, created, updated)
 VALUES
+    ( 'Testi', 'Tekijä', 'testi@tekija.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ( 'Testi', 'Tekijä', 'testi@tekija.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
