@@ -49,7 +49,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
         val invalidEmployee = EmployeeDTO(
             id = 2,
             first_name = "Esimerkki",
-            last_name = "Testaja"
+            last_name = "Testaja",
+            email = "esimerkki@testaaja.fi"
         )
         assertThatThrownBy { employeeService.createEmployee(invalidEmployee) }
             .isInstanceOf(UnableToCreateEmployeeException::class.java)
@@ -69,7 +70,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     fun `update employee without id raises error`() {
         val invalidEmployee = EmployeeDTO(
             first_name = "Test",
-            last_name = "Failure"
+            last_name = "Failure",
+            email = "test@failure.fi"
         )
         assertThatThrownBy { employeeService.updateEmployeeForId(invalidEmployee) }
             .isInstanceOf(UnableToUpdateEmployeeException::class.java)

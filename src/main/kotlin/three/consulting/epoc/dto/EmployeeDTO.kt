@@ -8,7 +8,7 @@ data class EmployeeDTO(
     val id: Long? = null,
     val first_name: String,
     val last_name: String,
-    val email: String? = null,
+    val email: String,
     val start_date: LocalDate? = null,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null
