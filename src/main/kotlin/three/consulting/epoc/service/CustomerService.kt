@@ -14,12 +14,12 @@ private val logger = KotlinLogging.logger {}
 class CustomerService(private val customerRepository: CustomerRepository) {
 
     fun findCustomerForId(id: Long): CustomerDTO? {
-        logger.info {"Looking for customer with id: $id"}
+        logger.info { "Looking for customer with id: $id" }
         val customer: Customer? = customerRepository.findByIdOrNull(id)
         if (customer != null) {
             return CustomerDTO(customer)
         }
-        logger.info {"No customer found for the id: $id"}
+        logger.info { "No customer found for the id: $id" }
         return null
     }
 
@@ -30,29 +30,29 @@ class CustomerService(private val customerRepository: CustomerRepository) {
             return CustomerDTO(customerRepository.save(customer))
         } else {
             val exception = UnableToCreateCustomerException()
-            logger.error(exception) {"Failed creating a new customer" }
+            logger.error(exception) { "Failed creating a new customer" }
             throw exception
         }
     }
 
     fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
-        logger.info {"Updating customer with id: ${customerRequest.id}"}
+        logger.info { "Updating customer with id: ${customerRequest.id}" }
         if (customerRequest.id != null) {
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
         } else {
             val exception = UnableToUpdateCustomerException()
-            logger.error(exception) {"Cannot update customer"}
+            logger.error(exception) { "Cannot update customer" }
             throw exception
         }
     }
 
     fun deleteCustomer(customerId: Long) {
         try {
-            logger.info {"Deleting customer with id: $customerId"}
+            logger.info { "Deleting customer with id: $customerId" }
             customerRepository.deleteById(customerId)
         } catch (e: EmptyResultDataAccessException) {
-            logger.error(e) {"Cannot delete customer"}
+            logger.error(e) { "Cannot delete customer" }
             throw UnableToDeleteCustomerException(customerId)
         }
     }

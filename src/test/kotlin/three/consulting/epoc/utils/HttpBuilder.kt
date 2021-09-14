@@ -4,7 +4,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 
-fun jsonPostEntity(jsonLocation: String): HttpEntity<String>{
+fun jsonPostEntity(jsonLocation: String): HttpEntity<String> {
     val jsonString = jsonReader(jsonLocation)
     val httpHeaders = HttpHeaders()
     httpHeaders.contentType = MediaType.APPLICATION_JSON

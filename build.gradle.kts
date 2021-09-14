@@ -43,10 +43,12 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "11"
     }
+    dependsOn(tasks.ktlintCheck)
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    dependsOn(tasks.ktlintCheck)
 }
 
 ktlint {
