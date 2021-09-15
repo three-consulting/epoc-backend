@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import three.consulting.epoc.service.CustomerService
+import three.consulting.epoc.service.EmployeeService
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,4 +26,7 @@ abstract class ControllerIntegrationTest {
 
     @MockBean
     lateinit var customerService: CustomerService
+
+    @MockBean
+    lateinit var employeeService: EmployeeService
 }
