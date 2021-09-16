@@ -1,7 +1,5 @@
 package three.consulting.epoc.dto
 
-import three.consulting.epoc.entity.Customer
-import three.consulting.epoc.entity.Employee
 import three.consulting.epoc.entity.Project
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,8 +10,8 @@ class ProjectDTO(
     val description: String? = null,
     val startingDate: LocalDate,
     val endDate: LocalDate? = null,
-    val customerId: Customer?,
-    val managingEmployeeId: Employee?,
+    val customer: CustomerDTO? = null,
+    val managingEmployee: EmployeeDTO? = null,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
 ) {
@@ -23,8 +21,8 @@ class ProjectDTO(
         description = project.description,
         startingDate = project.startingDate,
         endDate = project.endDate,
-        customerId = project.customerId,
-        managingEmployeeId = project.managingEmployeeId,
+        customer = if (project.customer != null) { CustomerDTO(project.customer) } else { null },
+        managingEmployee = if (project.managingEmployee != null) { EmployeeDTO(project.managingEmployee) } else { null },
         created = project.created,
         updated = project.updated,
     )

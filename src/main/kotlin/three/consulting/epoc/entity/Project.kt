@@ -8,8 +8,8 @@ import javax.persistence.*
 @Table(name = "project")
 @Entity
 data class Project(
-    @ManyToOne @JoinColumn(name = "customer_id") val customerId: Customer? = null,
-    @ManyToOne @JoinColumn(name = "employee_id") val managingEmployeeId: Employee? = null,
+    @ManyToOne @JoinColumn(name = "customer_id") val customer: Customer? = null,
+    @ManyToOne @JoinColumn(name = "employee_id") val managingEmployee: Employee? = null,
     @field:Column(name = "name", nullable = false) val name: String,
     @field:Column(name = "description", nullable = true) val description: String? = null,
     @field:Column(name = "starting_date", nullable = false) val startingDate: LocalDate = LocalDate.now(),
@@ -28,7 +28,7 @@ data class Project(
         startingDate = projectDTO.startingDate,
         endDate = projectDTO.endDate,
         created = projectDTO.created ?: LocalDateTime.now(),
-        customerId = projectDTO.customerId,
-        managingEmployeeId = projectDTO.managingEmployeeId
+        customer = if (projectDTO.customer != null) { Customer(projectDTO.customer) } else { null },
+        managingEmployee = if (projectDTO.managingEmployee != null) { Employee(projectDTO.managingEmployee) } else { null },
     )
 }
