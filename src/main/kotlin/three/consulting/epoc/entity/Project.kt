@@ -5,6 +5,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
 
+enum class Status {
+    ACTIVE, INACTIVE, ARCHIVED
+}
+
+@Table(name = "project")
 @Entity
 data class Project(
     @ManyToOne @JoinColumn(name = "customer_id", nullable = false) val customer: Customer,
@@ -15,7 +20,7 @@ data class Project(
     @field:Column(name = "end_date", nullable = true) val endDate: LocalDate? = null,
     @field:Column(name = "created", nullable = false) val created: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "updated", nullable = false) val updated: LocalDateTime = LocalDateTime.now(),
-
+    @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false) val status: Status = Status.ACTIVE,
     @field:Id @field:Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
@@ -29,5 +34,6 @@ data class Project(
         created = projectDTO.created ?: LocalDateTime.now(),
         customer = Customer(projectDTO.customer),
         managingEmployee = Employee(projectDTO.managingEmployee),
+        status = projectDTO.status
     )
 }
