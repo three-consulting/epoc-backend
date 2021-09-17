@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.service.*
 import java.time.LocalDate
@@ -58,7 +59,19 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
-            .hasMessage("Cannot create an project with existing id")
+            .hasMessage("Cannot create a project with existing id")
+    }
+
+    @Test
+    fun `adding project with non-existing relation fails`() {
+        val invalidProject = ProjectDTO(
+            name = "asd",
+            customer = CustomerDTO(100L, "Non existing company", enabled = true),
+            startingDate = LocalDate.now()
+        )
+        Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
+            .isInstanceOf(UnableToCreateProjectException::class.java)
+            .hasMessage("Cannot create a project with non-existing relation")
     }
 
     @Test

@@ -1,6 +1,7 @@
 package three.consulting.epoc.service
 
 import mu.KotlinLogging
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -25,9 +26,13 @@ class ProjectService(private val projectRepository: ProjectRepository) {
         logger.info { "Creating new project" }
         if (projectRequest.id == null) {
             val project = Project(projectRequest)
-            return ProjectDTO(projectRepository.save(project))
+            try {
+                return ProjectDTO(projectRepository.save(project))
+            } catch (e: DataIntegrityViolationException) {
+                throw UnableToCreateProjectException("Cannot create a project with non-existing relation")
+            }
         } else {
-            val exception = UnableToCreateProjectException()
+            val exception = UnableToCreateProjectException("Cannot create a project with existing id")
             logger.error(exception) { "Failed creating a new project" }
             throw exception
         }
@@ -56,7 +61,7 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     }
 }
 
-class UnableToCreateProjectException : RuntimeException("Cannot create an project with existing id")
+class UnableToCreateProjectException(override val message: String?) : RuntimeException(message)
 class UnableToUpdateProjectException : RuntimeException("Cannot update project, missing project id")
 class UnableToDeleteProjectException(id: Long) :
     RuntimeException("Cannot delete project, no project found for given id: $id")
