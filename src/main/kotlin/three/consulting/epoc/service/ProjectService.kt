@@ -22,6 +22,7 @@ class ProjectService(private val projectRepository: ProjectRepository) {
         logger.info { "No project found for id: $id" }
         return null
     }
+
     fun createProject(projectRequest: ProjectDTO): ProjectDTO {
         logger.info { "Creating new project" }
         if (projectRequest.id == null) {
@@ -29,6 +30,7 @@ class ProjectService(private val projectRepository: ProjectRepository) {
             try {
                 return ProjectDTO(projectRepository.save(project))
             } catch (e: DataIntegrityViolationException) {
+                logger.error(e) { "Failed creating a new project" }
                 throw UnableToCreateProjectException("Cannot create a project with non-existing relation")
             }
         } else {
@@ -61,7 +63,7 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     }
 }
 
-class UnableToCreateProjectException(override val message: String?) : RuntimeException(message)
+class UnableToCreateProjectException(message: String) : RuntimeException(message)
 class UnableToUpdateProjectException : RuntimeException("Cannot update project, missing project id")
 class UnableToDeleteProjectException(id: Long) :
     RuntimeException("Cannot delete project, no project found for given id: $id")

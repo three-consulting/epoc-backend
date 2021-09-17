@@ -7,15 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
+import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.service.*
 import java.time.LocalDate
 
-@ContextConfiguration(classes = [ProjectService::class, CustomerService::class])
+@ContextConfiguration(classes = [ProjectService::class])
 class ProjectServiceIntegrationTest : IntegrationTest() {
-
-    @Autowired
-    private lateinit var customerService: CustomerService
 
     @Autowired
     private lateinit var projectService: ProjectService
@@ -25,7 +23,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val project: ProjectDTO = projectService.findProjectForId(1L)!!
         assertThat(project.name).isEqualTo("test")
         assertThat(project.description).isEqualTo("testing")
-        assertThat(project.customer!!.id).isEqualTo(1L)
+        assertThat(project.customer.id).isEqualTo(1L)
     }
     @Test
     fun `searching a project for invalid id return null`() {
@@ -38,13 +36,15 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val project = ProjectDTO(
             name = "Sample",
             description = "Sample project",
-            startingDate = LocalDate.now(),
-            endDate = LocalDate.now()
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now(),
+            customer = CustomerDTO(1, "New Project Customer"),
+            managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
         )
         val addedProject: ProjectDTO = projectService.createProject(project)
         assertThat(addedProject.name).isEqualTo(project.name)
         assertThat(addedProject.description).isEqualTo(project.description)
-        assertThat(addedProject.startingDate).isEqualTo(project.startingDate)
+        assertThat(addedProject.startDate).isEqualTo(project.startDate)
         assertThat(addedProject.endDate).isEqualTo(project.endDate)
     }
 
@@ -53,9 +53,9 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val invalidProject = ProjectDTO(
             id = 2,
             name = "asd",
-            customer = null,
-            managingEmployee = null,
-            startingDate = LocalDate.now()
+            customer = CustomerDTO(1, "Failing Project Customer"),
+            managingEmployee = EmployeeDTO(1, "Failing", "Project-Worker", "failing-worker@project.fi"),
+            startDate = LocalDate.now()
         )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
@@ -67,7 +67,8 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val invalidProject = ProjectDTO(
             name = "asd",
             customer = CustomerDTO(100L, "Non existing company", enabled = true),
-            startingDate = LocalDate.now()
+            managingEmployee = EmployeeDTO(100L, "Test", "Person", "test@person.fi"),
+            startDate = LocalDate.now()
         )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
@@ -87,9 +88,9 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     fun `update project without id raises error`() {
         val invalidProject = ProjectDTO(
             name = "asd",
-            customer = null,
-            managingEmployee = null,
-            startingDate = LocalDate.now()
+            customer = CustomerDTO(1, "Updating Project customer"),
+            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updateingProject@worker.fi"),
+            startDate = LocalDate.now()
         )
         Assertions.assertThatThrownBy { projectService.updateProjectForId(invalidProject) }
             .isInstanceOf(UnableToUpdateProjectException::class.java)

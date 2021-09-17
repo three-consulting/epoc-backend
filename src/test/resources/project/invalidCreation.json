@@ -1,6 +1,6 @@
 {
   "description": "testing",
-  "startingDate": "2021-09-16",
+  "startDate": "2021-09-16",
   "endDate": null,
   "customer": {
     "id": 1,

@@ -2,7 +2,7 @@
   "id": 1,
   "name": "Updated test",
   "description": "updated testing",
-  "startingDate": "2021-09-15",
+  "startDate": "2021-09-15",
   "endDate": null,
   "customer": {
     "id": 1,
