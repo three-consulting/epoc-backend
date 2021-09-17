@@ -1,0 +1,23 @@
+{
+  "description": "testing",
+  "startingDate": "2021-09-16",
+  "endDate": null,
+  "customer": {
+    "id": 1,
+    "name": "Maurin Makkara Oy",
+    "description": "Get the pile",
+    "created": "2021-09-16T15:16:07.955427",
+    "updated": "2021-09-16T15:16:07.955427",
+    "enabled": true
+  },
+  "managingEmployee": {
+    "id": 1,
+    "first_name": "Testi",
+    "last_name": "Tekijä",
+    "email": "testi@tekija.fi",
+    "start_date": "2021-09-16",
+    "created": "2021-09-16T15:16:07.987805",
+    "updated": "2021-09-16T15:16:07.987805"
+  }
+}
+
