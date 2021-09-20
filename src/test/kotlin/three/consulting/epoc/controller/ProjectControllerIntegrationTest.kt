@@ -18,20 +18,20 @@ class ProjectControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `add project returns 200`() {
-        val httpEntity = jsonPostEntity("src/test/resources/project/validCreation.json")
+        val httpEntity = jsonPostEntity("project/validCreation.json")
         val response = restTemplate.postForEntity("/project", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
     @Test
     fun `add project without name returns 400`() {
-        val httpEntity = jsonPostEntity("src/test/resources/project/invalidCreation.json")
+        val httpEntity = jsonPostEntity("project/invalidCreation.json")
         val response = restTemplate.postForEntity("/project", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
     @Test
     fun `update project returns 200`() {
-        val httpEntity = jsonPostEntity("src/test/resources/project/validUpdate.json")
+        val httpEntity = jsonPostEntity("project/validUpdate.json")
         val response = restTemplate.exchange(
             URI("/project"),
             HttpMethod.PUT,
@@ -43,7 +43,7 @@ class ProjectControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `update project without name returns 400`() {
-        val httpEntity = jsonPostEntity("src/test/resources/project/invalidUpdate.json")
+        val httpEntity = jsonPostEntity("project/invalidUpdate.json")
         val response = restTemplate.exchange(
             URI("/project"),
             HttpMethod.PUT,
