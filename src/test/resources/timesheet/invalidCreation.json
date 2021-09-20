@@ -1,0 +1,30 @@
+{
+  "id": 1,
+  "name": "test",
+  "description": "testing",
+  "allocation": 100.0,
+  "project": {
+    "id": 1,
+    "name": "test",
+    "startDate": "2021-09-20",
+    "customer": {
+      "id": 1,
+      "name": "Maurin Makkara Oy"
+    },
+    "managingEmployee": {
+      "id": 1,
+      "first_name": "Testi",
+      "last_name": "Tekijä"
+    },
+    "created": "2021-09-20T13:54:31.471954",
+    "updated": "2021-09-20T13:54:31.471954"
+  },
+  "employee": {
+    "id": 1,
+    "first_name": "Testi",
+    "last_name": "Tekijä",
+    "email": "testi@tekija.fi"
+  },
+  "created": "2021-09-20T13:54:31.653501",
+  "updated": "2021-09-20T13:54:31.653501"
+}

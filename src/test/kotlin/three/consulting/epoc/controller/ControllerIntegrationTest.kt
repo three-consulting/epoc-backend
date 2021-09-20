@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import three.consulting.epoc.service.CustomerService
 import three.consulting.epoc.service.EmployeeService
 import three.consulting.epoc.service.ProjectService
+import three.consulting.epoc.service.TimesheetService
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -33,4 +34,7 @@ abstract class ControllerIntegrationTest {
 
     @MockBean
     lateinit var projectService: ProjectService
+
+    @MockBean
+    lateinit var timesheetService: TimesheetService
 }

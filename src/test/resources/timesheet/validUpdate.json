@@ -1,0 +1,27 @@
+{
+  "id": 1,
+  "name": "test",
+  "description": "testing",
+  "allocation": 100.0,
+  "project": {
+    "id": 1,
+    "name": "test",
+    "startDate": "2021-09-20",
+    "customer": {
+      "id": 1,
+      "name": "Timesheet Company"
+    },
+    "managingEmployee": {
+      "id": 1,
+      "first_name": "Timesheet",
+      "last_name": "Manager",
+      "email": "timesheet@manager.fi"
+    }
+  },
+  "employee": {
+    "id": 2,
+    "first_name": "Timesheet",
+    "last_name": "Worker",
+    "email": "timesheet@worker.fi"
+  }
+}
