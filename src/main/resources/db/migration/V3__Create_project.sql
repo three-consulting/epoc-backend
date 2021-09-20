@@ -8,7 +8,7 @@ CREATE TABLE project (
   end_date DATE,
   created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   updated TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  status VARCHAR(255),
+  status VARCHAR(15),
   CONSTRAINT pk_project PRIMARY KEY (id)
 );
 
