@@ -9,7 +9,6 @@ enum class Status {
     ACTIVE, INACTIVE, ARCHIVED
 }
 
-@Table(name = "project")
 @Entity
 data class Project(
     @ManyToOne @JoinColumn(name = "customer_id", nullable = false) val customer: Customer,
