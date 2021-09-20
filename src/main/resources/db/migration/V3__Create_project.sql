@@ -8,6 +8,7 @@ CREATE TABLE project (
   end_date DATE,
   created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   updated TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  status VARCHAR(15),
   CONSTRAINT pk_project PRIMARY KEY (id)
 );
 
@@ -15,7 +16,7 @@ ALTER TABLE project ADD CONSTRAINT FK_PROJECT_ON_CUSTOMER FOREIGN KEY (customer_
 
 ALTER TABLE project ADD CONSTRAINT FK_PROJECT_ON_EMPLOYEE FOREIGN KEY (employee_id) REFERENCES employee (id);
 
-INSERT INTO project(customer_id,employee_id,name,description,start_date,created,updated)
+INSERT INTO project(customer_id,employee_id,name,description,start_date,status,created,updated)
 VALUES
-    (1,1,'test','testing',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1,1,'test2','testing delete',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    (1,1,'test','testing',CURRENT_DATE,'ACTIVE',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
+    (1,1,'test2','testing delete',CURRENT_DATE,'INACTIVE',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)

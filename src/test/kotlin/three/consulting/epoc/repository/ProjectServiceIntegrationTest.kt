@@ -9,6 +9,7 @@ import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
+import three.consulting.epoc.entity.Status
 import three.consulting.epoc.service.*
 import java.time.LocalDate
 
@@ -40,12 +41,14 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             endDate = LocalDate.now(),
             customer = CustomerDTO(1, "New Project Customer"),
             managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            status = Status.ARCHIVED,
         )
         val addedProject: ProjectDTO = projectService.createProject(project)
         assertThat(addedProject.name).isEqualTo(project.name)
         assertThat(addedProject.description).isEqualTo(project.description)
         assertThat(addedProject.startDate).isEqualTo(project.startDate)
         assertThat(addedProject.endDate).isEqualTo(project.endDate)
+        assertThat(addedProject.status).isEqualTo(project.status)
     }
 
     @Test
