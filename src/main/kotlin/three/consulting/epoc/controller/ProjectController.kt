@@ -10,7 +10,7 @@ import javax.validation.Valid
 class ProjectController(private val projectService: ProjectService) {
 
     @GetMapping(value = ["/{projectId}"])
-    fun getCustomerForId(@PathVariable projectId: Long) = projectService.findProjectForId(projectId)
+    fun getProjectForId(@PathVariable projectId: Long) = projectService.findProjectForId(projectId)
 
     @PostMapping
     fun createProject(@Valid @RequestBody project: ProjectDTO) = projectService.createProject(project)
@@ -19,5 +19,5 @@ class ProjectController(private val projectService: ProjectService) {
     fun updateProjectForId(@Valid @RequestBody project: ProjectDTO) = projectService.updateProjectForId(project)
 
     @DeleteMapping(value = ["/{projectId}"])
-    fun deleteCustomerForId(@PathVariable projectId: Long) = projectService.deleteProject(projectId)
+    fun deleteProjectForId(@PathVariable projectId: Long) = projectService.deleteProject(projectId)
 }
