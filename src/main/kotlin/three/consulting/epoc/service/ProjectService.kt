@@ -61,6 +61,11 @@ class ProjectService(private val projectRepository: ProjectRepository) {
             throw UnableToDeleteProjectException(projectId)
         }
     }
+
+    fun findAllProjects(): List<ProjectDTO> {
+        val projects = projectRepository.findAll()
+        return projects.map { ProjectDTO(it) }
+    }
 }
 
 class UnableToCreateProjectException(message: String) : RuntimeException(message)
