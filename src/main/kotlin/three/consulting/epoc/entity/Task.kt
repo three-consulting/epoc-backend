@@ -11,7 +11,7 @@ data class Task(
     @field:Column(name = "name", nullable = false) val name: String,
     @field:Column(name = "description", nullable = true) val description: String? = null,
     @field:Column(name = "start_date", nullable = false) val startDate: LocalDate = LocalDate.now(),
-    @field:Column(name = "end_date", nullable = true) val endDate: LocalDate = LocalDate.now(),
+    @field:Column(name = "end_date", nullable = true) val endDate: LocalDate? = null,
     @field:Column(name = "created", nullable = false) val created: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "updated", nullable = false) val updated: LocalDateTime = LocalDateTime.now(),
     @field:Id @field:Column(name = "id", nullable = false)

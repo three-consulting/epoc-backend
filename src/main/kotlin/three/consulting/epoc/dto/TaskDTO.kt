@@ -10,7 +10,7 @@ data class TaskDTO(
     @field:NotBlank val name: String,
     val description: String? = null,
     val startDate: LocalDate,
-    val endDate: LocalDate,
+    val endDate: LocalDate?,
     val project: ProjectDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
