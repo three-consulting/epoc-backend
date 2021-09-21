@@ -10,7 +10,7 @@ import javax.validation.Valid
 class TimesheetController(private val timesheetService: TimesheetService) {
 
     @GetMapping(value = ["/{timesheetId}"])
-    fun getCustomerForId(@PathVariable timesheetId: Long) = timesheetService.findTimesheetForId(timesheetId)
+    fun getTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.findTimesheetForId(timesheetId)
 
     @PostMapping
     fun createTimesheet(@Valid @RequestBody timesheet: TimesheetDTO) = timesheetService.createTimesheet(timesheet)
@@ -19,5 +19,5 @@ class TimesheetController(private val timesheetService: TimesheetService) {
     fun updateTimesheetForId(@Valid @RequestBody timesheet: TimesheetDTO) = timesheetService.updateTimesheetForId(timesheet)
 
     @DeleteMapping(value = ["/{timesheetId}"])
-    fun deleteCustomerForId(@PathVariable timesheetId: Long) = timesheetService.deleteTimesheet(timesheetId)
+    fun deleteTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.deleteTimesheet(timesheetId)
 }
