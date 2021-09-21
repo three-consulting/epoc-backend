@@ -3,8 +3,8 @@ CREATE TABLE task (
   project_id BIGINT NOT NULL,
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255),
-  start_date date NOT NULL,
-  end_date date,
+  start_date DATE NOT NULL,
+  end_date DATE,
   created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   updated TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   CONSTRAINT pk_task PRIMARY KEY (id)
@@ -15,4 +15,4 @@ ALTER TABLE task ADD CONSTRAINT FK_TASK_ON_PROJECT FOREIGN KEY (project_id) REFE
 INSERT INTO task(project_id,name,description,start_date,created,updated)
 VALUES
     (1,'test','testing',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
-    (1,'test2','testing delete',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    (1,'test2','testing delete',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

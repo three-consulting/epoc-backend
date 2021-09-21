@@ -1,0 +1,26 @@
+{
+  "description": "testing",
+  "startDate": "2021-09-21",
+  "endDate": null,
+  "project": {
+    "id": 1,
+    "name": "test",
+    "description": "testing",
+    "startDate": "2021-09-21",
+    "customer": {
+      "id": 1,
+      "name": "Maurin Makkara Oy",
+      "description": "Get the pile",
+      "enabled": true
+    },
+    "managingEmployee": {
+      "id": 1,
+      "first_name": "Testi",
+      "last_name": "Tekijä",
+      "email": "testi@tekija.fi",
+      "start_date": "2021-09-21"
+    },
+    "status": "ACTIVE"
+  }
+}
+
