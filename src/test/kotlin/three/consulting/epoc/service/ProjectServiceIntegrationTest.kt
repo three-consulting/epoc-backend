@@ -1,4 +1,4 @@
-package three.consulting.epoc.repository
+package three.consulting.epoc.service
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -10,7 +10,6 @@ import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.entity.Status
-import three.consulting.epoc.service.*
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [ProjectService::class])

@@ -1,4 +1,4 @@
-package three.consulting.epoc.repository
+package three.consulting.epoc.service
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.EmployeeDTO
-import three.consulting.epoc.service.EmployeeService
-import three.consulting.epoc.service.UnableToCreateEmployeeException
-import three.consulting.epoc.service.UnableToDeleteEmployeeException
-import three.consulting.epoc.service.UnableToUpdateEmployeeException
 
 @ContextConfiguration(classes = [EmployeeService::class])
 class EmployeeServiceIntegrationTest : IntegrationTest() {
