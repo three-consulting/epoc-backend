@@ -20,4 +20,7 @@ class ProjectController(private val projectService: ProjectService) {
 
     @DeleteMapping(value = ["/{projectId}"])
     fun deleteProjectForId(@PathVariable projectId: Long) = projectService.deleteProject(projectId)
+
+    @GetMapping
+    fun getAllProjects() = projectService.findAllProjects()
 }
