@@ -2,13 +2,15 @@ package three.consulting.epoc.dto
 
 import three.consulting.epoc.entity.Timesheet
 import java.time.LocalDateTime
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 
 data class TimesheetDTO(
     val id: Long? = null,
     @field:NotBlank val name: String,
     val description: String? = null,
-    val allocation: Double,
+    @field:Min(0) @field:Max(100) val allocation: Int,
     val project: ProjectDTO,
     val employee: EmployeeDTO,
     val created: LocalDateTime? = null,

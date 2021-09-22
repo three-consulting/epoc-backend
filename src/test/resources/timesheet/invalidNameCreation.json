@@ -1,23 +1,20 @@
 {
   "id": 1,
-  "name": "test",
-  "description": "testing",
-  "allocation": 100.0,
+  "allocation": 100,
   "project": {
     "id": 1,
     "name": "test",
     "startDate": "2021-09-20",
     "customer": {
       "id": 1,
-      "name": "Maurin Makkara Oy"
+      "name": "Timesheet Company"
     },
     "managingEmployee": {
       "id": 1,
-      "first_name": "Testi",
-      "last_name": "Tekijä"
-    },
-    "created": "2021-09-20T13:54:31.471954",
-    "updated": "2021-09-20T13:54:31.471954"
+      "first_name": "Timesheet",
+      "last_name": "Manager",
+      "email": "timesheet@manager.fi"
+    }
   },
   "employee": {
     "id": 1,

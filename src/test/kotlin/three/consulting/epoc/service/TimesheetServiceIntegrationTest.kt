@@ -36,7 +36,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val timesheet = TimesheetDTO(
             name = "Sample",
             description = "Sample timesheet",
-            allocation = 100.0,
+            allocation = 100,
             project = ProjectDTO(
                 id = 1L,
                 name = "Sample",
@@ -58,7 +58,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val invalidTimesheet = TimesheetDTO(
             id = 2,
             name = "asd",
-            allocation = 100.0,
+            allocation = 100,
             project = ProjectDTO(
                 id = 1L,
                 name = "Sample",
@@ -79,7 +79,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     fun `adding timesheet with non-existing relation fails`() {
         val invalidTimesheet = TimesheetDTO(
             name = "asd",
-            allocation = 100.0,
+            allocation = 100,
             project = ProjectDTO(
                 id = 100L,
                 name = "Sample",
@@ -109,7 +109,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     fun `update timesheet without id raises error`() {
         val invalidTimesheet = TimesheetDTO(
             name = "asd",
-            allocation = 100.0,
+            allocation = 100,
             project = ProjectDTO(
                 id = 1L,
                 name = "Sample",

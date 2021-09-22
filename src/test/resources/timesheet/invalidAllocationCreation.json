@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "allocation": 100,
+  "allocation": 150,
   "project": {
     "id": 1,
     "name": "test",

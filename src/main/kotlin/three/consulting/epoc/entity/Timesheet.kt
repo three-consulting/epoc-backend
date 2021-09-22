@@ -10,7 +10,7 @@ data class Timesheet(
     @ManyToOne @JoinColumn(name = "employee_id", nullable = false) val employee: Employee,
     @field:Column(name = "name", nullable = false) val name: String,
     @field:Column(name = "description", nullable = true) val description: String? = null,
-    @field:Column(name = "allocation", nullable = false) val allocation: Double,
+    @field:Column(name = "allocation", nullable = false) val allocation: Int,
     @field:Column(name = "created", nullable = false) val created: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "updated", nullable = false) val updated: LocalDateTime = LocalDateTime.now(),
     @field:Id @field:Column(name = "id", nullable = false)

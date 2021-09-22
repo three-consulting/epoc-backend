@@ -24,7 +24,14 @@ class TimesheetControllerIntegrationTest : ControllerIntegrationTest() {
     }
     @Test
     fun `add timesheet without name returns 400`() {
-        val httpEntity = jsonPostEntity("timesheet/invalidCreation.json")
+        val httpEntity = jsonPostEntity("timesheet/invalidNameCreation.json")
+        val response = restTemplate.postForEntity("/timesheet", httpEntity, ObjectNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+    }
+
+    @Test
+    fun `add timesheet with invalid allocation returns 400`() {
+        val httpEntity = jsonPostEntity("timesheet/invalidAllocationCreation.json")
         val response = restTemplate.postForEntity("/timesheet", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
