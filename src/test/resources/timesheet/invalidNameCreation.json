@@ -1,0 +1,27 @@
+{
+  "id": 1,
+  "allocation": 100,
+  "project": {
+    "id": 1,
+    "name": "test",
+    "startDate": "2021-09-20",
+    "customer": {
+      "id": 1,
+      "name": "Timesheet Company"
+    },
+    "managingEmployee": {
+      "id": 1,
+      "first_name": "Timesheet",
+      "last_name": "Manager",
+      "email": "timesheet@manager.fi"
+    }
+  },
+  "employee": {
+    "id": 1,
+    "first_name": "Testi",
+    "last_name": "Tekijä",
+    "email": "testi@tekija.fi"
+  },
+  "created": "2021-09-20T13:54:31.653501",
+  "updated": "2021-09-20T13:54:31.653501"
+}
