@@ -55,6 +55,11 @@ class EmployeeService(private val employeeRepository: EmployeeRepository) {
             throw UnableToDeleteEmployeeException(employeeId)
         }
     }
+
+    fun findAllEmployees(): List<EmployeeDTO> {
+        val employees = employeeRepository.findAll()
+        return employees.map { EmployeeDTO(it) }
+    }
 }
 
 class UnableToCreateEmployeeException : RuntimeException("Cannot create an employee with existing id")

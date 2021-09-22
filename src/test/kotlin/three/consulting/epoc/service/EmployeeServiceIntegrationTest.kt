@@ -87,4 +87,10 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
             .isInstanceOf(UnableToDeleteEmployeeException::class.java)
             .hasMessage("Cannot delete employee, no employee found for given id: 1000")
     }
+
+    @Test
+    fun `get all employees`() {
+        val employees = employeeService.findAllEmployees()
+        assertThat(employees.map { it.first_name }).containsExactlyElementsOf(listOf("Testi", "Esimerkki"))
+    }
 }

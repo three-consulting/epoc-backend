@@ -1,5 +1,6 @@
 package three.consulting.epoc.controller
 
+import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -73,5 +74,11 @@ class EmployeeControllerIntegrationTest : ControllerIntegrationTest() {
             ObjectNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED)
+    }
+
+    @Test
+    fun `get all employee returns 200`() {
+        val response = restTemplate.getForEntity("/employee", ArrayNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 }
