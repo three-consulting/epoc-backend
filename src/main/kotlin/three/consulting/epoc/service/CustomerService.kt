@@ -56,6 +56,11 @@ class CustomerService(private val customerRepository: CustomerRepository) {
             throw UnableToDeleteCustomerException(customerId)
         }
     }
+
+    fun findAllCustomers(): List<CustomerDTO> {
+        val employees = customerRepository.findAll()
+        return employees.map { CustomerDTO(it) }
+    }
 }
 
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")

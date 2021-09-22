@@ -78,4 +78,10 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
             .isInstanceOf(UnableToDeleteCustomerException::class.java)
             .hasMessage("Cannot delete customer, no customer found for the given id: 1000")
     }
+
+    @Test
+    fun `get all customers`() {
+        val customers = customerService.findAllCustomers()
+        assertThat(customers.map { it.name }).containsExactlyElementsOf(listOf("Maurin Makkara Oy", "Matin Makkara Oy"))
+    }
 }
