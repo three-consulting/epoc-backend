@@ -10,7 +10,7 @@ import javax.validation.Valid
 class EmployeeController(private val employeeService: EmployeeService) {
 
     @GetMapping(value = ["/{employeeId}"])
-    fun getCustomerForId(@PathVariable employeeId: Long) = employeeService.findEmployeeForId(employeeId)
+    fun getEmployeeForId(@PathVariable employeeId: Long) = employeeService.findEmployeeForId(employeeId)
 
     @PostMapping
     fun createEmployee(@Valid @RequestBody employee: EmployeeDTO) = employeeService.createEmployee(employee)
@@ -19,5 +19,5 @@ class EmployeeController(private val employeeService: EmployeeService) {
     fun updateEmployeeForId(@Valid @RequestBody employee: EmployeeDTO) = employeeService.updateEmployeeForId(employee)
 
     @DeleteMapping(value = ["/{employeeId}"])
-    fun deleteCustomerForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
+    fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
 }
