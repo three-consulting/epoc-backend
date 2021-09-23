@@ -13,8 +13,3 @@ CREATE TABLE timesheet (
 ALTER TABLE timesheet ADD CONSTRAINT FK_TIMESHEET_ON_EMPLOYEE FOREIGN KEY (employee_id) REFERENCES employee (id);
 
 ALTER TABLE timesheet ADD CONSTRAINT FK_TIMESHEET_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (id);
-
-INSERT INTO timesheet(project_id,employee_id,name,description,allocation,created,updated)
-VALUES
-    (1,1,'test','testing',100,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
-    (1,1,'test2','testing delete',100,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

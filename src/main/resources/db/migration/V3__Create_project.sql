@@ -15,8 +15,3 @@ CREATE TABLE project (
 ALTER TABLE project ADD CONSTRAINT FK_PROJECT_ON_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id);
 
 ALTER TABLE project ADD CONSTRAINT FK_PROJECT_ON_EMPLOYEE FOREIGN KEY (employee_id) REFERENCES employee (id);
-
-INSERT INTO project(customer_id,employee_id,name,description,start_date,status,created,updated)
-VALUES
-    (1,1,'test','testing',CURRENT_DATE,'ACTIVE',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
-    (1,1,'test2','testing delete',CURRENT_DATE,'INACTIVE',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
