@@ -21,4 +21,7 @@ class CustomerController(private val customerService: CustomerService) {
 
     @DeleteMapping(value = ["/{customerId}"])
     fun deleteCustomerForId(@PathVariable customerId: Long) = customerService.deleteCustomer(customerId)
+
+    @GetMapping
+    fun getAllCustomers() = customerService.findAllCustomers()
 }

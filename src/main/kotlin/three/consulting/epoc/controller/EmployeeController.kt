@@ -20,4 +20,7 @@ class EmployeeController(private val employeeService: EmployeeService) {
 
     @DeleteMapping(value = ["/{employeeId}"])
     fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
+
+    @GetMapping
+    fun getAllEmployees() = employeeService.findAllEmployees()
 }
