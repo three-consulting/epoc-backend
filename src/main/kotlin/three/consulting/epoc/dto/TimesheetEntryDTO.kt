@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull
 
 data class TimesheetEntryDTO(
     val id: Long? = null,
-    @NotNull val quantity: Duration,
-    @NotNull val date: LocalDate,
+    @field:NotNull val quantity: Duration,
+    @field:NotNull val date: LocalDate,
     val description: String? = null,
     val timesheet: TimesheetDTO,
     val timeCategory: TimeCategoryDTO,
