@@ -18,3 +18,13 @@ INSERT INTO timesheet(project_id,employee_id,name,description,allocation,created
 VALUES
     (1,1,'test','testing',100,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
     (1,1,'test2','testing delete',100,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+INSERT INTO task(project_id,name,description,start_date,created,updated)
+VALUES
+    (1,'test','testing',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
+    (1,'test2','testing delete',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+INSERT INTO time_category( name, description, created, updated)
+VALUES
+    ( 'Test work', 'Testing time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ( 'Actual work', 'Working time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

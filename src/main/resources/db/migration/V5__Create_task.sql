@@ -11,8 +11,3 @@ CREATE TABLE task (
 );
 
 ALTER TABLE task ADD CONSTRAINT FK_TASK_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (id);
-
-INSERT INTO task(project_id,name,description,start_date,created,updated)
-VALUES
-    (1,'test','testing',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP ),
-    (1,'test2','testing delete',CURRENT_DATE,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
