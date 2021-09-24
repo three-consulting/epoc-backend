@@ -13,20 +13,20 @@ class TimeCategoryControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `get timeCategory for id returns 200`() {
-        val response = restTemplate.getForEntity("/timeCategory/1", ObjectNode::class.java)
+        val response = restTemplate.getForEntity("/time-category/1", ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
     fun `add timeCategory returns 200`() {
         val httpEntity = jsonPostEntity("timeCategory/validCreation.json")
-        val response = restTemplate.postForEntity("/timeCategory", httpEntity, ObjectNode::class.java)
+        val response = restTemplate.postForEntity("/time-category", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
     @Test
     fun `add timeCategory without name returns 400`() {
         val httpEntity = jsonPostEntity("timeCategory/invalidCreation.json")
-        val response = restTemplate.postForEntity("/timeCategory", httpEntity, ObjectNode::class.java)
+        val response = restTemplate.postForEntity("/time-category", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
@@ -34,7 +34,7 @@ class TimeCategoryControllerIntegrationTest : ControllerIntegrationTest() {
     fun `update timeCategory returns 200`() {
         val httpEntity = jsonPostEntity("timeCategory/validUpdate.json")
         val response = restTemplate.exchange(
-            URI("/timeCategory"),
+            URI("/time-category"),
             HttpMethod.PUT,
             httpEntity,
             ObjectNode::class.java
@@ -46,7 +46,7 @@ class TimeCategoryControllerIntegrationTest : ControllerIntegrationTest() {
     fun `update timeCategory without name returns 400`() {
         val httpEntity = jsonPostEntity("timeCategory/invalidUpdate.json")
         val response = restTemplate.exchange(
-            URI("/timeCategory"),
+            URI("/time-category"),
             HttpMethod.PUT,
             httpEntity,
             ObjectNode::class.java
@@ -57,7 +57,7 @@ class TimeCategoryControllerIntegrationTest : ControllerIntegrationTest() {
     @Test
     fun `delete timeCategory returns 204`() {
         val response = restTemplate.exchange(
-            URI("/timeCategory/1"),
+            URI("/time-category/1"),
             HttpMethod.DELETE,
             null,
             ObjectNode::class.java
@@ -68,7 +68,7 @@ class TimeCategoryControllerIntegrationTest : ControllerIntegrationTest() {
     @Test
     fun `delete without path id returns 400`() {
         val response = restTemplate.exchange(
-            URI("/timeCategory"),
+            URI("/time-category"),
             HttpMethod.DELETE,
             null,
             ObjectNode::class.java
@@ -78,7 +78,7 @@ class TimeCategoryControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `get all timeCategories returns 200`() {
-        val response = restTemplate.getForEntity("/timeCategory", ArrayNode::class.java)
+        val response = restTemplate.getForEntity("/time-category", ArrayNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 }

@@ -7,7 +7,7 @@ import three.consulting.epoc.service.TimeCategoryService
 import javax.validation.Valid
 
 @RestController
-@RequestMapping(path = ["/timeCategory"])
+@RequestMapping(path = ["/time-category"])
 class TimeCategoryController(private val timeCategoryService: TimeCategoryService) {
 
     @GetMapping(value = ["/{timeCategoryId}"], consumes = [ALL_VALUE])
