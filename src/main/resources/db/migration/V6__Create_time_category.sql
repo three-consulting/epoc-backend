@@ -8,8 +8,3 @@ CREATE TABLE time_category (
 );
 
 ALTER TABLE time_category ADD CONSTRAINT uc_timecategory_name UNIQUE (name);
-
-INSERT INTO time_category( name, description, created, updated)
-VALUES
-    ( 'Test work', 'Testing time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ( 'Actual work', 'Working time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
