@@ -30,3 +30,26 @@ jobs:
     - name: Run tests
       run: |
         ./gradlew clean test
+
+  build_image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          architecture: x64
+
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x gradlew
+
+      - name: Run tests
+        run: |
+          ./gradlew bootBuildImage
