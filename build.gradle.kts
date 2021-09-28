@@ -63,3 +63,16 @@ ktlint {
         include("**/kotlin/**")
     }
 }
+
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
+    imageName = "ghcr.io/three-consulting/${project.name}"
+    isPublish = true
+    docker {
+        publishRegistry {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+            url = "https://ghcr.io/"
+            email = "ivuorio@gmail.com"
+        }
+    }
+}

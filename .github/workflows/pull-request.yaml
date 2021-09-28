@@ -34,6 +34,8 @@ jobs:
   build_image:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      packages: write
     steps:
 
       - name: Checkout code
@@ -50,6 +52,9 @@ jobs:
         run: |
           chmod +x gradlew
 
-      - name: Run tests
+      - name: Build image and publish
         run: |
-          ./gradlew bootBuildImage
+          ./gradlew bootBuildImage --publishImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
