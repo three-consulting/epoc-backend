@@ -9,8 +9,8 @@ plugins {
 
 val kotlinVersion = "1.5.30"
 val jacksonVersion = "2.12.5"
-val springBootVersion = "2.5.4"
-val junitVersion = "5.7.2"
+val springBootVersion = "2.5.5"
+val junitVersion = "5.8.0"
 
 group = "three.consulting"
 version = "0.0.1"
@@ -27,14 +27,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("javax.validation:validation-api:2.0.1.Final")
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
     implementation("org.flywaydb:flyway-core:7.14.1")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
     implementation("io.github.microutils:kotlin-logging:2.0.11")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    runtimeOnly("org.postgresql:postgresql:42.2.23")
+    runtimeOnly("org.postgresql:postgresql:42.2.23.jre7")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.assertj:assertj-core:3.20.2")
+    testImplementation("org.assertj:assertj-core:3.21.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("io.zonky.test:embedded-database-spring-test:2.1.0")
