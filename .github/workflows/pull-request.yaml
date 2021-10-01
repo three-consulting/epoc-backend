@@ -31,7 +31,7 @@ jobs:
       run: |
         ./gradlew clean test
 
-    - name: Build image and publish
+    - name: Build image
       run: |
         ./gradlew bootBuildImage
       env:
