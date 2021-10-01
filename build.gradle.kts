@@ -65,14 +65,19 @@ ktlint {
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
+    environment = mapOf(
+        "BPE_DELIM_JAVA_TOOL_OPTIONS" to " ",
+        "BPE_APPEND_JAVA_TOOL_OPTIONS" to "-XX:+ExitOnOutOfMemoryError",
+        "BPE_APPEND_JAVA_TOOL_OPTIONS" to "-Xms128m",
+        "BPE_APPEND_JAVA_TOOL_OPTIONS" to "-Xmx128m",
+        "BP_JVM_VERSION" to "11",
+    )
     imageName = "ghcr.io/three-consulting/${project.name}"
-    isPublish = true
     docker {
         publishRegistry {
             username = System.getenv("GITHUB_ACTOR")
             password = System.getenv("GITHUB_TOKEN")
             url = "https://ghcr.io/"
-            email = "ivuorio@gmail.com"
         }
     }
 }
