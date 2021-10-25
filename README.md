@@ -23,3 +23,8 @@ docker run --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=passw
 This app uses flyway for migrations, so JPA Buddy plugin for Intellij IDEA is a tool that can be used to create migration files.
 The tests use [this embedded database](https://github.com/zonkyio/embedded-database-spring-test), which is essentially a wrapper for testcontainers, so docker is needed on host machine when running tests.
 Run tests with `gradle :clean :test` or create a new gradle run configuration on IDEA and use `clean test` as run command.
+
+## Run compose
+```bash
+docker-compose -f epoc-compose.yaml -p epoc up
+```
