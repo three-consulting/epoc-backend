@@ -1,8 +1,15 @@
 # epoc-backend
 
 ## Requirements
+
+### MacOS
 - IDE, Intellij IDEA Community the best one out there `brew install intellij-idea-ce`
 - openjdk-11 `brew install openjdk@11`
+- kotlin & gradle plugins for IDEA
+
+### Ubuntu
+- IDEA can be installed either manually or with snap `sudo snap install intellij-idea-community --classic`
+- openjdk-11 `sudo apt install openjdk-11-jdk`
 - kotlin & gradle plugins for IDEA
 
 ### Run app
