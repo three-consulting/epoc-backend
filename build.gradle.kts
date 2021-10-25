@@ -1,16 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
-    id("org.springframework.boot") version "2.5.4"
+    id("org.springframework.boot") version "2.5.6"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
-    kotlin("jvm") version "1.5.30"
-    kotlin("plugin.spring") version "1.5.30"
-    kotlin("plugin.jpa") version "1.5.30"
+    kotlin("jvm") version "1.5.31"
+    kotlin("plugin.spring") version "1.5.31"
+    kotlin("plugin.jpa") version "1.5.31"
 }
 
-val kotlinVersion = "1.5.30"
+val kotlinVersion = "1.5.31"
 val jacksonVersion = "2.12.5"
-val springBootVersion = "2.5.4"
-val junitVersion = "5.7.2"
+val springBootVersion = "2.5.6"
+val junitVersion = "5.8.0"
 
 group = "three.consulting"
 version = "0.0.1"
@@ -34,7 +34,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     runtimeOnly("org.postgresql:postgresql:42.2.23")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.assertj:assertj-core:3.20.2")
+    testImplementation("org.assertj:assertj-core:3.21.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("io.zonky.test:embedded-database-spring-test:2.1.0")
@@ -53,7 +53,7 @@ tasks.withType<Test> {
 }
 
 ktlint {
-    version.set("0.41.0")
+    version.set("0.42.1")
     verbose.set(true)
     outputToConsole.set(true)
     coloredOutput.set(true)
@@ -61,5 +61,23 @@ ktlint {
     filter {
         exclude("**/generated/**")
         include("**/kotlin/**")
+    }
+}
+
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
+    environment = mapOf(
+        "BPE_DELIM_JAVA_TOOL_OPTIONS" to " ",
+        "BPE_APPEND_JAVA_TOOL_OPTIONS" to "-XX:+ExitOnOutOfMemoryError",
+        "BPE_APPEND_JAVA_TOOL_OPTIONS" to "-Xms128m",
+        "BPE_APPEND_JAVA_TOOL_OPTIONS" to "-Xmx128m",
+        "BP_JVM_VERSION" to "11",
+    )
+    imageName = "ghcr.io/three-consulting/${project.name}"
+    docker {
+        publishRegistry {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+            url = "https://ghcr.io/"
+        }
     }
 }

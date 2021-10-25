@@ -8,7 +8,7 @@ on:
       - reopened
 
 jobs:
-  run_tests:
+  run_tests_and_build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -30,3 +30,10 @@ jobs:
     - name: Run tests
       run: |
         ./gradlew clean test
+
+    - name: Build image
+      run: |
+        ./gradlew bootBuildImage
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_ACTOR: ${{ github.actor }}

@@ -1,0 +1,36 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  run_tests_build_and_push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          architecture: x64
+
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x gradlew
+
+      - name: Run tests
+        run: |
+          ./gradlew clean test
+
+      - name: Build image and publish
+        run: |
+          ./gradlew bootBuildImage --publishImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
