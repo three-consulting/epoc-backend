@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "2.5.6"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
     kotlin("jvm") version "1.5.31"
+    kotlin("plugin.allopen") version "1.4.32"
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
 }
@@ -80,4 +81,10 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("
             url = "https://ghcr.io/"
         }
     }
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.Embeddable")
+    annotation("javax.persistence.MappedSuperclass")
 }
