@@ -20,7 +20,7 @@ class CustomerController(private val customerService: CustomerService) {
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateCustomerForId(@Valid @RequestBody customer: CustomerDTO) = customerService.updateCustomerForId(customer)
 
-    @DeleteMapping(value = ["/{customerId}"], consumes = [ALL_VALUE], produces = [])
+    @DeleteMapping(value = ["/{customerId}"], consumes = [ALL_VALUE])
     fun deleteCustomerForId(@PathVariable customerId: Long) = customerService.deleteCustomer(customerId)
 
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])

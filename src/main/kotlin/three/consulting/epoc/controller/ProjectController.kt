@@ -20,7 +20,7 @@ class ProjectController(private val projectService: ProjectService) {
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateProjectForId(@Valid @RequestBody project: ProjectDTO) = projectService.updateProjectForId(project)
 
-    @DeleteMapping(value = ["/{projectId}"], consumes = [ALL_VALUE], produces = [])
+    @DeleteMapping(value = ["/{projectId}"], consumes = [ALL_VALUE])
     fun deleteProjectForId(@PathVariable projectId: Long) = projectService.deleteProject(projectId)
 
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])

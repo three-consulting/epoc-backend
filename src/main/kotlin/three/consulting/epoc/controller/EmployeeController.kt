@@ -20,7 +20,7 @@ class EmployeeController(private val employeeService: EmployeeService) {
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateEmployeeForId(@Valid @RequestBody employee: EmployeeDTO) = employeeService.updateEmployeeForId(employee)
 
-    @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE], produces = [])
+    @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE])
     fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
 
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
