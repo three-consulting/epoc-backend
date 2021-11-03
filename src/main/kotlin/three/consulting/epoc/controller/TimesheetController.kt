@@ -1,5 +1,7 @@
 package three.consulting.epoc.controller
 
+import org.springframework.http.MediaType.ALL_VALUE
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import three.consulting.epoc.dto.TimesheetDTO
 import three.consulting.epoc.service.TimesheetService
@@ -9,15 +11,15 @@ import javax.validation.Valid
 @RequestMapping(path = ["/timesheet"])
 class TimesheetController(private val timesheetService: TimesheetService) {
 
-    @GetMapping(value = ["/{timesheetId}"])
+    @GetMapping(value = ["/{timesheetId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.findTimesheetForId(timesheetId)
 
-    @PostMapping
+    @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createTimesheet(@Valid @RequestBody timesheet: TimesheetDTO) = timesheetService.createTimesheet(timesheet)
 
-    @PutMapping
+    @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateTimesheetForId(@Valid @RequestBody timesheet: TimesheetDTO) = timesheetService.updateTimesheetForId(timesheet)
 
-    @DeleteMapping(value = ["/{timesheetId}"])
+    @DeleteMapping(value = ["/{timesheetId}"], consumes = [ALL_VALUE])
     fun deleteTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.deleteTimesheet(timesheetId)
 }
