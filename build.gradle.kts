@@ -3,7 +3,7 @@ plugins {
     id("org.springframework.boot") version "2.5.6"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
     kotlin("jvm") version "1.5.31"
-    kotlin("plugin.allopen") version "1.4.32"
+    kotlin("plugin.allopen") version "1.5.31"
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
 }
