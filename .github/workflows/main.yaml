@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE:  ${{ github.repository }}
+
 jobs:
   run_tests_build_and_push:
     runs-on: ubuntu-latest
