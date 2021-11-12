@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE:  ${{ github.repository }}
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+
+      - name: Login to Github Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote image
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE }}:sha-${{ github.sha }}
+          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE }}:sha-${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ github.event.release.tag_name }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ github.event.release.tag_name }}
