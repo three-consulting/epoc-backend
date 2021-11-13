@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:11-jre
+FROM azul/zulu-openjdk-alpine:17-jre
 
 RUN adduser -u 1999 -D user
 

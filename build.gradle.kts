@@ -14,7 +14,7 @@ val springBootVersion = "2.5.6"
 val junitVersion = "5.8.1"
 
 group = "three.consulting"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
