@@ -9,12 +9,11 @@ plugins {
 }
 
 val kotlinVersion = "1.5.31"
-val jacksonVersion = "2.12.5"
+val jacksonVersion = "2.13.0"
 val springBootVersion = "2.5.6"
-val junitVersion = "5.8.0"
+val junitVersion = "5.8.1"
 
 group = "three.consulting"
-version = "0.0.1"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -29,16 +28,16 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.flywaydb:flyway-core:7.14.1")
-    implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
+    implementation("org.flywaydb:flyway-core:8.0.2")
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
     implementation("io.github.microutils:kotlin-logging:2.0.11")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    runtimeOnly("org.postgresql:postgresql:42.2.23")
+    runtimeOnly("org.postgresql:postgresql:42.3.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.assertj:assertj-core:3.21.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testImplementation("io.zonky.test:embedded-database-spring-test:2.1.0")
+    testImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")
 }
 
 tasks.withType<KotlinCompile> {
