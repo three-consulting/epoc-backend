@@ -93,7 +93,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val invalidProject = ProjectDTO(
             name = "asd",
             customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updateingProject@worker.fi"),
+            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusDays(1),
         )
@@ -154,5 +154,50 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         assertThat(addedProject.startDate).isEqualTo(project.startDate)
         assertThat(addedProject.endDate).isEqualTo(project.endDate)
         assertThat(addedProject.status).isEqualTo(project.status)
+    }
+
+    @Test
+    fun `update project with end date preceding start date raises error`() {
+        val invalidProject = ProjectDTO(
+            id = 1,
+            name = "asd",
+            customer = CustomerDTO(1, "Updating Project customer"),
+            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().minusDays(1),
+        )
+        Assertions.assertThatThrownBy { projectService.updateProjectForId(invalidProject) }
+            .isInstanceOf(UnableToUpdateProjectException::class.java)
+            .hasMessage("Cannot update a project with end date preceding start date.")
+    }
+
+    @Test
+    fun `update project with null end date passes`() {
+        val existingProject = projectService.findProjectForId(1)
+        val project = ProjectDTO(
+            id = 1,
+            name = "asd",
+            customer = CustomerDTO(1, "Updating Project customer"),
+            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            startDate = LocalDate.now(),
+            endDate = null,
+        )
+        val updatedProject = projectService.updateProjectForId(project)
+        assertThat(updatedProject.name).isNotEqualTo(existingProject?.name)
+    }
+
+    @Test
+    fun `update project with start date preceding end date passes`() {
+        val existingProject = projectService.findProjectForId(1)
+        val project = ProjectDTO(
+            id = 1,
+            name = "asd",
+            customer = CustomerDTO(1, "Updating Project customer"),
+            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
+        )
+        val updatedProject = projectService.updateProjectForId(project)
+        assertThat(updatedProject.updated).isNotEqualTo(existingProject?.updated)
     }
 }

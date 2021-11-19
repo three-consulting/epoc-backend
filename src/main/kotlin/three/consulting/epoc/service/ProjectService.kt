@@ -50,10 +50,17 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     fun updateProjectForId(projectRequest: ProjectDTO): ProjectDTO {
         logger.info { "Updating project with id: ${projectRequest.id}" }
         if (projectRequest.id != null) {
+            if (projectRequest.endDate != null) {
+                if (projectRequest.startDate >= projectRequest.endDate) {
+                    val exception = UnableToUpdateProjectException("Cannot update a project with end date preceding start date.")
+                    logger.error(exception) { "Failed updating project" }
+                    throw exception
+                }
+            }
             val project = Project(projectRequest)
             return ProjectDTO(projectRepository.save(project))
         } else {
-            val exception = UnableToUpdateProjectException()
+            val exception = UnableToUpdateProjectException("Cannot update project, missing project id")
             logger.error(exception) { "Cannot update customer" }
             throw exception
         }
@@ -76,6 +83,6 @@ class ProjectService(private val projectRepository: ProjectRepository) {
 }
 
 class UnableToCreateProjectException(message: String) : RuntimeException(message)
-class UnableToUpdateProjectException : RuntimeException("Cannot update project, missing project id")
+class UnableToUpdateProjectException(message: String) : RuntimeException(message)
 class UnableToDeleteProjectException(id: Long) :
     RuntimeException("Cannot delete project, no project found for given id: $id")
