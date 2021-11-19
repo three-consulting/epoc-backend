@@ -57,7 +57,8 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             name = "asd",
             customer = CustomerDTO(1, "Failing Project Customer"),
             managingEmployee = EmployeeDTO(1, "Failing", "Project-Worker", "failing-worker@project.fi"),
-            startDate = LocalDate.now()
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
         )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
@@ -70,7 +71,8 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             name = "asd",
             customer = CustomerDTO(100L, "Non existing company", enabled = true),
             managingEmployee = EmployeeDTO(100L, "Test", "Person", "test@person.fi"),
-            startDate = LocalDate.now()
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
         )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
@@ -92,7 +94,8 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             name = "asd",
             customer = CustomerDTO(1, "Updating Project customer"),
             managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updateingProject@worker.fi"),
-            startDate = LocalDate.now()
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
         )
         Assertions.assertThatThrownBy { projectService.updateProjectForId(invalidProject) }
             .isInstanceOf(UnableToUpdateProjectException::class.java)
@@ -116,7 +119,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `get all projects`() {
         val projects = projectService.findAllProjects()
-        assertThat(projects.map { it.name }).containsExactlyElementsOf(listOf("test", "Sample"))
+        assertThat(projects.map { it.name }).containsExactlyElementsOf(listOf("test", "test2"))
     }
 
     @Test
@@ -124,8 +127,8 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val invalidProject = ProjectDTO(
             name = "End date precedes start date",
             description = "Project fail",
-            endDate = LocalDate.parse("2011-11-11"),
             startDate = LocalDate.parse("2021-11-11"),
+            endDate = LocalDate.parse("2011-11-11"),
             customer = CustomerDTO(1, "Failing Project Customer"),
             managingEmployee = EmployeeDTO(1, "Failure", "Project-worker", "new.project@worker.fi"),
         )
@@ -149,7 +152,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         assertThat(addedProject.name).isEqualTo(project.name)
         assertThat(addedProject.description).isEqualTo(project.description)
         assertThat(addedProject.startDate).isEqualTo(project.startDate)
-        assertThat(addedProject.endDate).isEqualTo(null)
+        assertThat(addedProject.endDate).isEqualTo(project.endDate)
         assertThat(addedProject.status).isEqualTo(project.status)
     }
 }
