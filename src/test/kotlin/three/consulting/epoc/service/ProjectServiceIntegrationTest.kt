@@ -37,7 +37,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             name = "Sample",
             description = "Sample project",
             startDate = LocalDate.now(),
-            endDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
             customer = CustomerDTO(1, "New Project Customer"),
             managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
             status = Status.ARCHIVED,
@@ -117,5 +117,39 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     fun `get all projects`() {
         val projects = projectService.findAllProjects()
         assertThat(projects.map { it.name }).containsExactlyElementsOf(listOf("test", "Sample"))
+    }
+
+    @Test
+    fun `create project with end date preceding start date raises error`() {
+        val invalidProject = ProjectDTO(
+            name = "End date precedes start date",
+            description = "Project fail",
+            endDate = LocalDate.parse("2011-11-11"),
+            startDate = LocalDate.parse("2021-11-11"),
+            customer = CustomerDTO(1, "Failing Project Customer"),
+            managingEmployee = EmployeeDTO(1, "Failure", "Project-worker", "new.project@worker.fi"),
+        )
+        Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
+            .isInstanceOf(UnableToCreateProjectException::class.java)
+            .hasMessage("Cannot create a project with end date preceding start date.")
+    }
+
+    @Test
+    fun `create project with null end date`() {
+        val project = ProjectDTO(
+            name = "Sample",
+            description = "Sample project with null end date",
+            startDate = LocalDate.now(),
+            endDate = null,
+            customer = CustomerDTO(1, "New Project Customer"),
+            managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            status = Status.ARCHIVED,
+        )
+        val addedProject: ProjectDTO = projectService.createProject(project)
+        assertThat(addedProject.name).isEqualTo(project.name)
+        assertThat(addedProject.description).isEqualTo(project.description)
+        assertThat(addedProject.startDate).isEqualTo(project.startDate)
+        assertThat(addedProject.endDate).isEqualTo(null)
+        assertThat(addedProject.status).isEqualTo(project.status)
     }
 }

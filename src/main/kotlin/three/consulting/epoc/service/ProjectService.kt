@@ -26,6 +26,13 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     fun createProject(projectRequest: ProjectDTO): ProjectDTO {
         logger.info { "Creating new project" }
         if (projectRequest.id == null) {
+            if (projectRequest.endDate != null) {
+                if (projectRequest.startDate >= projectRequest.endDate) {
+                    val exception = UnableToCreateProjectException("Cannot create a project with end date preceding start date.")
+                    logger.error(exception) { "Failed creating a new project" }
+                    throw exception
+                }
+            }
             val project = Project(projectRequest)
             try {
                 return ProjectDTO(projectRepository.save(project))
