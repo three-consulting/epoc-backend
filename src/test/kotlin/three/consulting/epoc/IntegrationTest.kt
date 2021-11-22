@@ -10,6 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @EnableAutoConfiguration
 @AutoConfigureTestDatabase
-@AutoConfigureEmbeddedDatabase
+@AutoConfigureEmbeddedDatabase(refresh = AutoConfigureEmbeddedDatabase.RefreshMode.AFTER_EACH_TEST_METHOD)
 @DirtiesContext
 abstract class IntegrationTest

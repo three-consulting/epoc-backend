@@ -91,6 +91,6 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `get all employees`() {
         val employees = employeeService.findAllEmployees()
-        assertThat(employees.map { it.first_name }).containsExactlyElementsOf(listOf("Testi", "Esimerkki"))
+        assertThat(employees.map { it.first_name }).containsExactlyElementsOf(listOf("Testi", "Test"))
     }
 }

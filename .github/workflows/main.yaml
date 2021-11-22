@@ -70,7 +70,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/three-consulting/epoc:latest'
+          image-ref: 'ghcr.io/three-consulting/epoc-backend:latest'
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-main.sarif'
