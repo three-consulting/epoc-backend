@@ -3,6 +3,6 @@ spring:
     banner-mode: off
 springdoc:
   api-docs:
-    path: docs
+    path: /docs
   swagger-ui:
-    path: docs-ui.html
+    path: /docs-ui.html
