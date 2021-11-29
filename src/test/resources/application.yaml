@@ -4,3 +4,8 @@ zonky:
       postgres:
         docker:
           image: postgres:14-alpine
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /docs-ui.html
