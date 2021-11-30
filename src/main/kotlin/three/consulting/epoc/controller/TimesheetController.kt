@@ -12,7 +12,7 @@ import javax.validation.Valid
 class TimesheetController(private val timesheetService: TimesheetService) {
 
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getTimesheets(@RequestParam projectId: Long) = timesheetService.findTimesheetForProjectId(projectId)
+    fun getTimesheets(@RequestParam projectId: Long) = timesheetService.findTimesheetsForProjectId(projectId)
 
     @GetMapping(value = ["/{timesheetId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.findTimesheetForId(timesheetId)

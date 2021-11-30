@@ -143,13 +143,13 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `searching timesheet with project id 1 returns array of timesheet objects`() {
-        val timesheet: List<TimesheetDTO>? = timesheetService.findTimesheetForProjectId(1L)
-        assertThat(timesheet).hasSize(2)
+        val timesheets: List<TimesheetDTO>? = timesheetService.findTimesheetsForProjectId(1L)
+        assertThat(timesheets).hasSize(2)
     }
 
     @Test
     fun `searching timesheet with project id 99 returns empty array`() {
-        val timesheet: List<TimesheetDTO>? = timesheetService.findTimesheetForProjectId(99L)
-        assertThat(timesheet).hasSize(0)
+        val timesheets: List<TimesheetDTO>? = timesheetService.findTimesheetsForProjectId(99L)
+        assertThat(timesheets).hasSize(0)
     }
 }
