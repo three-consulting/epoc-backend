@@ -20,7 +20,7 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
         if (timesheet.isNotEmpty())
             return timesheet.map { TimesheetDTO(it) }
         logger.info { "No timesheet found for id: $id" }
-        return null
+        return emptyList<TimesheetDTO>()
     }
 
     fun findTimesheetForId(id: Long): TimesheetDTO? {
