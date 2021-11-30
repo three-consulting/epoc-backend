@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import three.consulting.epoc.entity.Timesheet
 
 @Repository
-interface TimesheetRepository : JpaRepository<Timesheet, Long>
+interface TimesheetRepository : JpaRepository<Timesheet, Long> {
+    fun findAllByProjectId(id: Long): List<Timesheet>
+}

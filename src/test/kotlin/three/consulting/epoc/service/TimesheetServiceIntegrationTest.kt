@@ -25,6 +25,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         assertThat(timesheet.description).isEqualTo("testing")
         assertThat(timesheet.project.id).isEqualTo(1L)
     }
+
     @Test
     fun `searching a timesheet for invalid id return null`() {
         val timesheet: TimesheetDTO? = timesheetService.findTimesheetForId(1000L)
@@ -138,5 +139,17 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         Assertions.assertThatThrownBy { timesheetService.deleteTimesheet(1000L) }
             .isInstanceOf(UnableToDeleteTimesheetException::class.java)
             .hasMessage("Cannot delete timesheet, no timesheet found for given id: 1000")
+    }
+
+    @Test
+    fun `searching timesheet with project id 1 returns array of timesheet objects`() {
+        val timesheets = timesheetService.findTimesheetsForProjectId(1L)
+        assertThat(timesheets).hasSize(2)
+    }
+
+    @Test
+    fun `searching timesheet with project id 99 returns empty array`() {
+        val timesheets = timesheetService.findTimesheetsForProjectId(99L)
+        assertThat(timesheets).hasSize(0)
     }
 }
