@@ -5,6 +5,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -14,7 +15,7 @@ import three.consulting.epoc.service.*
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = [ SecurityAutoConfiguration::class ])
 @AutoConfigureTestDatabase
 @AutoConfigureEmbeddedDatabase
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
