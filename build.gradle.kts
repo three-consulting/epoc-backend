@@ -23,6 +23,9 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
@@ -31,7 +34,6 @@ dependencies {
     implementation("org.flywaydb:flyway-core:8.0.2")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
     implementation("io.github.microutils:kotlin-logging:2.0.11")
-    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     runtimeOnly("org.postgresql:postgresql:42.3.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.assertj:assertj-core:3.21.0")
