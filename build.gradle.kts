@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
-    id("org.springframework.boot") version "2.5.6"
-    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.allopen") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
-    kotlin("plugin.jpa") version "1.5.31"
+    id("org.springframework.boot") version "2.6.1"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    kotlin("jvm") version "1.6.0"
+    kotlin("plugin.allopen") version "1.6.0"
+    kotlin("plugin.spring") version "1.6.0"
+    kotlin("plugin.jpa") version "1.6.0"
 }
 
-val kotlinVersion = "1.5.31"
+val kotlinVersion = "1.6.0"
 val jacksonVersion = "2.13.0"
-val springBootVersion = "2.5.6"
-val junitVersion = "5.8.1"
+val springBootVersion = "2.6.1"
+val junitVersion = "5.8.2"
 
 group = "three.consulting"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -31,9 +31,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.flywaydb:flyway-core:8.0.2")
+    implementation("org.flywaydb:flyway-core:8.1.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
-    implementation("io.github.microutils:kotlin-logging:2.0.11")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.15")
     runtimeOnly("org.postgresql:postgresql:42.3.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.assertj:assertj-core:3.21.0")
@@ -55,7 +55,7 @@ tasks.withType<Test> {
 }
 
 ktlint {
-    version.set("0.42.1")
+    version.set("0.43.2")
     verbose.set(true)
     outputToConsole.set(true)
     coloredOutput.set(true)
