@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Profile("default")
-@Configuration
 @EnableWebSecurity
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
@@ -24,6 +23,10 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .oauth2ResourceServer().jwt()
         }
     }
+}
+
+@Configuration
+class CorsConfig {
 
     @Bean
     fun webMvcConfigurer(): WebMvcConfigurer =
