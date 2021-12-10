@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = ["project_id", "employee_id"])])
 class Timesheet(
     @ManyToOne @JoinColumn(name = "project_id", nullable = false) var project: Project,
     @ManyToOne @JoinColumn(name = "employee_id", nullable = false) var employee: Employee,
