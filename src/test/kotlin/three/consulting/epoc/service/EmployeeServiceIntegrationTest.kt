@@ -76,9 +76,9 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete employee removes employee from database`() {
-        assertThat(employeeService.findEmployeeForId(2L)).isNotNull
-        employeeService.deleteEmployee(2L)
-        assertThat(employeeService.findEmployeeForId(2L)).isNull()
+        assertThat(employeeService.findEmployeeForId(3L)).isNotNull
+        employeeService.deleteEmployee(3L)
+        assertThat(employeeService.findEmployeeForId(3L)).isNull()
     }
 
     @Test
@@ -91,6 +91,6 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `get all employees`() {
         val employees = employeeService.findAllEmployees()
-        assertThat(employees.map { it.first_name }).containsExactlyElementsOf(listOf("Testi", "Test"))
+        assertThat(employees.map { it.first_name }).containsExactlyElementsOf(listOf("Testi", "Test", "Matti"))
     }
 }

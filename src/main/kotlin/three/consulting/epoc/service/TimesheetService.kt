@@ -37,7 +37,7 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
                 return TimesheetDTO(timesheetRepository.save(timesheet))
             } catch (e: DataIntegrityViolationException) {
                 logger.error(e) { "Failed creating a new timesheet" }
-                throw UnableToCreateTimesheetException("Cannot create a timesheet with non-existing relation")
+                throw UnableToCreateTimesheetException("Cannot create a timesheet that violates data integrity")
             }
         } else {
             val exception = UnableToCreateTimesheetException("Cannot create a timesheet with existing id")

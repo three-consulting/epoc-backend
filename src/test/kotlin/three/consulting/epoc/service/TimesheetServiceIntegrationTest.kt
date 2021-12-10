@@ -47,11 +47,33 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 customer = CustomerDTO(1, "New Project Customer"),
                 managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
             ),
-            employee = EmployeeDTO(2, "New", "Timesheet-worker", "new.timesheet@worker.fi"),
+            employee = EmployeeDTO(3, "Matti", "Meikälainen", "matti@worker.fi"),
         )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
         assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
         assertThat(addedTimesheet.description).isEqualTo(timesheet.description)
+    }
+
+    @Test
+    fun `adding timesheet with non-unique project and employee fails`() {
+        val invalidTimesheet = TimesheetDTO(
+            name = "Sample",
+            description = "Sample timesheet",
+            allocation = 100,
+            project = ProjectDTO(
+                id = 1L,
+                name = "Sample",
+                description = "Sample project",
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now(),
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            ),
+            employee = EmployeeDTO(2, "Test", "Worker", "test@worker.fi"),
+        )
+        Assertions.assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
+            .isInstanceOf(UnableToCreateTimesheetException::class.java)
+            .hasMessage("Cannot create a timesheet that violates data integrity")
     }
 
     @Test
@@ -94,7 +116,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         )
         Assertions.assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
-            .hasMessage("Cannot create a timesheet with non-existing relation")
+            .hasMessage("Cannot create a timesheet that violates data integrity")
     }
 
     @Test
