@@ -146,7 +146,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching task with project id 1 returns array of task objects`() {
         val tasks = taskService.findTaskForProjectId(1L)
-        assertThat(tasks).hasSize(2)
+        assertThat(tasks.map { it.name }).containsExactlyElementsOf(listOf("test", "test2"))
     }
 
     @Test
