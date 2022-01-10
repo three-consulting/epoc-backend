@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import three.consulting.epoc.entity.Task
 
 @Repository
-interface TaskRepository : JpaRepository<Task, Long>
+interface TaskRepository : JpaRepository<Task, Long> {
+    fun findAllByProjectId(id: Long): List<Task>
+}

@@ -142,4 +142,16 @@ class TaskServiceIntegrationTest : IntegrationTest() {
             .isInstanceOf(UnableToDeleteTaskException::class.java)
             .hasMessage("Cannot delete task, no task found for given id: 1000")
     }
+
+    @Test
+    fun `searching task with project id 1 returns array of task objects`() {
+        val tasks = taskService.findTaskForProjectId(1L)
+        assertThat(tasks).hasSize(2)
+    }
+
+    @Test
+    fun `searching task with project id 99 returns empty array`() {
+        val tasks = taskService.findTaskForProjectId(99L)
+        assertThat(tasks).hasSize(0)
+    }
 }
