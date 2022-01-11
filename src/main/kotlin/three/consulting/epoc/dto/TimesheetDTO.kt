@@ -1,5 +1,6 @@
 package three.consulting.epoc.dto
 
+import three.consulting.epoc.entity.Status
 import three.consulting.epoc.entity.Timesheet
 import java.time.LocalDateTime
 import javax.validation.constraints.Max
@@ -15,6 +16,7 @@ data class TimesheetDTO(
     val employee: EmployeeDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
+    val status: Status = Status.ACTIVE,
 ) {
     constructor(timesheet: Timesheet) : this (
         id = timesheet.id,

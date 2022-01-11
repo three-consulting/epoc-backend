@@ -14,6 +14,7 @@ class Timesheet(
     @field:Column(name = "allocation", nullable = false) var allocation: Int,
     @field:Column(name = "created", nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "updated", nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
+    @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false) var status: Status = Status.ACTIVE,
     @field:Id @field:Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
