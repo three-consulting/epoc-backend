@@ -11,6 +11,9 @@ import javax.validation.Valid
 @RequestMapping(path = ["/task"])
 class TaskController(private val taskService: TaskService) {
 
+    @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
+    fun getTimesheets(@RequestParam projectId: Long) = taskService.findTaskForProjectId(projectId)
+
     @GetMapping(value = ["/{taskId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTaskForId(@PathVariable taskId: Long) = taskService.findTaskForId(taskId)
 
