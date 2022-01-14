@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
@@ -126,6 +127,52 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             val updatedTimesheet = timesheetService.updateTimesheetForId(existingTimesheet)
             assertThat(updatedTimesheet.updated).isNotEqualTo(existingTimesheet.updated)
         }
+    }
+
+    @Test
+    fun `update timesheet with status archived changes status value`() {
+        val timesheet = TimesheetDTO(
+            name = "Sample",
+            description = "Sample timesheet",
+            allocation = 100,
+            project = ProjectDTO(
+                id = 1L,
+                name = "Sample",
+                description = "Sample project",
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now(),
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            ),
+            employee = EmployeeDTO(3, "Matti", "Meikälainen", "matti@worker.fi"),
+            status = Status.ACTIVE
+        )
+        val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
+        assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
+        assertThat(addedTimesheet.description).isEqualTo(timesheet.description)
+
+        val inactiveTimesheet = TimesheetDTO(
+            id = addedTimesheet.id,
+            name = "Sample",
+            description = "Sample timesheet",
+            allocation = 100,
+            project = ProjectDTO(
+                id = 1L,
+                name = "Sample",
+                description = "Sample project",
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now(),
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            ),
+            employee = EmployeeDTO(3, "Matti", "Meikälainen", "matti@worker.fi"),
+            status = Status.ARCHIVED
+        )
+        val updatedTimesheet = timesheetService.updateTimesheetForId(inactiveTimesheet)
+        assertThat(inactiveTimesheet.status).isEqualTo(Status.ARCHIVED)
+        assertThat(updatedTimesheet.updated).isNotEqualTo(addedTimesheet.updated)
+        assertThat(updatedTimesheet.status).isNotEqualTo(addedTimesheet.status)
+        assertThat(updatedTimesheet.status).isEqualTo(Status.ARCHIVED)
     }
 
     @Test
