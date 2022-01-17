@@ -1,7 +1,7 @@
 package three.consulting.epoc.dto
 
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.entity.Project
-import three.consulting.epoc.entity.Status
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
-import three.consulting.epoc.entity.Status
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [ProjectService::class])

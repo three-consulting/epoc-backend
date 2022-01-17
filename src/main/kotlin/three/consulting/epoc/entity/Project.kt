@@ -1,13 +1,10 @@
 package three.consulting.epoc.entity
 
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.ProjectDTO
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
-
-enum class Status {
-    ACTIVE, INACTIVE, ARCHIVED
-}
 
 @Entity
 class Project(

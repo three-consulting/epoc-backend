@@ -1,6 +1,6 @@
 package three.consulting.epoc.dto
 
-import three.consulting.epoc.entity.Status
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.entity.Timesheet
 import java.time.LocalDateTime
 import javax.validation.constraints.Max
@@ -27,5 +27,6 @@ data class TimesheetDTO(
         employee = EmployeeDTO(timesheet.employee),
         created = timesheet.created,
         updated = timesheet.updated,
+        status = timesheet.status
     )
 }

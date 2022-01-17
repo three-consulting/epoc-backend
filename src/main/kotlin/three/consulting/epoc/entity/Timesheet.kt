@@ -1,5 +1,6 @@
 package three.consulting.epoc.entity
 
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.TimesheetDTO
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -26,6 +27,7 @@ class Timesheet(
         allocation = timesheetDTO.allocation,
         created = timesheetDTO.created ?: LocalDateTime.now(),
         project = Project(timesheetDTO.project),
-        employee = Employee(timesheetDTO.employee)
+        employee = Employee(timesheetDTO.employee),
+        status = timesheetDTO.status
     )
 }

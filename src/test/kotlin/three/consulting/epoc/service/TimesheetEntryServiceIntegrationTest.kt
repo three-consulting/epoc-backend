@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.*
-import three.consulting.epoc.entity.Status
 import java.time.LocalDate
 import java.time.Duration as Duration
 
