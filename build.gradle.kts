@@ -1,6 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+
 plugins {
     id("org.springframework.boot") version "2.6.2"
+    id("org.springframework.experimental.aot") version "0.11.1"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.allopen") version "1.6.10"
@@ -17,6 +20,7 @@ group = "three.consulting"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
+    maven { url = uri("https://repo.spring.io/release") }
     mavenCentral()
 }
 
@@ -63,6 +67,22 @@ ktlint {
     filter {
         exclude("**/generated/**")
         include("**/kotlin/**")
+    }
+}
+
+tasks.getByName<BootBuildImage>("bootBuildImage") {
+    builder = "paketobuildpacks/builder:tiny"
+    environment = mapOf(
+        "BP_NATIVE_IMAGE" to "true"
+    )
+    imageName = "ghcr.io/three-consulting/epoc-backend"
+    isPublish = true
+    docker {
+        publishRegistry {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+            url = "https://ghcr.io/"
+        }
     }
 }
 
