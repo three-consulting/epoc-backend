@@ -83,6 +83,7 @@ tasks.getByName<BootBuildImage>("bootBuildImage") {
             username = System.getenv("GITHUB_ACTOR")
             password = System.getenv("GITHUB_TOKEN")
             url = "https://ghcr.io/"
+            email = "tuomas@three.consulting"
         }
     }
 }
