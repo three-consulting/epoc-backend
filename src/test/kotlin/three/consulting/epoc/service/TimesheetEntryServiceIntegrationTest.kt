@@ -57,8 +57,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample task",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
                 project = ProjectDTO(
                     id = 1L,
                     name = "Sample",
@@ -103,8 +101,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample task",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
                 project = ProjectDTO(
                     id = 1L,
                     name = "Sample",
@@ -149,8 +145,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample task",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
                 project = ProjectDTO(
                     id = 1L,
                     name = "Sample",
@@ -204,8 +198,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample task",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
                 project = ProjectDTO(
                     id = 1L,
                     name = "Sample",

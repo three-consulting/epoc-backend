@@ -36,8 +36,6 @@ class TaskServiceIntegrationTest : IntegrationTest() {
         val task = TaskDTO(
             name = "Sample",
             description = "Sample task",
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now(),
             project = ProjectDTO(
                 id = 1L,
                 name = "Sample",
@@ -59,8 +57,6 @@ class TaskServiceIntegrationTest : IntegrationTest() {
             id = 2,
             name = "Sample",
             description = "Sample task",
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now(),
             project = ProjectDTO(
                 id = 1L,
                 name = "Sample",
@@ -81,8 +77,6 @@ class TaskServiceIntegrationTest : IntegrationTest() {
         val invalidTask = TaskDTO(
             name = "Sample",
             description = "Sample task",
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now(),
             project = ProjectDTO(
                 id = 100L,
                 name = "Sample",
@@ -112,8 +106,6 @@ class TaskServiceIntegrationTest : IntegrationTest() {
         val invalidTask = TaskDTO(
             name = "Sample",
             description = "Sample task",
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now(),
             project = ProjectDTO(
                 id = 1L,
                 name = "Sample",

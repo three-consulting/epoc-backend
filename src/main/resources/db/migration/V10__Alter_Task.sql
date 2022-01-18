@@ -1,0 +1,7 @@
+ALTER TABLE task ADD status VARCHAR(255);
+
+ALTER TABLE task ALTER COLUMN  status SET NOT NULL;
+
+ALTER TABLE task DROP COLUMN end_date;
+
+ALTER TABLE task DROP COLUMN start_date;
