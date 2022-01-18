@@ -76,6 +76,7 @@ tasks.getByName<BootBuildImage>("bootBuildImage") {
         "BP_NATIVE_IMAGE" to "true"
     )
     imageName = "ghcr.io/three-consulting/epoc-backend"
+    tags = listOf("native")
     isPublish = true
     docker {
         publishRegistry {
