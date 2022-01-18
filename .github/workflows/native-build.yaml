@@ -29,10 +29,6 @@ jobs:
         run: |
           chmod +x gradlew
 
-      - name: Run tests
-        run: |
-          ./gradlew clean test
-
       - name: Build and push native image
         run: |
           ./gradlew bootBuildImage
