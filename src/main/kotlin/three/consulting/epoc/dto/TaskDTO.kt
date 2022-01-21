@@ -12,6 +12,7 @@ data class TaskDTO(
     val project: ProjectDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
+    val billable: Boolean = true,
     val status: Status = Status.ACTIVE,
 ) {
     constructor(task: Task) : this (
@@ -21,6 +22,7 @@ data class TaskDTO(
         project = ProjectDTO(task.project),
         created = task.created,
         updated = task.updated,
+        billable = task.billable,
         status = task.status,
     )
 }
