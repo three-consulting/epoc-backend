@@ -11,9 +11,9 @@ data class TimesheetEntryDTO(
     @field:NotNull val quantity: Duration,
     @field:NotNull val date: LocalDate,
     val description: String? = null,
-    val timesheet: TimesheetDTO,
-    val timeCategory: TimeCategoryDTO,
-    val task: TaskDTO,
+    @field:NotNull val timesheet: TimesheetDTO,
+    @field:NotNull val timeCategory: TimeCategoryDTO,
+    @field:NotNull val task: TaskDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
 ) {

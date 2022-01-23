@@ -5,15 +5,16 @@ import three.consulting.epoc.entity.Project
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class ProjectDTO(
     val id: Long? = null,
     @field:NotBlank val name: String,
     val description: String? = null,
-    val startDate: LocalDate,
+    @field:NotNull val startDate: LocalDate,
     val endDate: LocalDate? = null,
-    val customer: CustomerDTO,
-    val managingEmployee: EmployeeDTO,
+    @field:NotNull val customer: CustomerDTO,
+    @field:NotNull val managingEmployee: EmployeeDTO,
     val status: Status = Status.ACTIVE,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
