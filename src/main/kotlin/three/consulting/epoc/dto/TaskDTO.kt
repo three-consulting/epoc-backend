@@ -10,7 +10,7 @@ data class TaskDTO(
     val id: Long? = null,
     @field:NotBlank val name: String,
     val description: String? = null,
-    val project: ProjectDTO,
+    @field:NotNull val project: ProjectDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
     @field: NotNull val billable: Boolean = true,
