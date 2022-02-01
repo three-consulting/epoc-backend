@@ -7,20 +7,20 @@ import javax.persistence.*
 
 @Entity
 class Employee(
-    @field:Column(nullable = false) var first_name: String,
-    @field:Column(nullable = false) var last_name: String,
+    @field:Column(name = "first_name", nullable = false) var firstName: String,
+    @field:Column(name = "last_name", nullable = false) var lastName: String,
     @field:Column(unique = true, nullable = false) var email: String,
-    @field:Column(nullable = false) var start_date: LocalDate = LocalDate.now(),
+    @field:Column(name = "start_date", nullable = false) var startDate: LocalDate = LocalDate.now(),
     @field:Column(nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null
 ) {
     constructor(employeeDTO: EmployeeDTO) : this (
         id = employeeDTO.id,
-        first_name = employeeDTO.first_name,
-        last_name = employeeDTO.last_name,
+        firstName = employeeDTO.firstName,
+        lastName = employeeDTO.lastName,
         email = employeeDTO.email,
-        start_date = employeeDTO.start_date ?: LocalDate.now(),
+        startDate = employeeDTO.startDate ?: LocalDate.now(),
         created = employeeDTO.created ?: LocalDateTime.now()
     )
 }

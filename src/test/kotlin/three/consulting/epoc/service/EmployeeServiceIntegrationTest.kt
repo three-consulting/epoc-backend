@@ -17,8 +17,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching an employee for id return an employee`() {
         val employee: EmployeeDTO = employeeService.findEmployeeForId(1L)!!
-        assertThat(employee.first_name).isEqualTo("Testi")
-        assertThat(employee.last_name).isEqualTo("Tekijä")
+        assertThat(employee.firstName).isEqualTo("Testi")
+        assertThat(employee.lastName).isEqualTo("Tekijä")
     }
 
     @Test
@@ -30,13 +30,13 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `added employee is found from the database`() {
         val employee = EmployeeDTO(
-            first_name = "Esimerkki",
-            last_name = "Testaaja",
+            firstName = "Esimerkki",
+            lastName = "Testaaja",
             email = "esimerkki@testaaja.fi"
         )
         val addedEmployee: EmployeeDTO = employeeService.createEmployee(employee)
-        assertThat(addedEmployee.first_name).isEqualTo(employee.first_name)
-        assertThat(addedEmployee.last_name).isEqualTo(employee.last_name)
+        assertThat(addedEmployee.firstName).isEqualTo(employee.firstName)
+        assertThat(addedEmployee.lastName).isEqualTo(employee.lastName)
         assertThat(addedEmployee.email).isEqualTo(employee.email)
     }
 
@@ -44,8 +44,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     fun `adding employee with id fails`() {
         val invalidEmployee = EmployeeDTO(
             id = 2,
-            first_name = "Esimerkki",
-            last_name = "Testaja",
+            firstName = "Esimerkki",
+            lastName = "Testaja",
             email = "esimerkki@testaaja.fi"
         )
         assertThatThrownBy { employeeService.createEmployee(invalidEmployee) }
@@ -65,8 +65,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `update employee without id raises error`() {
         val invalidEmployee = EmployeeDTO(
-            first_name = "Test",
-            last_name = "Failure",
+            firstName = "Test",
+            lastName = "Failure",
             email = "test@failure.fi"
         )
         assertThatThrownBy { employeeService.updateEmployeeForId(invalidEmployee) }
@@ -91,6 +91,6 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `get all employees`() {
         val employees = employeeService.findAllEmployees()
-        assertThat(employees.map { it.first_name }).containsExactlyElementsOf(listOf("Testi", "Test", "Matti"))
+        assertThat(employees.map { it.firstName }).containsExactlyElementsOf(listOf("Testi", "Test", "Matti"))
     }
 }
