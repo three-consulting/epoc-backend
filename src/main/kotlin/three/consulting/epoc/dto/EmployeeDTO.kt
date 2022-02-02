@@ -7,19 +7,19 @@ import javax.validation.constraints.NotBlank
 
 data class EmployeeDTO(
     val id: Long? = null,
-    @field:NotBlank val first_name: String,
-    @field:NotBlank val last_name: String,
+    @field:NotBlank val firstName: String,
+    @field:NotBlank val lastName: String,
     @field:NotBlank val email: String,
-    val start_date: LocalDate? = null,
+    val startDate: LocalDate? = null,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null
 ) {
     constructor(employee: Employee) : this (
         id = employee.id,
-        first_name = employee.first_name,
-        last_name = employee.last_name,
+        firstName = employee.firstName,
+        lastName = employee.lastName,
         email = employee.email,
-        start_date = employee.start_date,
+        startDate = employee.startDate,
         created = employee.created,
         updated = employee.updated
     )

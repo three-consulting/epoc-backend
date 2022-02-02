@@ -1,3 +1,0 @@
-ALTER TABLE task ADD billable BOOLEAN;
-
-ALTER TABLE task ALTER COLUMN  billable SET NOT NULL;

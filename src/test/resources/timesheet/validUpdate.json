@@ -13,15 +13,15 @@
     },
     "managingEmployee": {
       "id": 1,
-      "first_name": "Timesheet",
-      "last_name": "Manager",
+      "firstName": "Timesheet",
+      "lastName": "Manager",
       "email": "timesheet@manager.fi"
     }
   },
   "employee": {
     "id": 2,
-    "first_name": "Timesheet",
-    "last_name": "Worker",
+    "firstName": "Timesheet",
+    "lastName": "Worker",
     "email": "timesheet@worker.fi"
   }
 }

@@ -16,10 +16,10 @@
     },
     "managingEmployee": {
       "id": 1,
-      "first_name": "Testi",
-      "last_name": "Tekijä",
+      "firstName": "Testi",
+      "lastName": "Tekijä",
       "email": "testi@tekija.fi",
-      "start_date": "2021-09-21"
+      "startDate": "2021-09-21"
     },
     "status": "ACTIVE"
   }
