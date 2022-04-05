@@ -90,8 +90,14 @@ class TimesheetControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `query without project id returns bad request`() {
-        val response = restTemplate.getForEntity("/timesheet", ObjectNode::class.java)
-        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+    fun `get with employeeId returns 200`() {
+        val response = restTemplate.getForEntity("/timesheet?employeeId=1", ArrayNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun `get with both employeeId and projectId returns 200`() {
+        val response = restTemplate.getForEntity("/timesheet?projectId=1&employeeId=1", ArrayNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 }
