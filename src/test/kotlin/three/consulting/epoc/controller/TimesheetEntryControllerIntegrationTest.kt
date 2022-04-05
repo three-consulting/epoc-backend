@@ -1,5 +1,6 @@
 package three.consulting.epoc.controller
 
+import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -80,5 +81,17 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
             ObjectNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED)
+    }
+
+    @Test
+    fun `get timesheet entries with timesheetId returns 200`() {
+        val response = restTemplate.getForEntity("/timesheet-entry?timesheetId=1", ArrayNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun `getting timesheets without request parameters is a bad request`() {
+        val response = restTemplate.getForEntity("/timesheet-entry", ObjectNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 }

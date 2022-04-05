@@ -12,14 +12,22 @@ import javax.validation.Valid
 class TimesheetEntryController(private val timesheetEntryService: TimesheetEntryService) {
 
     @GetMapping(value = ["/{timesheetEntryId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getTimesheetEntryForId(@PathVariable timesheetEntryId: Long) = timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
+    fun getTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
+        timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
+
+    @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
+    fun getTimesheetEntriesForTimesheetId(@RequestParam timesheetId: Long) =
+        timesheetEntryService.findTimesheetEntriesForTimesheetId(timesheetId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun createTimesheetEntry(@Valid @RequestBody timesheetEntry: TimesheetEntryDTO) = timesheetEntryService.createTimesheetEntry(timesheetEntry)
+    fun createTimesheetEntry(@Valid @RequestBody timesheetEntry: TimesheetEntryDTO) =
+        timesheetEntryService.createTimesheetEntry(timesheetEntry)
 
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateTimesheetEntryForId(@Valid @RequestBody timesheetEntry: TimesheetEntryDTO) = timesheetEntryService.updateTimesheetEntryForId(timesheetEntry)
+    fun updateTimesheetEntryForId(@Valid @RequestBody timesheetEntry: TimesheetEntryDTO) =
+        timesheetEntryService.updateTimesheetEntryForId(timesheetEntry)
 
     @DeleteMapping(value = ["/{timesheetEntryId}"], consumes = [ALL_VALUE])
-    fun deleteTimesheetEntryForId(@PathVariable timesheetEntryId: Long) = timesheetEntryService.deleteTimesheetEntry(timesheetEntryId)
+    fun deleteTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
+        timesheetEntryService.deleteTimesheetEntry(timesheetEntryId)
 }
