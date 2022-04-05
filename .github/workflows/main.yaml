@@ -5,10 +5,6 @@ on:
     branches:
       - main
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE:  ${{ github.repository }}
-
 jobs:
   run_tests_build_and_push:
     runs-on: ubuntu-latest
@@ -38,25 +34,11 @@ jobs:
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_app_name: ${{ secrets.HEROKU_DEV_APP_NAME }}
           dockerfile_directory: ./
           dockerfile_name: Dockerfile
           docker_options: "--no-cache"
           process_type: web
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'ghcr.io/three-consulting/epoc-backend:latest'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-main.sarif'
-          severity: 'CRITICAL,HIGH'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: 'trivy-main.sarif'
 
   draft_release:
     runs-on: ubuntu-latest
