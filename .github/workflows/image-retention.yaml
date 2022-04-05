@@ -18,4 +18,4 @@ jobs:
           org-name: three-consulting
           keep-at-least: 5
           filter-tags: 'sha-*'
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
