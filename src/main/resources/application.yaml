@@ -6,3 +6,5 @@ springdoc:
     path: /docs
   swagger-ui:
     path: /docs-ui.html
+server:
+  port: ${PORT:8080}
