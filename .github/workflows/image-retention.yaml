@@ -1,0 +1,21 @@
+name: ghcr.io image rentention
+
+on:
+  schedule:
+    - cron: '0 6 * * 0' # Sunday morning at 6
+
+jobs:
+  remove_old_images:
+    name: Remove old epoc images from ghcr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete dev images older than a week, keeping 5 latest
+        uses: snok/container-retention-policy@v1
+        with:
+          image-names: epoc-backend
+          cut-off: A week ago UTC
+          account-type: org
+          org-name: three-consulting
+          keep-at-least: 5
+          filter-tags: 'sha-*'
+          token: ${{ secrets.PAT }}
