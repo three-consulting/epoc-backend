@@ -7,10 +7,6 @@ on:
       - synchronize
       - reopened
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE:  ${{ github.repository }}
-
 jobs:
   run_tests_and_build:
     runs-on: ubuntu-latest
