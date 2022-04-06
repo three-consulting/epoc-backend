@@ -8,8 +8,8 @@ import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.*
+import java.time.Duration
 import java.time.LocalDate
-import java.time.Duration as Duration
 
 @ContextConfiguration(classes = [TimesheetEntryService::class])
 class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
@@ -226,5 +226,13 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         Assertions.assertThatThrownBy { timesheetEntryService.deleteTimesheetEntry(1000L) }
             .isInstanceOf(UnableToDeleteTimesheetEntryException::class.java)
             .hasMessage("Cannot delete timesheetEntry, no timesheetEntry found for given id: 1000")
+    }
+
+    @Test
+    fun `getting timesheet entries for timesheetId returns multiple entries`() {
+        val timesheets = timesheetEntryService.findTimesheetEntriesForTimesheetId(1L)
+        assertThat(timesheets).hasSize(2)
+        assertThat(timesheets.first().description).isEqualTo("Testing timesheet entry")
+        assertThat(timesheets.last().description).isEqualTo("Testing timesheet entry2")
     }
 }

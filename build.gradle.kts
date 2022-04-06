@@ -1,16 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
-    id("org.springframework.boot") version "2.6.3"
+    id("org.springframework.boot") version "2.6.6"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.allopen") version "1.6.10"
-    kotlin("plugin.spring") version "1.6.10"
-    kotlin("plugin.jpa") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
+    kotlin("plugin.allopen") version "1.6.20"
+    kotlin("plugin.spring") version "1.6.20"
+    kotlin("plugin.jpa") version "1.6.20"
 }
 
-val kotlinVersion = "1.6.10"
-val jacksonVersion = "2.13.1"
-val springBootVersion = "2.6.3"
+val kotlinVersion = "1.6.20"
+val jacksonVersion = "2.13.2"
+val springBootVersion = "2.6.6"
 val junitVersion = "5.8.2"
 
 group = "three.consulting"
@@ -31,10 +31,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.flywaydb:flyway-core:8.4.2")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.4")
+    implementation("org.flywaydb:flyway-core:8.5.4")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
-    runtimeOnly("org.postgresql:postgresql:42.3.1")
+    runtimeOnly("org.postgresql:postgresql:42.3.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.assertj:assertj-core:3.22.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

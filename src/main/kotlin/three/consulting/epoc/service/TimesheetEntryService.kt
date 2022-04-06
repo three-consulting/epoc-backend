@@ -23,6 +23,12 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         return null
     }
 
+    fun findTimesheetEntriesForTimesheetId(timesheetId: Long): List<TimesheetEntryDTO> {
+        logger.info { "Looking for timesheetEntries with timesheetId: $timesheetId" }
+
+        return timesheetEntryRepository.findAllByTimesheetId(timesheetId).map { TimesheetEntryDTO(it) }
+    }
+
     fun createTimesheetEntry(timesheetEntryRequest: TimesheetEntryDTO): TimesheetEntryDTO {
         logger.info { "Creating new timesheetEntry" }
         if (timesheetEntryRequest.id == null) {

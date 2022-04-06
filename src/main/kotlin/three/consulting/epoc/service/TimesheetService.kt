@@ -14,9 +14,19 @@ private val logger = KotlinLogging.logger {}
 @Service
 class TimesheetService(private val timesheetRepository: TimesheetRepository) {
 
-    fun findTimesheetsForProjectId(id: Long): List<TimesheetDTO> {
-        logger.info { "Looking for timesheets with project_id: $id" }
-        val timesheets: List<Timesheet> = timesheetRepository.findAllByProjectId(id)
+    fun findTimesheetsForProjectIdAndEmployeeId(projectId: Long?, employeeId: Long?): List<TimesheetDTO> {
+        logger.info { "Looking for timesheets with projectId: $projectId and employeeId: $employeeId" }
+
+        val timesheets = if (employeeId != null && projectId != null) {
+            timesheetRepository.findAllByProjectIdAndEmployeeId(projectId, employeeId)
+        } else if (employeeId == null && projectId != null) {
+            timesheetRepository.findAllByProjectId(projectId)
+        } else if (employeeId != null && projectId == null) {
+            timesheetRepository.findAllByEmployeeId(employeeId)
+        } else {
+            throw UnableToGetTimesheetException()
+        }
+
         return timesheets.map { TimesheetDTO(it) }
     }
 
@@ -70,6 +80,7 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
 }
 
 class UnableToCreateTimesheetException(message: String) : RuntimeException(message)
+class UnableToGetTimesheetException() : RuntimeException("Cannot get timesheets, request parameters missing")
 class UnableToUpdateTimesheetException : RuntimeException("Cannot update timesheet, missing timesheet id")
 class UnableToDeleteTimesheetException(id: Long) :
     RuntimeException("Cannot delete timesheet, no timesheet found for given id: $id")

@@ -1,7 +1,7 @@
 package three.consulting.epoc.service
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
@@ -72,7 +72,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             ),
             employee = EmployeeDTO(2, "Test", "Worker", "test@worker.fi"),
         )
-        Assertions.assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
+        assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
             .hasMessage("Cannot create a timesheet that violates data integrity")
     }
@@ -94,7 +94,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             ),
             employee = EmployeeDTO(1, "Failing", "Timesheet-Worker", "failing-worker@timesheet.fi"),
         )
-        Assertions.assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
+        assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
             .hasMessage("Cannot create a timesheet with existing id")
     }
@@ -115,7 +115,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             ),
             employee = EmployeeDTO(100L, "Failing", "Timesheet-Worker", "failing-worker@timesheet.fi"),
         )
-        Assertions.assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
+        assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
             .hasMessage("Cannot create a timesheet that violates data integrity")
     }
@@ -191,7 +191,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             ),
             employee = EmployeeDTO(1, "Failing", "Timesheet-Worker", "failing-worker@timesheet.fi"),
         )
-        Assertions.assertThatThrownBy { timesheetService.updateTimesheetForId(invalidTimesheet) }
+        assertThatThrownBy { timesheetService.updateTimesheetForId(invalidTimesheet) }
             .isInstanceOf(UnableToUpdateTimesheetException::class.java)
             .hasMessage("Cannot update timesheet, missing timesheet id")
     }
@@ -205,20 +205,41 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete timesheet with non-existing id raise error`() {
-        Assertions.assertThatThrownBy { timesheetService.deleteTimesheet(1000L) }
+        assertThatThrownBy { timesheetService.deleteTimesheet(1000L) }
             .isInstanceOf(UnableToDeleteTimesheetException::class.java)
             .hasMessage("Cannot delete timesheet, no timesheet found for given id: 1000")
     }
 
     @Test
     fun `searching timesheet with project id 1 returns array of timesheet objects`() {
-        val timesheets = timesheetService.findTimesheetsForProjectId(1L)
+        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(1L, null)
         assertThat(timesheets).hasSize(2)
     }
 
     @Test
     fun `searching timesheet with project id 99 returns empty array`() {
-        val timesheets = timesheetService.findTimesheetsForProjectId(99L)
+        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(99L, null)
         assertThat(timesheets).hasSize(0)
+    }
+
+    @Test
+    fun `searching timesheets with employeeId 2 returns a timesheet`() {
+        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(null, 2L)
+        assertThat(timesheets).hasSize(1)
+        assertThat(timesheets.first().name).isEqualTo("test2")
+    }
+
+    @Test
+    fun `searching timesheets with employeeId and projectId returns a timeshees`() {
+        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(1L, 1L)
+        assertThat(timesheets).hasSize(1)
+        assertThat(timesheets.first().name).isEqualTo("test")
+    }
+
+    @Test
+    fun `searching timesheets without request parameters throws an exception`() {
+        assertThatThrownBy { timesheetService.findTimesheetsForProjectIdAndEmployeeId(null, null) }
+            .isInstanceOf(UnableToGetTimesheetException::class.java)
+            .hasMessage("Cannot get timesheets, request parameters missing")
     }
 }
