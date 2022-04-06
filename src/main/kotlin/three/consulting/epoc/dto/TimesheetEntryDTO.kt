@@ -1,14 +1,13 @@
 package three.consulting.epoc.dto
 
 import three.consulting.epoc.entity.TimesheetEntry
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotNull
 
 data class TimesheetEntryDTO(
     val id: Long? = null,
-    @field:NotNull val quantity: Duration,
+    @field:NotNull val quantity: Float,
     @field:NotNull val date: LocalDate,
     val description: String? = null,
     @field:NotNull val timesheet: TimesheetDTO,

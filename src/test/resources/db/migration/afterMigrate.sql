@@ -24,5 +24,5 @@ INSERT INTO time_category(name, description, created, updated) VALUES
     ('Actual work', 'Working time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO timesheet_entry(timesheet_id, task_id, time_category_id, quantity, date, description, created, updated) VALUES
-    (1, 1, 1, 1, CURRENT_DATE, 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1, 1, 1, 1, CURRENT_DATE, 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (1, 1, 1, 7.5, CURRENT_DATE, 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (1, 1, 1, 7.5, CURRENT_DATE, 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

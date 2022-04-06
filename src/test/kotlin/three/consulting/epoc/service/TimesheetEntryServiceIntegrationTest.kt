@@ -8,7 +8,6 @@ import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.*
-import java.time.Duration
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [TimesheetEntryService::class])
@@ -33,7 +32,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     fun `added timesheetEntry is found from the database`() {
         val timesheetEntry = TimesheetEntryDTO(
             description = "Sample timesheetEntry",
-            quantity = Duration.ofSeconds(100L),
+            quantity = 7.5f,
             date = LocalDate.now(),
             timesheet = TimesheetDTO(
                 id = 1L,
@@ -77,7 +76,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         val invalidTimesheetEntry = TimesheetEntryDTO(
             id = 2,
             description = "Sample timesheetEntry",
-            quantity = Duration.ofSeconds(100),
+            quantity = 7.5f,
             date = LocalDate.now(),
             timesheet = TimesheetDTO(
                 id = 1L,
@@ -121,7 +120,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     fun `adding timesheetEntry with non-existing relation fails`() {
         val invalidTimesheetEntry = TimesheetEntryDTO(
             description = "Sample timesheetEntry",
-            quantity = Duration.ofSeconds(100),
+            quantity = 7.5f,
             date = LocalDate.now(),
             timesheet = TimesheetDTO(
                 id = 10L,
@@ -174,7 +173,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     fun `update timesheetEntry without id raises error`() {
         val invalidTimesheetEntry = TimesheetEntryDTO(
             description = "Sample timesheetEntry",
-            quantity = Duration.ofSeconds(100),
+            quantity = 7.5f,
             date = LocalDate.now(),
             timesheet = TimesheetDTO(
                 id = 1L,
