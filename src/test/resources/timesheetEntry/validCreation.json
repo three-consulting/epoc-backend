@@ -1,5 +1,5 @@
 {
-  "quantity": "PT0.000000001S",
+  "quantity": 7.5,
   "date": "2021-09-24",
   "description": "Testing time category",
   "timesheet": {

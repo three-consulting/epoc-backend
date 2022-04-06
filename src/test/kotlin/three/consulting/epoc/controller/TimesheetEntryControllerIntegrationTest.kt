@@ -31,13 +31,6 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `add timesheetEntry with invalid allocation returns 400`() {
-        val httpEntity = jsonPostEntity("timesheetEntry/invalidAllocationCreation.json")
-        val response = restTemplate.postForEntity("/timesheet-entry", httpEntity, ObjectNode::class.java)
-        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
-    }
-
-    @Test
     fun `update timesheetEntry returns 200`() {
         val httpEntity = jsonPostEntity("timesheetEntry/validUpdate.json")
         val response = restTemplate.exchange(
@@ -47,18 +40,6 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
             ObjectNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-    }
-
-    @Test
-    fun `update timesheetEntry without name returns 400`() {
-        val httpEntity = jsonPostEntity("timesheetEntry/invalidUpdate.json")
-        val response = restTemplate.exchange(
-            URI("/timesheet-entry"),
-            HttpMethod.PUT,
-            httpEntity,
-            ObjectNode::class.java
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
     @Test

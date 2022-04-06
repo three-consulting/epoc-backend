@@ -10,7 +10,7 @@ class TimesheetEntry(
     @ManyToOne @JoinColumn(name = "timesheet_id", nullable = false) var timesheet: Timesheet,
     @ManyToOne @JoinColumn(name = "task_id", nullable = false) var task: Task,
     @ManyToOne @JoinColumn(name = "time_category_id", nullable = false) var timeCategory: TimeCategory,
-    @field:Column(name = "quantity", nullable = false) var quantity: java.time.Duration,
+    @field:Column(name = "quantity", nullable = false) var quantity: Float,
     @field:Column(name = "date", nullable = false) var date: LocalDate,
     @field:Column(name = "description", nullable = true) var description: String? = null,
     @field:Column(name = "created", nullable = false) var created: LocalDateTime = LocalDateTime.now(),

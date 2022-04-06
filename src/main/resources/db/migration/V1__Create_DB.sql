@@ -72,7 +72,7 @@ CREATE TABLE timesheet_entry (
   timesheet_id BIGINT NOT NULL,
   task_id BIGINT NOT NULL,
   time_category_id BIGINT NOT NULL,
-  quantity BIGINT NOT NULL,
+  quantity DECIMAL NOT NULL,
   date date NOT NULL,
   description VARCHAR(255),
   created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
