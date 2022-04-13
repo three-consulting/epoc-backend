@@ -15,12 +15,13 @@
 ### Run app
 On IDEA create new gradle configuration and use `bootRun` as the run argument with env variables
 
-|variable                                            | value                                                                |
-|----------------------------------------------------|----------------------------------------------------------------------|
-|SPRING_DATASOURCE_USERNAME                          | user                                                                 |
-|SPRING_DATASOURCE_PASSWORD                          | password                                                             |
-|SPRING_DATASOURCE_URL                               | jdbc:postgresql://localhost/epoc                                     |
-|SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI| https://cognito-idp.{aws-region}>.amazonaws.com/{aws-cognito-pool-id}|
+| variable                                              | value                                                                                     |
+|-------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| SPRING_DATASOURCE_USERNAME                            | user                                                                                      |
+| SPRING_DATASOURCE_PASSWORD                            | password                                                                                  |
+| SPRING_DATASOURCE_URL                                 | jdbc:postgresql://localhost/epoc                                                          |
+| SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI  | https://securetoken.google.com/<firebase-app-name>                                        |
+| SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI | https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com |
 
 Run a postgres db in a container
 ```bash
