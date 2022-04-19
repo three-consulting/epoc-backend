@@ -8,4 +8,4 @@ EXPOSE 8080
 
 USER user
 
-ENTRYPOINT ["java", "-XX:+ExitOnOutOfMemoryError", "-Xms128m", "-Xmx128m", "-jar", "/epoc.jar"]
+ENTRYPOINT ["java", "-XX:+ExitOnOutOfMemoryError", "-Xms128m", "-Xmx256m", "-jar", "/epoc.jar"]
