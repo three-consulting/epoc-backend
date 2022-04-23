@@ -14,17 +14,15 @@ private val logger = KotlinLogging.logger {}
 @Service
 class TimesheetService(private val timesheetRepository: TimesheetRepository) {
 
-    fun findTimesheetsForProjectIdAndEmployeeId(projectId: Long?, employeeId: Long?): List<TimesheetDTO> {
-        logger.info { "Looking for timesheets with projectId: $projectId and employeeId: $employeeId" }
+    fun findTimesheetsForProjectIdEmployeeIdAndEmail(projectId: Long?, employeeId: Long?, email: String?): List<TimesheetDTO> {
+        logger.info { "Looking for timesheets with projectId: $projectId, employeeId: $employeeId and email: $email" }
 
-        val timesheets = if (employeeId != null && projectId != null) {
-            timesheetRepository.findAllByProjectIdAndEmployeeId(projectId, employeeId)
-        } else if (employeeId == null && projectId != null) {
-            timesheetRepository.findAllByProjectId(projectId)
-        } else if (employeeId != null && projectId == null) {
-            timesheetRepository.findAllByEmployeeId(employeeId)
-        } else {
-            throw UnableToGetTimesheetException()
+        val timesheets = when {
+            employeeId != null && projectId != null -> timesheetRepository.findAllByProjectIdAndEmployeeId(projectId, employeeId)
+            employeeId == null && projectId != null -> timesheetRepository.findAllByProjectId(projectId)
+            employeeId != null && projectId == null -> timesheetRepository.findAllByEmployeeId(employeeId)
+            email != null -> timesheetRepository.findAllByEmployeeEmail(email)
+            else -> throw UnableToGetTimesheetException()
         }
 
         return timesheets.map { TimesheetDTO(it) }

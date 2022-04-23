@@ -100,4 +100,10 @@ class TimesheetControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.getForEntity("/timesheet?projectId=1&employeeId=1", ArrayNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+
+    @Test
+    fun `get with email returns 200`() {
+        val response = restTemplate.getForEntity("/timesheet?email=testi@tekija.fi", ArrayNode::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
 }

@@ -212,33 +212,40 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `searching timesheet with project id 1 returns array of timesheet objects`() {
-        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(1L, null)
+        val timesheets = timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(1L, null, null)
         assertThat(timesheets).hasSize(2)
     }
 
     @Test
     fun `searching timesheet with project id 99 returns empty array`() {
-        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(99L, null)
+        val timesheets = timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(99L, null, null)
         assertThat(timesheets).hasSize(0)
     }
 
     @Test
     fun `searching timesheets with employeeId 2 returns a timesheet`() {
-        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(null, 2L)
+        val timesheets = timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(null, 2L, null)
         assertThat(timesheets).hasSize(1)
         assertThat(timesheets.first().name).isEqualTo("test2")
     }
 
     @Test
     fun `searching timesheets with employeeId and projectId returns a timeshees`() {
-        val timesheets = timesheetService.findTimesheetsForProjectIdAndEmployeeId(1L, 1L)
+        val timesheets = timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(1L, 1L, null)
         assertThat(timesheets).hasSize(1)
         assertThat(timesheets.first().name).isEqualTo("test")
     }
 
     @Test
+    fun `searching timesheets with email returns timesheets for that employee`() {
+        val timesheets = timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(null, null, "testi@tekija.fi")
+        assertThat(timesheets).hasSize(1)
+        assertThat(timesheets.first().employee.id).isEqualTo(1)
+    }
+
+    @Test
     fun `searching timesheets without request parameters throws an exception`() {
-        assertThatThrownBy { timesheetService.findTimesheetsForProjectIdAndEmployeeId(null, null) }
+        assertThatThrownBy { timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(null, null, null) }
             .isInstanceOf(UnableToGetTimesheetException::class.java)
             .hasMessage("Cannot get timesheets, request parameters missing")
     }
