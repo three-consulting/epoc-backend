@@ -71,8 +71,11 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `getting timesheets without request parameters is a bad request`() {
-        val response = restTemplate.getForEntity("/timesheet-entry", ObjectNode::class.java)
-        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+    fun `getting timesheet with all request parameters returns 200`() {
+        val response = restTemplate.getForEntity(
+            "/timesheet-entry?email=testi@tekija.fi&startDate=2022-01-01&endDate=2022-04-01",
+            ArrayNode::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 }
