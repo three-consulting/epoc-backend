@@ -14,7 +14,7 @@ private val logger = KotlinLogging.logger {}
 @Service
 class TimesheetService(private val timesheetRepository: TimesheetRepository) {
 
-    fun findTimesheetsForProjectIdEmployeeIdAndEmail(projectId: Long?, employeeId: Long?, email: String?): List<TimesheetDTO> {
+    fun findTimesheets(projectId: Long?, employeeId: Long?, email: String?): List<TimesheetDTO> {
         logger.info { "Looking for timesheets with projectId: $projectId, employeeId: $employeeId and email: $email" }
 
         val timesheets = when {

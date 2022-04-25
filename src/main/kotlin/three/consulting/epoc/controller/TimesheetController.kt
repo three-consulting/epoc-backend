@@ -16,7 +16,7 @@ class TimesheetController(private val timesheetService: TimesheetService) {
         @RequestParam projectId: Long? = null,
         @RequestParam employeeId: Long? = null,
         @RequestParam email: String? = null
-    ) = timesheetService.findTimesheetsForProjectIdEmployeeIdAndEmail(projectId, employeeId, email)
+    ) = timesheetService.findTimesheets(projectId, employeeId, email)
 
     @GetMapping(value = ["/{timesheetId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.findTimesheetForId(timesheetId)
