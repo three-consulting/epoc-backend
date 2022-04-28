@@ -27,7 +27,7 @@ jobs:
 
       - name: Run tests
         run: |
-          ./gradlew clean test assemble
+          ./gradlew clean test
 
       - name: Build, Push and Release a Docker container to Heroku.
         uses: gonuit/heroku-docker-deploy@v1.3.3

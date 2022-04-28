@@ -29,7 +29,7 @@ jobs:
 
     - name: Run tests
       run: |
-        ./gradlew clean test assemble
+        ./gradlew clean test
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
