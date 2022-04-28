@@ -3,7 +3,7 @@ FROM gradle:jdk17 as builder
 WORKDIR /builder
 COPY . .
 # build jar
-RUN gradle bootJar
+RUN gradle clean bootJar
 # extract layers from built jar
 RUN java -Djarmode=layertools -jar build/libs/epoc.jar extract --destination layers
 
