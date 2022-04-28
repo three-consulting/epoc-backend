@@ -13,10 +13,7 @@ RUN adduser -u 1999 -D user
 
 WORKDIR /app
 # copy extracted layers from builder
-COPY --from=builder /builder/layers/dependencies ./
-COPY --from=builder /builder/layers/spring-boot-loader ./
-COPY --from=builder /builder/layers/snapshot-dependencies ./
-COPY --from=builder /builder/layers/application ./
+COPY --from=builder /builder/layers/* ./
 
 EXPOSE 8080
 
