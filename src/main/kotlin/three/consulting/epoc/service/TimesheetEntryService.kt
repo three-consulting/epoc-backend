@@ -8,11 +8,21 @@ import org.springframework.stereotype.Service
 import three.consulting.epoc.dto.TimesheetEntryDTO
 import three.consulting.epoc.entity.TimesheetEntry
 import three.consulting.epoc.repository.TimesheetEntryRepository
+import java.time.LocalDate
 
 private val logger = KotlinLogging.logger {}
 
 @Service
 class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntryRepository) {
+
+    fun findTimesheetEntries(timesheetId: Long?, email: String?, startDate: LocalDate?, endDate: LocalDate?): List<TimesheetEntryDTO> {
+        logger.info { "Looking for timesheetEntries with timesheetId: $timesheetId, email: $email, startDate: $startDate and endDate: $endDate" }
+        return when {
+            timesheetId != null -> timesheetEntryRepository.findAllByTimesheetId(timesheetId).map { TimesheetEntryDTO(it) }
+            email != null && startDate != null && endDate != null -> timesheetEntryRepository.findAllByEmployeeEmailAndDates(email, startDate, endDate).map { TimesheetEntryDTO(it) }
+            else -> throw UnableToGetTimesheetEntriesException()
+        }
+    }
 
     fun findTimesheetEntryForId(id: Long): TimesheetEntryDTO? {
         logger.info { "Looking for timesheetEntry with id: $id" }
@@ -21,12 +31,6 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
             return TimesheetEntryDTO(timesheetEntry)
         logger.info { "No timesheetEntry found for id: $id" }
         return null
-    }
-
-    fun findTimesheetEntriesForTimesheetId(timesheetId: Long): List<TimesheetEntryDTO> {
-        logger.info { "Looking for timesheetEntries with timesheetId: $timesheetId" }
-
-        return timesheetEntryRepository.findAllByTimesheetId(timesheetId).map { TimesheetEntryDTO(it) }
     }
 
     fun createTimesheetEntry(timesheetEntryRequest: TimesheetEntryDTO): TimesheetEntryDTO {
@@ -68,6 +72,8 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         }
     }
 }
+
+class UnableToGetTimesheetEntriesException : RuntimeException("Cannot get timesheetEntries, invalid request parameters")
 
 class UnableToCreateTimesheetEntryException(message: String) : RuntimeException(message)
 class UnableToUpdateTimesheetEntryException : RuntimeException("Cannot update timesheetEntry, missing timesheetEntry id")

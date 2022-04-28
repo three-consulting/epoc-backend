@@ -1,7 +1,7 @@
 package three.consulting.epoc.service
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
@@ -111,7 +111,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 ),
             )
         )
-        Assertions.assertThatThrownBy { timesheetEntryService.createTimesheetEntry(invalidTimesheetEntry) }
+        assertThatThrownBy { timesheetEntryService.createTimesheetEntry(invalidTimesheetEntry) }
             .isInstanceOf(UnableToCreateTimesheetEntryException::class.java)
             .hasMessage("Cannot create a timesheetEntry with existing id")
     }
@@ -155,7 +155,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 ),
             )
         )
-        Assertions.assertThatThrownBy { timesheetEntryService.createTimesheetEntry(invalidTimesheetEntry) }
+        assertThatThrownBy { timesheetEntryService.createTimesheetEntry(invalidTimesheetEntry) }
             .isInstanceOf(UnableToCreateTimesheetEntryException::class.java)
             .hasMessage("Cannot create a timesheetEntry with non-existing relation")
     }
@@ -208,7 +208,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 ),
             )
         )
-        Assertions.assertThatThrownBy { timesheetEntryService.updateTimesheetEntryForId(invalidTimesheetEntry) }
+        assertThatThrownBy { timesheetEntryService.updateTimesheetEntryForId(invalidTimesheetEntry) }
             .isInstanceOf(UnableToUpdateTimesheetEntryException::class.java)
             .hasMessage("Cannot update timesheetEntry, missing timesheetEntry id")
     }
@@ -222,16 +222,31 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete timesheetEntry with non-existing id raise error`() {
-        Assertions.assertThatThrownBy { timesheetEntryService.deleteTimesheetEntry(1000L) }
+        assertThatThrownBy { timesheetEntryService.deleteTimesheetEntry(1000L) }
             .isInstanceOf(UnableToDeleteTimesheetEntryException::class.java)
             .hasMessage("Cannot delete timesheetEntry, no timesheetEntry found for given id: 1000")
     }
 
     @Test
     fun `getting timesheet entries for timesheetId returns multiple entries`() {
-        val timesheets = timesheetEntryService.findTimesheetEntriesForTimesheetId(1L)
+        val timesheets = timesheetEntryService.findTimesheetEntries(1L, null, null, null)
         assertThat(timesheets).hasSize(2)
         assertThat(timesheets.first().description).isEqualTo("Testing timesheet entry")
         assertThat(timesheets.last().description).isEqualTo("Testing timesheet entry2")
+    }
+
+    @Test
+    fun `getting timesheet entries for email and dates returns dates in that range for employee`() {
+        val startDate = LocalDate.parse("2022-04-01")
+        val endDate = LocalDate.parse("2022-04-02")
+        val timesheetEntries = timesheetEntryService.findTimesheetEntries(null, "testi@tekija.fi", startDate, endDate)
+        assertThat(timesheetEntries).hasSize(1)
+    }
+
+    @Test
+    fun `getting timesheets entries without proper parameters throws an exception`() {
+        assertThatThrownBy { timesheetEntryService.findTimesheetEntries(null, null, null, null) }
+            .isInstanceOf(UnableToGetTimesheetEntriesException::class.java)
+            .hasMessage("Cannot get timesheetEntries, invalid request parameters")
     }
 }
