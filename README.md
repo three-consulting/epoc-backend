@@ -28,6 +28,12 @@ Run a postgres db in a container
 docker run --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 postgres:14-alpine
 ```
 
+## Run locally without websecurity
+To run locally without securing requests use the environment variables from above except `SPRING_SECURITY_*` and on gradle run
+```bash
+bootRun --args='--spring.profiles.active=dev'
+```
+
 ## Run tests
 This app uses flyway for migrations, so JPA Buddy plugin for Intellij IDEA is a tool that can be used to create migration files.
 The tests use [this embedded database](https://github.com/zonkyio/embedded-database-spring-test), which is essentially a wrapper for testcontainers, so docker is needed on host machine when running tests.
