@@ -4,15 +4,20 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.EmployeeDTO
+import three.consulting.epoc.repository.EmployeeRepository
 
 @ContextConfiguration(classes = [EmployeeService::class])
 class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var employeeService: EmployeeService
+
+    @Autowired
+    private lateinit var employeeRepository: EmployeeRepository
 
     @Test
     fun `searching an employee for id return an employee`() {
@@ -22,9 +27,10 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `searching a employee for an invalid id return null`() {
-        val employee: EmployeeDTO? = employeeService.findEmployeeForId(1000L)
-        assertThat(employee).isNull()
+    fun `searching a employee for an invalid id throws an exception`() {
+        assertThatThrownBy { employeeService.findEmployeeForId(1000000L) }
+            .isInstanceOf(EmployeeNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Employee not found for id: 1000000\"")
     }
 
     @Test
@@ -76,9 +82,9 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete employee removes employee from database`() {
-        assertThat(employeeService.findEmployeeForId(3L)).isNotNull
+        assertThat(employeeRepository.findByIdOrNull(3L)).isNotNull
         employeeService.deleteEmployee(3L)
-        assertThat(employeeService.findEmployeeForId(3L)).isNull()
+        assertThat(employeeRepository.findByIdOrNull(3L)).isNull()
     }
 
     @Test

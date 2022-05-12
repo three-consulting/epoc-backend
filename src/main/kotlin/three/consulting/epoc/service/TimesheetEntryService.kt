@@ -4,7 +4,9 @@ import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.TimesheetEntryDTO
 import three.consulting.epoc.entity.TimesheetEntry
 import three.consulting.epoc.repository.TimesheetEntryRepository
@@ -30,7 +32,7 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         if (timesheetEntry != null)
             return TimesheetEntryDTO(timesheetEntry)
         logger.info { "No timesheetEntry found for id: $id" }
-        return null
+        throw TimeSheetEntryNotFoundException(id)
     }
 
     fun createTimesheetEntry(timesheetEntryRequest: TimesheetEntryDTO): TimesheetEntryDTO {
@@ -79,3 +81,5 @@ class UnableToCreateTimesheetEntryException(message: String) : RuntimeException(
 class UnableToUpdateTimesheetEntryException : RuntimeException("Cannot update timesheetEntry, missing timesheetEntry id")
 class UnableToDeleteTimesheetEntryException(id: Long) :
     RuntimeException("Cannot delete timesheetEntry, no timesheetEntry found for given id: $id")
+class TimeSheetEntryNotFoundException(id: Long) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Timesheet entry not found for id: $id")

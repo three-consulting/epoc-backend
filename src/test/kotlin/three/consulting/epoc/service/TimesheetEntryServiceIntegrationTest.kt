@@ -4,10 +4,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.*
+import three.consulting.epoc.repository.TimesheetEntryRepository
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [TimesheetEntryService::class])
@@ -15,6 +17,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var timesheetEntryService: TimesheetEntryService
+
+    @Autowired
+    private lateinit var timesheetEntryRepository: TimesheetEntryRepository
 
     @Test
     fun `searching a timesheetEntry for id return a timesheetEntry`() {
@@ -24,8 +29,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     }
     @Test
     fun `searching a timesheetEntry for invalid id return null`() {
-        val timesheetEntry: TimesheetEntryDTO? = timesheetEntryService.findTimesheetEntryForId(1000L)
-        assertThat(timesheetEntry).isNull()
+        assertThatThrownBy { timesheetEntryService.findTimesheetEntryForId(1000000L) }
+            .isInstanceOf(TimeSheetEntryNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Timesheet entry not found for id: 1000000\"")
     }
 
     @Test
@@ -215,9 +221,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete timesheetEntry removes timesheetEntry from database`() {
-        assertThat(timesheetEntryService.findTimesheetEntryForId(2L)).isNotNull
+        assertThat(timesheetEntryRepository.findByIdOrNull(2L)).isNotNull
         timesheetEntryService.deleteTimesheetEntry(2L)
-        assertThat(timesheetEntryService.findTimesheetEntryForId(2L)).isNull()
+        assertThat(timesheetEntryRepository.findByIdOrNull(2L)).isNull()
     }
 
     @Test

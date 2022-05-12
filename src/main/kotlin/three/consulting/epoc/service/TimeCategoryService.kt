@@ -3,7 +3,9 @@ package three.consulting.epoc.service
 import mu.KotlinLogging
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.TimeCategoryDTO
 import three.consulting.epoc.entity.TimeCategory
 import three.consulting.epoc.repository.TimeCategoryRepository
@@ -20,7 +22,7 @@ class TimeCategoryService(private val timeCategoryRepository: TimeCategoryReposi
             return TimeCategoryDTO(timeCategory)
         }
         logger.info { "No time category found for the id: $id" }
-        return null
+        throw TimeCategoryNotFoundException(id)
     }
 
     fun createTimeCategory(timeCategoryRequest: TimeCategoryDTO): TimeCategoryDTO {
@@ -67,3 +69,5 @@ class UnableToCreateTimeCategoryException : RuntimeException("Cannot create a ti
 class UnableToUpdateTimeCategoryException : RuntimeException("Cannot update time category, missing time category id")
 class UnableToDeleteTimeCategoryException(id: Long) :
     RuntimeException("Cannot delete time category, no time category found for the given id: $id")
+class TimeCategoryNotFoundException(id: Long) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Time category not found for id: $id")

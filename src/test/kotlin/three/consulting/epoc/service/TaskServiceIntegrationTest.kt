@@ -4,12 +4,14 @@ import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.dto.TaskDTO
+import three.consulting.epoc.repository.TaskRepository
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [TaskService::class])
@@ -17,6 +19,9 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var taskService: TaskService
+
+    @Autowired
+    private lateinit var taskRepository: TaskRepository
 
     @Test
     fun `searching a task for id return a task`() {
@@ -27,8 +32,9 @@ class TaskServiceIntegrationTest : IntegrationTest() {
     }
     @Test
     fun `searching a task for invalid id return null`() {
-        val task: TaskDTO? = taskService.findTaskForId(1000L)
-        assertThat(task).isNull()
+        Assertions.assertThatThrownBy { taskService.findTaskForId(1000000L) }
+            .isInstanceOf(TaskNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Task not found for id: 1000000\"")
     }
 
     @Test
@@ -123,9 +129,9 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete task removes task from database`() {
-        assertThat(taskService.findTaskForId(2L)).isNotNull
+        assertThat(taskRepository.findByIdOrNull(2L)).isNotNull
         taskService.deleteTask(2L)
-        assertThat(taskService.findTaskForId(2L)).isNull()
+        assertThat(taskRepository.findByIdOrNull(2L)).isNull()
     }
 
     @Test

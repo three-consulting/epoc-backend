@@ -4,15 +4,20 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.TimeCategoryDTO
+import three.consulting.epoc.repository.TimeCategoryRepository
 
 @ContextConfiguration(classes = [TimeCategoryService::class])
 class TimeCategoryServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var timeCategoryService: TimeCategoryService
+
+    @Autowired
+    private lateinit var timeCategoryRepository: TimeCategoryRepository
 
     @Test
     fun `searching a timeCategory for id returns a timeCategory`() {
@@ -24,8 +29,9 @@ class TimeCategoryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `searching a timeCategory for an invalid id returns null`() {
-        val timeCategory: TimeCategoryDTO? = timeCategoryService.findTimeCategoryForId(1000L)
-        assertThat(timeCategory).isNull()
+        assertThatThrownBy { timeCategoryService.findTimeCategoryForId(1000000L) }
+            .isInstanceOf(TimeCategoryNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Time category not found for id: 1000000\"")
     }
 
     @Test
@@ -66,9 +72,9 @@ class TimeCategoryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete timeCategory removes timeCategory from the database`() {
-        assertThat(timeCategoryService.findTimeCategoryForId(2L)).isNotNull
+        assertThat(timeCategoryRepository.findByIdOrNull(2L)).isNotNull
         timeCategoryService.deleteTimeCategory(2L)
-        assertThat(timeCategoryService.findTimeCategoryForId(2L)).isNull()
+        assertThat(timeCategoryRepository.findByIdOrNull(2L)).isNull()
     }
 
     @Test
