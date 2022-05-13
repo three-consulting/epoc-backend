@@ -3,7 +3,9 @@ package three.consulting.epoc.service
 import mu.KotlinLogging
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.entity.Customer
 import three.consulting.epoc.repository.CustomerRepository
@@ -20,7 +22,7 @@ class CustomerService(private val customerRepository: CustomerRepository) {
             return CustomerDTO(customer)
         }
         logger.info { "No customer found for the id: $id" }
-        return null
+        throw CustomerNotFoundException(id)
     }
 
     fun createCustomer(customerRequest: CustomerDTO): CustomerDTO {
@@ -67,3 +69,5 @@ class UnableToCreateCustomerException : RuntimeException("Cannot create a custom
 class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
 class UnableToDeleteCustomerException(id: Long) :
     RuntimeException("Cannot delete customer, no customer found for the given id: $id")
+class CustomerNotFoundException(id: Long) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found for id: $id")

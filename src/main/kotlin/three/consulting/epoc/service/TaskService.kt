@@ -4,7 +4,9 @@ import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.TaskDTO
 import three.consulting.epoc.entity.Task
 import three.consulting.epoc.repository.TaskRepository
@@ -26,7 +28,7 @@ class TaskService(private val taskRepository: TaskRepository) {
         if (task != null)
             return TaskDTO(task)
         logger.info { "No task found for id: $id" }
-        return null
+        throw TaskNotFoundException(id)
     }
 
     fun createTask(taskRequest: TaskDTO): TaskDTO {
@@ -73,3 +75,5 @@ class UnableToCreateTaskException(message: String) : RuntimeException(message)
 class UnableToUpdateTaskException : RuntimeException("Cannot update task, missing task id")
 class UnableToDeleteTaskException(id: Long) :
     RuntimeException("Cannot delete task, no task found for given id: $id")
+class TaskNotFoundException(id: Long) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found for id: $id")

@@ -4,12 +4,14 @@ import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
+import three.consulting.epoc.repository.ProjectRepository
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [ProjectService::class])
@@ -17,6 +19,9 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var projectService: ProjectService
+
+    @Autowired
+    private lateinit var projectRepository: ProjectRepository
 
     @Test
     fun `searching a project for id return a project`() {
@@ -27,8 +32,9 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     }
     @Test
     fun `searching a project for invalid id return null`() {
-        val project: ProjectDTO? = projectService.findProjectForId(1000L)
-        assertThat(project).isNull()
+        Assertions.assertThatThrownBy { projectService.findProjectForId(1000L) }
+            .isInstanceOf(ProjectNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Project not found for id: 1000\"")
     }
 
     @Test
@@ -104,9 +110,9 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete project removes project from database`() {
-        assertThat(projectService.findProjectForId(2L)).isNotNull
+        assertThat(projectRepository.findByIdOrNull(2L)).isNotNull
         projectService.deleteProject(2L)
-        assertThat(projectService.findProjectForId(2L)).isNull()
+        assertThat(projectRepository.findByIdOrNull(2L)).isNull()
     }
 
     @Test

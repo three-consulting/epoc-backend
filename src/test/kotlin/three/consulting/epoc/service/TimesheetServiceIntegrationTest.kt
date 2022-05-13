@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Status
@@ -11,6 +12,7 @@ import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.dto.TimesheetDTO
+import three.consulting.epoc.repository.TimesheetRepository
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [TimesheetService::class])
@@ -18,6 +20,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var timesheetService: TimesheetService
+
+    @Autowired
+    private lateinit var timesheetRepository: TimesheetRepository
 
     @Test
     fun `searching a timesheet for id return a timesheet`() {
@@ -29,8 +34,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `searching a timesheet for invalid id return null`() {
-        val timesheet: TimesheetDTO? = timesheetService.findTimesheetForId(1000L)
-        assertThat(timesheet).isNull()
+        assertThatThrownBy { timesheetService.findTimesheetForId(1000000L) }
+            .isInstanceOf(TimesheetNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Timesheet not found for id: 1000000\"")
     }
 
     @Test
@@ -198,9 +204,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete timesheet removes timesheet from database`() {
-        assertThat(timesheetService.findTimesheetForId(2L)).isNotNull
+        assertThat(timesheetRepository.findByIdOrNull(2L)).isNotNull
         timesheetService.deleteTimesheet(2L)
-        assertThat(timesheetService.findTimesheetForId(2L)).isNull()
+        assertThat(timesheetRepository.findByIdOrNull(2L)).isNull()
     }
 
     @Test

@@ -3,7 +3,9 @@ package three.consulting.epoc.service
 import mu.KotlinLogging
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.entity.Employee
 import three.consulting.epoc.repository.EmployeeRepository
@@ -19,7 +21,7 @@ class EmployeeService(private val employeeRepository: EmployeeRepository) {
         if (employee != null)
             return EmployeeDTO(employee)
         logger.info { "No employee found for id: $id" }
-        return null
+        throw EmployeeNotFoundException(id)
     }
 
     fun createEmployee(employeeRequest: EmployeeDTO): EmployeeDTO {
@@ -66,3 +68,5 @@ class UnableToCreateEmployeeException : RuntimeException("Cannot create an emplo
 class UnableToUpdateEmployeeException : RuntimeException("Cannot update employee, missing employee id")
 class UnableToDeleteEmployeeException(id: Long) :
     RuntimeException("Cannot delete employee, no employee found for given id: $id")
+class EmployeeNotFoundException(id: Long) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found for id: $id")

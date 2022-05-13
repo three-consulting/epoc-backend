@@ -4,7 +4,9 @@ import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.entity.Project
 import three.consulting.epoc.repository.ProjectRepository
@@ -20,7 +22,7 @@ class ProjectService(private val projectRepository: ProjectRepository) {
         if (project != null)
             return ProjectDTO(project)
         logger.info { "No project found for id: $id" }
-        return null
+        throw ProjectNotFoundException(id)
     }
 
     fun createProject(projectRequest: ProjectDTO): ProjectDTO {
@@ -86,3 +88,5 @@ class UnableToCreateProjectException(message: String) : RuntimeException(message
 class UnableToUpdateProjectException(message: String) : RuntimeException(message)
 class UnableToDeleteProjectException(id: Long) :
     RuntimeException("Cannot delete project, no project found for given id: $id")
+class ProjectNotFoundException(id: Long) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found for id: $id")

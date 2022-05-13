@@ -4,15 +4,20 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.dto.CustomerDTO
+import three.consulting.epoc.repository.CustomerRepository
 
 @ContextConfiguration(classes = [CustomerService::class])
 class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var customerService: CustomerService
+
+    @Autowired
+    private lateinit var customerRepository: CustomerRepository
 
     @Test
     fun `searching a customer for id returns a customer`() {
@@ -24,8 +29,9 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `searching a customer for an invalid id returns null`() {
-        val customer: CustomerDTO? = customerService.findCustomerForId(1000L)
-        assertThat(customer).isNull()
+        assertThatThrownBy { customerService.findCustomerForId(1000L) }
+            .isInstanceOf(CustomerNotFoundException::class.java)
+            .hasMessage("404 NOT_FOUND \"Customer not found for id: 1000\"")
     }
 
     @Test
@@ -67,9 +73,9 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete customer removes customer from the database`() {
-        assertThat(customerService.findCustomerForId(2L)).isNotNull
+        assertThat(customerRepository.findByIdOrNull(2L)).isNotNull
         customerService.deleteCustomer(2L)
-        assertThat(customerService.findCustomerForId(2L)).isNull()
+        assertThat(customerRepository.findByIdOrNull(2L)).isNull()
     }
 
     @Test
