@@ -54,7 +54,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 customer = CustomerDTO(1, "New Project Customer"),
                 managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
             ),
-            employee = EmployeeDTO(3, "Matti", "Meikälainen", "matti@worker.fi"),
+            employee = EmployeeDTO(4, "Matti", "Meikälainen", "matti@worker.fi"),
         )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
         assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
@@ -150,7 +150,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 customer = CustomerDTO(1, "New Project Customer"),
                 managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
             ),
-            employee = EmployeeDTO(3, "Matti", "Meikälainen", "matti@worker.fi"),
+            employee = EmployeeDTO(4, "Matti", "Meikälainen", "matti@worker.fi"),
             status = Status.ACTIVE
         )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
@@ -171,7 +171,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 customer = CustomerDTO(1, "New Project Customer"),
                 managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
             ),
-            employee = EmployeeDTO(3, "Matti", "Meikälainen", "matti@worker.fi"),
+            employee = EmployeeDTO(4, "Matti", "Meikälainen", "matti@worker.fi"),
             status = Status.ARCHIVED
         )
         val updatedTimesheet = timesheetService.updateTimesheetForId(inactiveTimesheet)
@@ -204,9 +204,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete timesheet removes timesheet from database`() {
-        assertThat(timesheetRepository.findByIdOrNull(2L)).isNotNull
-        timesheetService.deleteTimesheet(2L)
-        assertThat(timesheetRepository.findByIdOrNull(2L)).isNull()
+        assertThat(timesheetRepository.findByIdOrNull(3L)).isNotNull
+        timesheetService.deleteTimesheet(3L)
+        assertThat(timesheetRepository.findByIdOrNull(3L)).isNull()
     }
 
     @Test
@@ -219,7 +219,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching timesheet with project id 1 returns array of timesheet objects`() {
         val timesheets = timesheetService.findTimesheets(1L, null, null)
-        assertThat(timesheets).hasSize(2)
+        assertThat(timesheets).hasSize(3)
     }
 
     @Test

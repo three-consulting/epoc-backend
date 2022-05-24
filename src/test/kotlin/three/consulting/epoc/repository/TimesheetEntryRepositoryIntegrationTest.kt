@@ -23,4 +23,14 @@ class TimesheetEntryRepositoryIntegrationTest : IntegrationTest() {
 
         assertThat(timesheetEntries).hasSize(1)
     }
+
+    @Test
+    fun `searching timesheet entries using a time interval returns correct entries`() {
+        val timesheetEntries = timesheetEntryRepository.findAllByDates(
+            LocalDate.parse("2022-04-02"),
+            LocalDate.parse("2022-04-04")
+        )
+
+        assertThat(timesheetEntries).hasSize(2)
+    }
 }

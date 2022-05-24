@@ -22,6 +22,8 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         return when {
             timesheetId != null -> timesheetEntryRepository.findAllByTimesheetId(timesheetId).map { TimesheetEntryDTO(it) }
             email != null && startDate != null && endDate != null -> timesheetEntryRepository.findAllByEmployeeEmailAndDates(email, startDate, endDate).map { TimesheetEntryDTO(it) }
+            email == null && startDate != null && endDate != null && startDate.isBefore(endDate) -> timesheetEntryRepository.findAllByDates(startDate, endDate).map { TimesheetEntryDTO(it) }
+
             else -> throw UnableToGetTimesheetEntriesException()
         }
     }
