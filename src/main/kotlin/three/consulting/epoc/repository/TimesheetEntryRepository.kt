@@ -25,4 +25,16 @@ interface TimesheetEntryRepository : JpaRepository<TimesheetEntry, Long> {
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate
     ): List<TimesheetEntry>
+
+    @Query(
+        """
+           SELECT te.* from timesheet_entry te 
+           WHERE te.date >= :startDate AND te.date <= :endDate
+        """,
+        nativeQuery = true
+    )
+    fun findAllByDates(
+        @Param("startDate") startDate: LocalDate,
+        @Param("endDate") endDate: LocalDate
+    ): List<TimesheetEntry>
 }

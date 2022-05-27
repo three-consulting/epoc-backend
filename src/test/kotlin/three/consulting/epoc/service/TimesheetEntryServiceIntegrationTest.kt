@@ -250,9 +250,26 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `getting timesheets entries without proper parameters throws an exception`() {
+    fun `getting timesheet entries without proper parameters throws an exception`() {
         assertThatThrownBy { timesheetEntryService.findTimesheetEntries(null, null, null, null) }
             .isInstanceOf(UnableToGetTimesheetEntriesException::class.java)
             .hasMessage("Cannot get timesheetEntries, invalid request parameters")
+    }
+
+    @Test
+    fun `getting timesheet entries for invalid dates throws an exception`() {
+        val startDate = LocalDate.parse("2023-04-01")
+        val endDate = LocalDate.parse("2022-04-02")
+        assertThatThrownBy { timesheetEntryService.findTimesheetEntries(null, null, startDate, endDate) }
+            .isInstanceOf(UnableToGetTimesheetEntriesException::class.java)
+            .hasMessage("Cannot get timesheetEntries, invalid request parameters")
+    }
+
+    @Test
+    fun `getting timesheet entries for dates returns all entries in that range`() {
+        val startDate = LocalDate.parse("2022-04-01")
+        val endDate = LocalDate.parse("2022-04-02")
+        val timesheetEntries = timesheetEntryService.findTimesheetEntries(null, null, startDate, endDate)
+        assertThat(timesheetEntries).hasSize(2)
     }
 }
