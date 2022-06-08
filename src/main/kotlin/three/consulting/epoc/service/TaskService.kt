@@ -16,9 +16,12 @@ private val logger = KotlinLogging.logger {}
 @Service
 class TaskService(private val taskRepository: TaskRepository) {
 
-    fun findTaskForProjectId(id: Long): List<TaskDTO> {
+    fun findTasks(id: Long?): List<TaskDTO> {
         logger.info { "Looking for tasks with project_id: $id" }
-        val tasks: List<Task> = taskRepository.findAllByProjectId(id)
+        val tasks = when {
+            id != null -> taskRepository.findAllByProjectId(id)
+            else -> taskRepository.findAll()
+        }
         return tasks.map { TaskDTO(it) }
     }
 

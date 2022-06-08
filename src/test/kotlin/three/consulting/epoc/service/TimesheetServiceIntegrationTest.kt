@@ -236,7 +236,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `searching timesheets with employeeId and projectId returns a timeshees`() {
+    fun `searching timesheets with employeeId and projectId returns a timesheet`() {
         val timesheets = timesheetService.findTimesheets(1L, 1L, null)
         assertThat(timesheets).hasSize(1)
         assertThat(timesheets.first().name).isEqualTo("test")
@@ -250,9 +250,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `searching timesheets without request parameters throws an exception`() {
-        assertThatThrownBy { timesheetService.findTimesheets(null, null, null) }
-            .isInstanceOf(UnableToGetTimesheetException::class.java)
-            .hasMessage("Cannot get timesheets, request parameters missing")
+    fun `searching timesheets without request parameters returns all timesheets`() {
+        val timesheets = timesheetService.findTimesheets(null, null, null)
+        assertThat(timesheets).hasSize(3)
+        assertThat(timesheets.first().employee.id).isEqualTo(1)
     }
 }
