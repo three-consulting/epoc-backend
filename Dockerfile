@@ -1,4 +1,4 @@
-FROM gradle:jdk17 as builder
+FROM gradle:7.3-jdk17-alpine as builder
 
 WORKDIR /builder
 COPY . .
