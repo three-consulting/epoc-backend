@@ -24,7 +24,7 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
             employeeId == null && projectId != null -> timesheetRepository.findAllByProjectId(projectId)
             employeeId != null && projectId == null -> timesheetRepository.findAllByEmployeeId(employeeId)
             email != null -> timesheetRepository.findAllByEmployeeEmail(email)
-            else -> throw UnableToGetTimesheetException()
+            else -> timesheetRepository.findAll()
         }
 
         return timesheets.map { TimesheetDTO(it) }
@@ -80,7 +80,6 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
 }
 
 class UnableToCreateTimesheetException(message: String) : RuntimeException(message)
-class UnableToGetTimesheetException() : RuntimeException("Cannot get timesheets, request parameters missing")
 class UnableToUpdateTimesheetException : RuntimeException("Cannot update timesheet, missing timesheet id")
 class UnableToDeleteTimesheetException(id: Long) :
     RuntimeException("Cannot delete timesheet, no timesheet found for given id: $id")
