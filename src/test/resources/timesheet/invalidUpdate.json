@@ -2,6 +2,7 @@
   "id": 1,
   "name": "test",
   "description": "testing",
+  "rate": 100.0,
   "allocation": 100.0,
   "project": {
     "id": 1,

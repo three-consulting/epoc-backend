@@ -44,6 +44,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val timesheet = TimesheetDTO(
             name = "Sample",
             description = "Sample timesheet",
+            rate = 100.0f,
             allocation = 100,
             project = ProjectDTO(
                 id = 1L,
@@ -66,6 +67,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val invalidTimesheet = TimesheetDTO(
             name = "Sample",
             description = "Sample timesheet",
+            rate = 100.0f,
             allocation = 100,
             project = ProjectDTO(
                 id = 1L,
@@ -88,6 +90,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val invalidTimesheet = TimesheetDTO(
             id = 2,
             name = "asd",
+            rate = 100.0f,
             allocation = 100,
             project = ProjectDTO(
                 id = 1L,
@@ -110,6 +113,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val invalidTimesheet = TimesheetDTO(
             name = "asd",
             allocation = 100,
+            rate = 100.0f,
             project = ProjectDTO(
                 id = 100L,
                 name = "Sample",
@@ -140,6 +144,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         val timesheet = TimesheetDTO(
             name = "Sample",
             description = "Sample timesheet",
+            rate = 100.0f,
             allocation = 100,
             project = ProjectDTO(
                 id = 1L,
@@ -161,6 +166,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             id = addedTimesheet.id,
             name = "Sample",
             description = "Sample timesheet",
+            rate = 100.0f,
             allocation = 100,
             project = ProjectDTO(
                 id = 1L,
@@ -185,6 +191,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     fun `update timesheet without id raises error`() {
         val invalidTimesheet = TimesheetDTO(
             name = "asd",
+            rate = 100.0f,
             allocation = 100,
             project = ProjectDTO(
                 id = 1L,
