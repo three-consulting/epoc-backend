@@ -12,7 +12,7 @@ data class TimesheetDTO(
     val id: Long? = null,
     @field:NotBlank val name: String,
     val description: String? = null,
-    @field:NotNull val rate: Float,
+    @field:Min(0) @field:NotNull val rate: Float,
     @field:Min(0) @field:Max(100) val allocation: Int,
     @field:NotNull val project: ProjectDTO,
     @field:NotNull val employee: EmployeeDTO,
