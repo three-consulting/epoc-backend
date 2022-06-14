@@ -6,6 +6,7 @@
     "id": 1,
     "name": "Entry sheet",
     "description": "testing",
+    "rate": 100.0,
     "allocation": 100,
     "project": {
       "id": 1,

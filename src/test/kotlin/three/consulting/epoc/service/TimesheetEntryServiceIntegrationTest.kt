@@ -44,6 +44,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample timesheet",
+                rate = 100.0f,
                 allocation = 100,
                 project = ProjectDTO(
                     id = 1L,
@@ -88,6 +89,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample timesheet",
+                rate = 100.0f,
                 allocation = 100,
                 project = ProjectDTO(
                     id = 1L,
@@ -132,6 +134,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 10L,
                 name = "Sample",
                 description = "Sample timesheet",
+                rate = 100.0f,
                 allocation = 100,
                 project = ProjectDTO(
                     id = 1L,
@@ -185,6 +188,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 id = 1L,
                 name = "Sample",
                 description = "Sample timesheet",
+                rate = 100f,
                 allocation = 100,
                 project = ProjectDTO(
                     id = 1L,
