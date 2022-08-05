@@ -27,24 +27,36 @@ gpg --batch --yes --symmetric --passphrase $(gopass show 3/epoc/GPG) --cipher-al
 ### Run app
 On IDEA create new gradle configuration and use `bootRun` as the run argument with env variables
 
+| variable                   | value                            |
+|----------------------------|----------------------------------|
+| SPRING_DATASOURCE_USERNAME | user                             |
+| SPRING_DATASOURCE_PASSWORD | password                         |
+| SPRING_DATASOURCE_URL      | jdbc:postgresql://localhost/epoc |
+
+To run the application with security enabled add the following envs
+
 | variable                                              | value                                                                                     |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| SPRING_DATASOURCE_USERNAME                            | user                                                                                      |
-| SPRING_DATASOURCE_PASSWORD                            | password                                                                                  |
-| SPRING_DATASOURCE_URL                                 | jdbc:postgresql://localhost/epoc                                                          |
 | GOOGLE_APPLICATION_CREDENTIALS                        | firebase/epoc-auth-firebase-adminsdk.json                                                 |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI  | https://securetoken.google.com/<firebase-app-name>                                        |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI | https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com |
+
+To run the application enabled use the following env
+
+| variable               | value |
+|------------------------|-------|
+| SPRING_PROFILES_ACTIVE | dev   |
+
+
 
 Run a postgres db in a container
 ```bash
 docker run --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 postgres:14-alpine
 ```
 
-## Run locally without websecurity
-To run locally without securing requests use the environment variables from above except `SPRING_SECURITY_*` and on gradle run
+Run the db with seed data in a container
 ```bash
-bootRun --args='--spring.profiles.active=dev'
+docker run --rm --name epoc-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 ghcr.io/three-consulting/epoc-db:latest
 ```
 
 ## Run tests
