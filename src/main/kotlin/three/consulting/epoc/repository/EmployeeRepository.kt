@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import three.consulting.epoc.entity.Employee
 
 @Repository
-interface EmployeeRepository : JpaRepository<Employee, Long>
+interface EmployeeRepository : JpaRepository<Employee, Long> {
+    fun findByEmail(email: String): Employee?
+}
