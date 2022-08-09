@@ -8,11 +8,13 @@ import com.google.firebase.auth.FirebaseAuth
 import mu.KotlinLogging
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import three.consulting.epoc.entity.Employee
 import three.consulting.epoc.repository.EmployeeRepository
 
 private val logger = KotlinLogging.logger {}
 
+@Profile("default")
 @Configuration
 class FirebaseConfig(
     private val employeeRepository: EmployeeRepository
