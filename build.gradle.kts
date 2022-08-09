@@ -34,7 +34,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:8.5.13")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
-    implementation("com.google.firebase:firebase-admin:8.2.0")
+    runtimeOnly("com.google.firebase:firebase-admin:8.2.0")
     runtimeOnly("org.postgresql:postgresql:42.3.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.assertj:assertj-core:3.23.1")
