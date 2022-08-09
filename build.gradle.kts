@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
-    id("org.springframework.boot") version "2.6.6"
+    id("org.springframework.boot") version "2.7.2"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
-    kotlin("jvm") version "1.6.20"
-    kotlin("plugin.allopen") version "1.6.20"
-    kotlin("plugin.spring") version "1.6.20"
-    kotlin("plugin.jpa") version "1.6.20"
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.allopen") version "1.7.10"
+    kotlin("plugin.spring") version "1.7.10"
+    kotlin("plugin.jpa") version "1.7.10"
 }
 
-val kotlinVersion = "1.6.20"
-val jacksonVersion = "2.13.2"
-val springBootVersion = "2.6.6"
-val junitVersion = "5.8.2"
+val kotlinVersion = "1.7.10"
+val jacksonVersion = "2.13.3"
+val springBootVersion = "2.7.2"
+val junitVersion = "5.9.0"
 
 group = "three.consulting"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -31,12 +31,13 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.flywaydb:flyway-core:8.5.7")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.7")
-    implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
-    runtimeOnly("org.postgresql:postgresql:42.3.3")
+    implementation("org.flywaydb:flyway-core:8.5.13")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
+    implementation("com.google.firebase:firebase-admin:8.2.0")
+    runtimeOnly("org.postgresql:postgresql:42.3.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation("org.assertj:assertj-core:3.23.1")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")

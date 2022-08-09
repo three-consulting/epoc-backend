@@ -1,4 +1,4 @@
-FROM gradle:7.3-jdk17-alpine as builder
+FROM --platform=linux/amd64 gradle:7.3-jdk17-alpine as builder
 
 WORKDIR /builder
 COPY . .
@@ -7,13 +7,15 @@ RUN gradle clean bootJar
 # extract layers from built jar
 RUN java -Djarmode=layertools -jar build/libs/epoc.jar extract --destination layers
 
-FROM azul/zulu-openjdk-alpine:17-jre
+FROM --platform=linux/amd64 azul/zulu-openjdk-alpine:17-jre
 
 RUN adduser -u 1999 -D user
 
 WORKDIR /app
 # copy extracted layers from builder
 COPY --from=builder /builder/layers/* ./
+
+COPY --from=builder /builder/firebase/*.json ./
 
 EXPOSE 8080
 

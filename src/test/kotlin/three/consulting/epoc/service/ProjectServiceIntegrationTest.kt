@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
@@ -23,6 +24,11 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Autowired
     private lateinit var projectRepository: ProjectRepository
 
+    val newProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER)
+    val updatingProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "Updating", lastName = "Project-Worker", email = "updatingProject@worker.fi", role = Role.USER)
+    val failingProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "Failing", lastName = "Project-Worker", email = "failing-worker@project.fi", role = Role.USER)
+    val testPersonId100 = EmployeeDTO(id = 100L, firstName = "Test", lastName = "Person", email = "test@person.fi", role = Role.USER)
+
     @Test
     fun `searching a project for id return a project`() {
         val project: ProjectDTO = projectService.findProjectForId(1L)!!
@@ -30,6 +36,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         assertThat(project.description).isEqualTo("testing")
         assertThat(project.customer.id).isEqualTo(1L)
     }
+
     @Test
     fun `searching a project for invalid id return null`() {
         Assertions.assertThatThrownBy { projectService.findProjectForId(1000L) }
@@ -45,7 +52,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusDays(1),
             customer = CustomerDTO(1, "New Project Customer"),
-            managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            managingEmployee = newProjectWorkerId1,
             status = Status.ARCHIVED,
         )
         val addedProject: ProjectDTO = projectService.createProject(project)
@@ -62,7 +69,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             id = 2,
             name = "asd",
             customer = CustomerDTO(1, "Failing Project Customer"),
-            managingEmployee = EmployeeDTO(1, "Failing", "Project-Worker", "failing-worker@project.fi"),
+            managingEmployee = failingProjectWorkerId1,
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusDays(1),
         )
@@ -76,7 +83,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val invalidProject = ProjectDTO(
             name = "asd",
             customer = CustomerDTO(100L, "Non existing company", enabled = true),
-            managingEmployee = EmployeeDTO(100L, "Test", "Person", "test@person.fi"),
+            managingEmployee = testPersonId100,
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusDays(1),
         )
@@ -99,7 +106,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         val invalidProject = ProjectDTO(
             name = "asd",
             customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            managingEmployee = updatingProjectWorkerId1,
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusDays(1),
         )
@@ -136,7 +143,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             startDate = LocalDate.parse("2021-11-11"),
             endDate = LocalDate.parse("2011-11-11"),
             customer = CustomerDTO(1, "Failing Project Customer"),
-            managingEmployee = EmployeeDTO(1, "Failure", "Project-worker", "new.project@worker.fi"),
+            managingEmployee = failingProjectWorkerId1,
         )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
@@ -151,7 +158,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             startDate = LocalDate.now(),
             endDate = null,
             customer = CustomerDTO(1, "New Project Customer"),
-            managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+            managingEmployee = newProjectWorkerId1,
             status = Status.ARCHIVED,
         )
         val addedProject: ProjectDTO = projectService.createProject(project)
@@ -168,7 +175,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             id = 1,
             name = "asd",
             customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            managingEmployee = updatingProjectWorkerId1,
             startDate = LocalDate.now(),
             endDate = LocalDate.now().minusDays(1),
         )
@@ -184,7 +191,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             id = 1,
             name = "asd",
             customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            managingEmployee = updatingProjectWorkerId1,
             startDate = LocalDate.now(),
             endDate = null,
         )
@@ -199,7 +206,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
             id = 1,
             name = "asd",
             customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = EmployeeDTO(1, "Updating", "Project-Worker", "updatingProject@worker.fi"),
+            managingEmployee = updatingProjectWorkerId1,
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusDays(1),
         )

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.dto.ProjectDTO
@@ -22,6 +23,22 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var taskRepository: TaskRepository
+
+    val newProjectWorkerId1 = EmployeeDTO(
+        id = 1,
+        firstName = "New",
+        lastName = "Project-worker",
+        email = "new.project@worker.fi",
+        role = Role.USER
+    )
+
+    val newProjectWorkerId100 = EmployeeDTO(
+        id = 100,
+        firstName = "New",
+        lastName = "Project-worker",
+        email = "new.project@worker.fi",
+        role = Role.USER
+    )
 
     @Test
     fun `searching a task for id return a task`() {
@@ -49,7 +66,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
         )
         val addedTask: TaskDTO = taskService.createTask(task)
@@ -70,7 +87,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
         )
         Assertions.assertThatThrownBy { taskService.createTask(invalidTask) }
@@ -90,7 +107,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(100, "New Project Customer"),
-                managingEmployee = EmployeeDTO(100, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId100,
             ),
         )
         Assertions.assertThatThrownBy { taskService.createTask(invalidTask) }
@@ -119,7 +136,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
         )
         Assertions.assertThatThrownBy { taskService.updateTaskForId(invalidTask) }

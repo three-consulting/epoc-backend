@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.repository.EmployeeRepository
 
@@ -38,7 +39,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
         val employee = EmployeeDTO(
             firstName = "Esimerkki",
             lastName = "Testaaja",
-            email = "esimerkki@testaaja.fi"
+            email = "esimerkki@testaaja.fi",
+            role = Role.USER
         )
         val addedEmployee: EmployeeDTO = employeeService.createEmployee(employee)
         assertThat(addedEmployee.firstName).isEqualTo(employee.firstName)
@@ -52,7 +54,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
             id = 2,
             firstName = "Esimerkki",
             lastName = "Testaja",
-            email = "esimerkki@testaaja.fi"
+            email = "esimerkki@testaaja.fi",
+            role = Role.USER
         )
         assertThatThrownBy { employeeService.createEmployee(invalidEmployee) }
             .isInstanceOf(UnableToCreateEmployeeException::class.java)
@@ -73,7 +76,8 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
         val invalidEmployee = EmployeeDTO(
             firstName = "Test",
             lastName = "Failure",
-            email = "test@failure.fi"
+            email = "test@failure.fi",
+            role = Role.USER
         )
         assertThatThrownBy { employeeService.updateEmployeeForId(invalidEmployee) }
             .isInstanceOf(UnableToUpdateEmployeeException::class.java)
@@ -98,5 +102,25 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
     fun `get all employees`() {
         val employees = employeeService.findAllEmployees()
         assertThat(employees.map { it.firstName }).containsExactlyElementsOf(listOf("Testi", "Test", "Matti", "Teesti"))
+    }
+
+    @Test
+    fun `firebase sync adds user to db if an user with firebase email is not found`() {
+        val notExistingUserEmail = "notin@db.com"
+        val firebaseUid = "2222-4444-1111"
+        val userBeforeSync = employeeRepository.findByEmail(notExistingUserEmail)
+        assertThat(userBeforeSync).isNull()
+        employeeService.syncFirebaseUser(firebaseUid, notExistingUserEmail)
+        val userAfterSync = employeeRepository.findByEmail(notExistingUserEmail)
+        assertThat(userAfterSync!!.email).isEqualTo(notExistingUserEmail)
+    }
+
+    @Test
+    fun `firebase sync adds firebase uid for an existing user`() {
+        val firebaseUid = "4321-2222-1234"
+        val existingUserEmail = "testi@tekija.fi"
+        employeeService.syncFirebaseUser(firebaseUid, existingUserEmail)
+        val userAfterSync = employeeRepository.findByEmail(existingUserEmail)
+        assertThat(userAfterSync!!.firebaseUid).isEqualTo(firebaseUid)
     }
 }

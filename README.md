@@ -12,6 +12,18 @@
 - openjdk-17 `sudo apt install openjdk-17-jdk`
 - kotlin & gradle plugins for IDEA
 
+### Manage secret
+Firebase admin sdk service account credentials are contained as a gpg encrypted file
+Decrypt by running
+```bash
+gopass show 3/epoc/GPG | gpg -q --batch --yes --decrypt-files --passphrase-fd 0 *.gpg
+```
+
+Encrypt by running
+```bash
+gpg --batch --yes --symmetric --passphrase $(gopass show 3/epoc/GPG) --cipher-algo AES-256 firebase/epoc-auth-firebase-adminsdk.json
+```
+
 ### Run app
 On IDEA create new gradle configuration and use `bootRun` as the run argument with env variables
 
@@ -20,6 +32,7 @@ On IDEA create new gradle configuration and use `bootRun` as the run argument wi
 | SPRING_DATASOURCE_USERNAME                            | user                                                                                      |
 | SPRING_DATASOURCE_PASSWORD                            | password                                                                                  |
 | SPRING_DATASOURCE_URL                                 | jdbc:postgresql://localhost/epoc                                                          |
+| GOOGLE_APPLICATION_CREDENTIALS                        | firebase/epoc-auth-firebase-adminsdk.json                                                 |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI  | https://securetoken.google.com/<firebase-app-name>                                        |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI | https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com |
 
