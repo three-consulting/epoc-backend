@@ -25,7 +25,7 @@ gpg --batch --yes --symmetric --passphrase $(gopass show 3/epoc/GPG) --cipher-al
 ```
 
 ### Run app
-On IDEA create new gradle configuration and use `bootRun` as the run argument with env variables
+On IDEA [create new gradle configuration](https://www.jetbrains.com/help/idea/run-debug-gradle.html) and use `bootRun` as the run argument with env variables
 
 | variable                   | value                            |
 |----------------------------|----------------------------------|
@@ -33,7 +33,7 @@ On IDEA create new gradle configuration and use `bootRun` as the run argument wi
 | SPRING_DATASOURCE_PASSWORD | password                         |
 | SPRING_DATASOURCE_URL      | jdbc:postgresql://localhost/epoc |
 
-To run the application with security enabled add the following envs
+To run the application with security enabled add the following envs, which can also be found in [shared secrets](https://github.com/three-consulting/secrets) under `edam/epoc/auth/`
 
 | variable                                              | value                                                                                     |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------------|
@@ -41,14 +41,15 @@ To run the application with security enabled add the following envs
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI  | https://securetoken.google.com/<firebase-app-name>                                        |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI | https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com |
 
-To run the application enabled use the following env
+To run the application without spring security enabled use the following env
 
 | variable               | value |
 |------------------------|-------|
 | SPRING_PROFILES_ACTIVE | dev   |
 
+Once running locally, the api docs can be found at `localhost:8080/docs-ui.html`
 
-
+## Run a database
 Run a postgres db in a container
 ```bash
 docker run --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 postgres:14-alpine
@@ -60,6 +61,5 @@ docker run --rm --name epoc-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=passwo
 ```
 
 ## Run tests
-This app uses flyway for migrations, so JPA Buddy plugin for Intellij IDEA is a tool that can be used to create migration files.
 The tests use [this embedded database](https://github.com/zonkyio/embedded-database-spring-test), which is essentially a wrapper for testcontainers, so docker is needed on host machine when running tests.
 Run tests with `gradle :clean :test` or create a new gradle run configuration on IDEA and use `clean test` as run command.
