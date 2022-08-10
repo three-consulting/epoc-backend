@@ -31,11 +31,11 @@ class FirebaseConfig(
             for (user in page.iterateAll()) {
                 try {
                     syncUser(user)
-                } catch (e: Error) {
+                } catch (e: Exception) {
                     logger.error(e) { "Could not sync user: ${user.email}" }
                 }
             }
-        } catch (e: Error) {
+        } catch (e: Exception) {
             logger.error(e) { "Could not iterate and sync firebase users" }
         }
     }
@@ -49,7 +49,7 @@ class FirebaseConfig(
                 .build()
 
             FirebaseApp.initializeApp(options)
-        } catch (e: Error) {
+        } catch (e: Exception) {
             logger.error(e) { "Could not set up Firebase" }
         }
     }
