@@ -35,19 +35,14 @@ class FirebaseConfig(
         }
     }
 
-    private fun syncUser(user: ExportedUserRecord) {
-        logger.info { "Syncing user: ${user.email}" }
+    private fun syncUser(userRecord: ExportedUserRecord) {
+        logger.info { "Syncing user: ${userRecord.email}" }
 
-        val employee = employeeRepository.findByEmail(user.email)
+        val employee = employeeRepository.findByEmail(userRecord.email)
 
         if (employee == null) {
-            val newEmployee = Employee(
-                firstName = "",
-                lastName = "",
-                email = user.email,
-                // uid = user.uid
-            )
-            logger.info { "Saving new employee ${user.email}" }
+            val newEmployee = Employee(userRecord)
+            logger.info { "Saving new employee ${userRecord.email}" }
             employeeRepository.save(newEmployee)
         }
         // set uid for existing employees
