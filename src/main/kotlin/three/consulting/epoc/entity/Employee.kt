@@ -9,8 +9,8 @@ import javax.persistence.*
 
 @Entity
 class Employee(
-    @field:Column(name = "first_name", nullable = true) var firstName: String?,
-    @field:Column(name = "last_name", nullable = true) var lastName: String?,
+    @field:Column(name = "first_name", nullable = true) var firstName: String? = null,
+    @field:Column(name = "last_name", nullable = true) var lastName: String? = null,
     @field:Column(unique = true, nullable = false) var email: String,
     @field:Column(name = "start_date", nullable = false) var startDate: LocalDate = LocalDate.now(),
     @field:Column(nullable = false) var created: LocalDateTime = LocalDateTime.now(),
@@ -35,7 +35,6 @@ class Employee(
         startDate = LocalDate.now(),
         created = LocalDateTime.now(),
         firebaseUid = firebaseUser.uid,
-        // TODO: does this come from firebase?
         role = Role.USER
     )
 }

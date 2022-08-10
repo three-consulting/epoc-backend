@@ -9,6 +9,7 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.entity.Employee
 import three.consulting.epoc.repository.EmployeeRepository
 
@@ -20,18 +21,36 @@ class FirebaseConfig(
     private val employeeRepository: EmployeeRepository
 ) : InitializingBean {
     override fun afterPropertiesSet() {
-        logger.info { "Setting up Firebase" }
-        val options = FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.getApplicationDefault())
-            .build()
-
-        FirebaseApp.initializeApp(options)
+        setupFirebase()
 
         logger.info { "Starting to sync users found in Firebase with the database" }
 
-        val page = FirebaseAuth.getInstance().listUsers(null)
-        for (user in page.iterateAll()) {
-            syncUser(user)
+        try {
+            val page = FirebaseAuth.getInstance().listUsers(null)
+
+            for (user in page.iterateAll()) {
+                try {
+                    syncUser(user)
+                } catch (e: Error) {
+                    logger.error(e) { "Could not sync user: ${user.email}" }
+                }
+            }
+        } catch (e: Error) {
+            logger.error(e) { "Could not iterate and sync firebase users" }
+        }
+    }
+
+    private fun setupFirebase() {
+        try {
+            logger.info { "Setting up Firebase" }
+
+            val options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.getApplicationDefault())
+                .build()
+
+            FirebaseApp.initializeApp(options)
+        } catch (e: Error) {
+            logger.error(e) { "Could not set up Firebase" }
         }
     }
 
@@ -42,9 +61,14 @@ class FirebaseConfig(
 
         if (employee == null) {
             val newEmployee = Employee(userRecord)
+
+            newEmployee.role = Role.USER
             logger.info { "Saving new employee ${userRecord.email}" }
+
             employeeRepository.save(newEmployee)
+        } else {
+            employee.firebaseUid = userRecord.uid
+            employeeRepository.save(employee)
         }
-        // set uid for existing employees
     }
 }
