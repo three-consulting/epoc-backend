@@ -14,7 +14,7 @@ data class EmployeeDTO(
     val startDate: LocalDate? = null,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
-    val firebaseUid: String?,
+    val firebaseUid: String? = null,
     @field:NotBlank val role: Role
 ) {
     constructor(employee: Employee) : this (

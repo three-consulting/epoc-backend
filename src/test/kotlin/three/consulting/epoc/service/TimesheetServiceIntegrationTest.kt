@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.dto.EmployeeDTO
@@ -23,6 +24,46 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var timesheetRepository: TimesheetRepository
+
+    val newProjectWorkerId1 = EmployeeDTO(
+        id = 1,
+        firstName = "New",
+        lastName = "Project-worker",
+        email = "new.project@worker.fi",
+        role = Role.USER
+    )
+
+    val mattiWorkerId4 = EmployeeDTO(
+        id = 4,
+        firstName = "Matti",
+        lastName = "Meikälainen",
+        email = "matti@worker.fi",
+        role = Role.USER
+    )
+
+    val testWorkerId2 = EmployeeDTO(
+        id = 2,
+        firstName = "Test",
+        lastName = "Worker",
+        email = "test@worker.fi",
+        role = Role.USER
+    )
+
+    val failingTimesheetWorkerId1 = EmployeeDTO(
+        id = 1,
+        firstName = "Failing",
+        lastName = "Timesheet-Worker",
+        email = "failing-worker@timesheet.fi",
+        role = Role.USER
+    )
+
+    val failingTimesheetWorkerId100L = EmployeeDTO(
+        id = 100L,
+        firstName = "Failing",
+        lastName = "Timesheet-Worker",
+        email = "failing-worker@timesheet.fi",
+        role = Role.USER
+    )
 
     @Test
     fun `searching a timesheet for id return a timesheet`() {
@@ -53,9 +94,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(4, "Matti", "Meikälainen", "matti@worker.fi"),
+            employee = mattiWorkerId4,
         )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
         assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
@@ -76,9 +117,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(2, "Test", "Worker", "test@worker.fi"),
+            employee = testWorkerId2,
         )
         assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
@@ -99,9 +140,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(1, "Failing", "Timesheet-Worker", "failing-worker@timesheet.fi"),
+            employee = failingTimesheetWorkerId1,
         )
         assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
@@ -121,9 +162,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(100L, "Failing", "Timesheet-Worker", "failing-worker@timesheet.fi"),
+            employee = failingTimesheetWorkerId100L,
         )
         assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
@@ -153,9 +194,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(4, "Matti", "Meikälainen", "matti@worker.fi"),
+            employee = mattiWorkerId4,
             status = Status.ACTIVE
         )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
@@ -175,9 +216,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(4, "Matti", "Meikälainen", "matti@worker.fi"),
+            employee = mattiWorkerId4,
             status = Status.ARCHIVED
         )
         val updatedTimesheet = timesheetService.updateTimesheetForId(inactiveTimesheet)
@@ -200,9 +241,9 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now(),
                 customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                managingEmployee = newProjectWorkerId1,
             ),
-            employee = EmployeeDTO(1, "Failing", "Timesheet-Worker", "failing-worker@timesheet.fi"),
+            employee = failingTimesheetWorkerId1,
         )
         assertThatThrownBy { timesheetService.updateTimesheetForId(invalidTimesheet) }
             .isInstanceOf(UnableToUpdateTimesheetException::class.java)
