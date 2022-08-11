@@ -14,13 +14,15 @@
       "id": 1,
       "firstName": "Timesheet",
       "lastName": "Manager",
-      "email": "timesheet@manager.fi"
+      "email": "timesheet@manager.fi",
+      "role": "USER"
     }
   },
   "employee": {
     "id": 2,
     "firstName": "Timesheet",
     "lastName": "Worker",
-    "email": "timesheet@worker.fi"
+    "email": "timesheet@worker.fi",
+    "role": "USER"
   }
 }

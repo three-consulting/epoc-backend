@@ -2,5 +2,6 @@
   "id": 1,
   "firstName": "Testi",
   "lastName": "Työntekijä",
-  "email": "test@employee.fi"
+  "email": "test@employee.fi",
+  "role": "USER"
 }

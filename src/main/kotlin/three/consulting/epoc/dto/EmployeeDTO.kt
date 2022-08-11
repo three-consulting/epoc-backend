@@ -5,6 +5,7 @@ import three.consulting.epoc.entity.Employee
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class EmployeeDTO(
     val id: Long? = null,
@@ -15,7 +16,7 @@ data class EmployeeDTO(
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
     val firebaseUid: String? = null,
-    @field:NotBlank val role: Role
+    @field:NotNull val role: Role
 ) {
     constructor(employee: Employee) : this (
         id = employee.id,

@@ -19,7 +19,8 @@
       "firstName": "Testi",
       "lastName": "Tekijä",
       "email": "testi@tekija.fi",
-      "startDate": "2021-09-21"
+      "startDate": "2021-09-21",
+      "role": "USER"
     },
     "status": "ACTIVE"
   }
