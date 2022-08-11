@@ -16,7 +16,7 @@ class Employee(
     @field:Column(nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "firebase_uid", nullable = true) var firebaseUid: String?,
-    @field:Column(nullable = false) var role: Role,
+    @field:Enumerated(EnumType.STRING) @field:Column(nullable = false) var role: Role,
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null
 ) {
     constructor(employeeDTO: EmployeeDTO) : this(
