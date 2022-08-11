@@ -13,6 +13,10 @@ jobs:
     timeout-minutes: 15
     steps:
 
+    - name: Decrypt Firebase secret
+      run: |
+        gpg -q --batch --yes --decrypt-files --passphrase${{ secrets.GPG }} firebase/epoc-auth-firebase-adminsdk.json.gpg
+
     - name: Checkout code
       uses: actions/checkout@v3
 
