@@ -23,7 +23,8 @@
         "firstName": "Testi",
         "lastName": "Tekijä",
         "email": "testi@tekija.fi",
-        "startDate": "2021-09-24"
+        "startDate": "2021-09-24",
+        "role": "USER"
       },
       "status": "ACTIVE"
     },
@@ -32,7 +33,8 @@
       "firstName": "test",
       "lastName": "maker",
       "email": "test@maker.fi",
-      "startDate": "2021-09-24"
+      "startDate": "2021-09-24",
+      "role": "USER"
     }
   },
   "timeCategory": {
@@ -59,7 +61,8 @@
         "firstName": "Test",
         "lastName": "Manager",
         "email": "test@manager.fi",
-        "startDate": "2021-09-24"
+        "startDate": "2021-09-24",
+        "role": "USER"
       },
       "status": "ACTIVE"
     }

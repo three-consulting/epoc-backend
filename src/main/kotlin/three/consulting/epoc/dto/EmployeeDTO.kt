@@ -1,18 +1,22 @@
 package three.consulting.epoc.dto
 
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.entity.Employee
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class EmployeeDTO(
     val id: Long? = null,
-    @field:NotBlank val firstName: String,
-    @field:NotBlank val lastName: String,
+    @field:NotBlank val firstName: String?,
+    @field:NotBlank val lastName: String?,
     @field:NotBlank val email: String,
     val startDate: LocalDate? = null,
     val created: LocalDateTime? = null,
-    val updated: LocalDateTime? = null
+    val updated: LocalDateTime? = null,
+    val firebaseUid: String? = null,
+    @field:NotNull val role: Role
 ) {
     constructor(employee: Employee) : this (
         id = employee.id,
@@ -21,6 +25,8 @@ data class EmployeeDTO(
         email = employee.email,
         startDate = employee.startDate,
         created = employee.created,
-        updated = employee.updated
+        updated = employee.updated,
+        firebaseUid = employee.firebaseUid,
+        role = employee.role
     )
 }

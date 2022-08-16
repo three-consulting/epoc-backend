@@ -2,11 +2,11 @@ INSERT INTO customer( name, description, created, updated, enabled) VALUES
     ('Maurin Makkara Oy', 'Get the pile', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE),
     ('Matin Makkara Oy', 'Get the pile', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE);
 
-INSERT INTO employee( first_name, last_name, email, start_date, created, updated) VALUES
-    ('Testi', 'Tekijä', 'testi@tekija.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Test', 'Worker', 'test@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Matti', 'Meikälainen', 'matti@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Teesti', 'Testinen', 'teesti@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO employee(first_name, last_name, email, start_date, created, updated, firebase_uid, role) VALUES
+    ('Testi', 'Tekijä', 'testi@tekija.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '1234-4321', 'USER'),
+    ('Test', 'Worker', 'test@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '1111-2222', 'USER'),
+    ('Matti', 'Meikälainen', 'matti@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '1111-3333', 'USER'),
+    ('Teesti', 'Testinen', 'teesti@worker.fi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '1111-4444', 'USER');
 
 INSERT INTO project(customer_id, employee_id, name, description, start_date, status, created, updated) VALUES
     (1, 1, 'test', 'testing', CURRENT_DATE, 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

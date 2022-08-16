@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Role
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.*
 import three.consulting.epoc.repository.TimesheetEntryRepository
@@ -20,6 +21,10 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
     private lateinit var timesheetEntryRepository: TimesheetEntryRepository
+
+    val newProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER)
+    val newTimesheetWorkerId2 = EmployeeDTO(id = 2, firstName = "New", lastName = "Timesheet-worker", email = "new.timesheet@worker.fi", role = Role.USER)
+    val newProjectWorkerId10 = EmployeeDTO(id = 10, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER)
 
     @Test
     fun `searching a timesheetEntry for id return a timesheetEntry`() {
@@ -53,9 +58,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
-                employee = EmployeeDTO(2, "New", "Timesheet-worker", "new.timesheet@worker.fi"),
+                employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
             timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
@@ -70,7 +75,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
             )
         )
@@ -98,9 +103,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
-                employee = EmployeeDTO(2, "New", "Timesheet-worker", "new.timesheet@worker.fi"),
+                employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
             timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
@@ -115,7 +120,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
             )
         )
@@ -143,9 +148,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(10, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(10, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId10,
                 ),
-                employee = EmployeeDTO(2, "New", "Timesheet-worker", "new.timesheet@worker.fi"),
+                employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
             timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
@@ -160,7 +165,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
             )
         )
@@ -197,9 +202,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
-                employee = EmployeeDTO(2, "New", "Timesheet-worker", "new.timesheet@worker.fi"),
+                employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
             timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
@@ -214,7 +219,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now(),
                     customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = EmployeeDTO(1, "New", "Project-worker", "new.project@worker.fi"),
+                    managingEmployee = newProjectWorkerId1,
                 ),
             )
         )
