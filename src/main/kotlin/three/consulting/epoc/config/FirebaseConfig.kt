@@ -6,19 +6,19 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
 import mu.KotlinLogging
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-import three.consulting.epoc.service.EmployeeService
+import three.consulting.epoc.service.FirebaseService
 
 private val logger = KotlinLogging.logger {}
 
 @Profile("default")
 @Configuration
-class FirebaseConfig(
-    private val employeeService: EmployeeService
+class FirebaseSync(
+    private val firebaseService: FirebaseService
 ) : InitializingBean {
     override fun afterPropertiesSet() {
-        setupFirebase()
 
         logger.info { "Starting to sync users found in Firebase with the database" }
 
@@ -27,7 +27,8 @@ class FirebaseConfig(
 
             for (user in page.iterateAll()) {
                 try {
-                    employeeService.syncFirebaseUser(user.uid, user.email)
+                    val syncedUser = firebaseService.syncFirebaseUser(user.uid, user.email, user.customClaims)
+                    logger.info { "synced user: $syncedUser" }
                 } catch (e: Exception) {
                     logger.error(e) { "Could not sync user: ${user.email}" }
                 }
@@ -36,18 +37,21 @@ class FirebaseConfig(
             logger.error(e) { "Could not iterate and sync firebase users" }
         }
     }
+}
 
-    private fun setupFirebase() {
+@Configuration
+class FirebaseConfig() {
+    @Bean
+    fun firebaseAuth(): FirebaseAuth {
         try {
-            logger.info { "Setting up Firebase" }
-
             val options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.getApplicationDefault())
                 .build()
-
-            FirebaseApp.initializeApp(options)
+            val firebaseApp = FirebaseApp.initializeApp(options)
+            return FirebaseAuth.getInstance(firebaseApp)
         } catch (e: Exception) {
             logger.error(e) { "Could not set up Firebase" }
+            throw e
         }
     }
 }
