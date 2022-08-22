@@ -6,7 +6,6 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import three.consulting.epoc.common.Role
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.entity.Employee
 import three.consulting.epoc.repository.EmployeeRepository
@@ -14,7 +13,9 @@ import three.consulting.epoc.repository.EmployeeRepository
 private val logger = KotlinLogging.logger {}
 
 @Service
-class EmployeeService(private val employeeRepository: EmployeeRepository) {
+class EmployeeService(
+    private val employeeRepository: EmployeeRepository
+) {
 
     fun findEmployeeForId(id: Long): EmployeeDTO? {
         logger.info { "Looking for employee with id: $id" }
@@ -62,24 +63,6 @@ class EmployeeService(private val employeeRepository: EmployeeRepository) {
     fun findAllEmployees(): List<EmployeeDTO> {
         val employees = employeeRepository.findAll()
         return employees.map { EmployeeDTO(it) }
-    }
-
-    fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String) {
-        logger.info { "Syncing user: $firebaseEmail" }
-
-        val employee = employeeRepository.findByEmail(firebaseEmail)
-
-        if (employee == null) {
-            val newEmployee = Employee(firebaseEmail, firebaseUid)
-
-            newEmployee.role = Role.USER
-            logger.info { "Saving new employee $firebaseEmail" }
-
-            employeeRepository.save(newEmployee)
-        } else {
-            employee.firebaseUid = firebaseUid
-            employeeRepository.save(employee)
-        }
     }
 }
 

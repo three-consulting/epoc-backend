@@ -7,4 +7,5 @@ import three.consulting.epoc.entity.Employee
 @Repository
 interface EmployeeRepository : JpaRepository<Employee, Long> {
     fun findByEmail(email: String): Employee?
+    fun findByFirebaseUid(firebaseUid: String): Employee?
 }

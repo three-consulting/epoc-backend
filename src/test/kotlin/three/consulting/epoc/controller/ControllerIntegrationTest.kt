@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import three.consulting.epoc.config.FirebaseConfig
 import three.consulting.epoc.service.*
 
 @ExtendWith(SpringExtension::class)
@@ -43,4 +44,10 @@ abstract class ControllerIntegrationTest {
 
     @MockBean
     lateinit var timesheetEntryService: TimesheetEntryService
+
+    @MockBean
+    lateinit var firebaseService: FirebaseService
+
+    @MockBean
+    lateinit var firebaseConfig: FirebaseConfig
 }

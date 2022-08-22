@@ -29,11 +29,11 @@ class Employee(
         role = employeeDTO.role
     )
 
-    constructor(firebaseEmail: String, firebaseUid: String) : this(
+    constructor(firebaseEmail: String, firebaseUid: String, role: Role) : this(
         email = firebaseEmail,
         startDate = LocalDate.now(),
         created = LocalDateTime.now(),
         firebaseUid = firebaseUid,
-        role = Role.USER
+        role = role
     )
 }
