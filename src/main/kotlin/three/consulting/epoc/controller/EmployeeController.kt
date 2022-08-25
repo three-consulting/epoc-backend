@@ -1,5 +1,6 @@
 package three.consulting.epoc.controller
 
+import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType.ALL_VALUE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.security.access.prepost.PreAuthorize
@@ -12,8 +13,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping(path = ["/employee"])
 class EmployeeController(
-    private val employeeService: EmployeeService,
-    private val firebaseService: FirebaseService
+    private val employeeService: EmployeeService
 ) {
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -35,7 +35,14 @@ class EmployeeController(
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getAllEmployees() = employeeService.findAllEmployees()
+}
 
+@Profile("default")
+@RestController
+@RequestMapping(path = ["/employee"])
+class FirebaseEmployeeController(
+    private val firebaseService: FirebaseService
+) {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = ["/update-role"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateEmployeeRole(@Valid @RequestBody employee: EmployeeDTO) = firebaseService.updateFirebaseUserRole(employee)

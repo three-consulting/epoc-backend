@@ -37,7 +37,7 @@ To run the application with security enabled add the following envs, which can a
 
 | variable                                              | value                                                                                     |
 |-------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| GOOGLE_APPLICATION_CREDENTIALS                        | firebase/epoc-auth-firebase-adminsdk.json                                                 |
+| FIREBASE_SERVICE_ACCOUNT_JSON                         | contents of firebase service account secret                                               |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI  | https://securetoken.google.com/<firebase-app-name>                                        |
 | SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI | https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com |
 

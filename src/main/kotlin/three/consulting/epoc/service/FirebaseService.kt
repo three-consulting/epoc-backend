@@ -2,6 +2,7 @@ package three.consulting.epoc.service
 
 import com.google.firebase.auth.FirebaseAuth
 import mu.KotlinLogging
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import three.consulting.epoc.common.Role
 import three.consulting.epoc.dto.EmployeeDTO
@@ -10,6 +11,7 @@ import three.consulting.epoc.repository.EmployeeRepository
 
 private val logger = KotlinLogging.logger {}
 
+@Profile("default")
 @Service
 class FirebaseService(
     private val employeeRepository: EmployeeRepository,
