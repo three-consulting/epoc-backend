@@ -37,10 +37,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Decrypt Firebase secret
-        run: |
-          cd firebase && gpg -q --batch --yes --decrypt-files --passphrase=${{ secrets.GPG }} *.gpg
-
       - name: Build, Push and Release a Docker container to Heroku.
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
