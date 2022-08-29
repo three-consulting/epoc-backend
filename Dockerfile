@@ -15,8 +15,6 @@ WORKDIR /app
 # copy extracted layers from builder
 COPY --from=builder /builder/layers/* ./
 
-COPY --from=builder /builder/firebase/*.json ./
-
 EXPOSE 8080
 
 USER user
