@@ -18,20 +18,20 @@ class FirebaseService(
     private val firebaseAuth: FirebaseAuth
 ) {
 
-    fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String, customClaims: Map<String, Any>?): EmployeeDTO {
-
-        val role = if (customClaims === null) Role.USER else Role.valueOf(customClaims["role"] as String)
+    fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String, customClaims: Map<String, Any>): EmployeeDTO {
 
         logger.info { "Syncing user: $firebaseEmail" }
+
         val employee = employeeRepository.findByEmail(firebaseEmail)
 
         return if (employee == null) {
+            val role = if (customClaims["role"] === null) Role.USER else Role.valueOf(customClaims["role"] as String)
             val newEmployee = Employee(firebaseEmail, firebaseUid, role)
             firebaseAuth.setCustomUserClaims(firebaseUid, customClaims)
             EmployeeDTO(employeeRepository.save(newEmployee))
         } else {
             employee.firebaseUid = firebaseUid
-            firebaseAuth.setCustomUserClaims(firebaseUid, customClaims)
+            firebaseAuth.setCustomUserClaims(firebaseUid, mapOf("role" to employee.role.name))
             EmployeeDTO(employeeRepository.save(employee))
         }
     }
