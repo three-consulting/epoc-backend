@@ -16,23 +16,23 @@ class EmployeeController(
     private val employeeService: EmployeeService
 ) {
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getEmployeeForId(@PathVariable employeeId: Long) = employeeService.findEmployeeForId(employeeId)
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createEmployee(@Valid @RequestBody employee: EmployeeDTO) = employeeService.createEmployee(employee)
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateEmployeeForId(@Valid @RequestBody employee: EmployeeDTO) = employeeService.updateEmployeeForId(employee)
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE])
     fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getAllEmployees() = employeeService.findAllEmployees()
 }
@@ -43,7 +43,7 @@ class EmployeeController(
 class FirebaseEmployeeController(
     private val firebaseService: FirebaseService
 ) {
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = ["/update-role"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateEmployeeRole(@Valid @RequestBody employee: EmployeeDTO) = firebaseService.updateFirebaseUserRole(employee)
 }
