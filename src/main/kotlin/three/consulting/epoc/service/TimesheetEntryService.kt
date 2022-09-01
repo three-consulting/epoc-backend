@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException
 import three.consulting.epoc.dto.TimesheetEntryDTO
 import three.consulting.epoc.entity.TimesheetEntry
 import three.consulting.epoc.repository.TimesheetEntryRepository
+import three.consulting.epoc.utils.isAuthorizedToGetTimesheetEntries
 import java.time.LocalDate
 
 private val logger = KotlinLogging.logger {}
@@ -18,6 +19,9 @@ private val logger = KotlinLogging.logger {}
 class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntryRepository) {
 
     fun findTimesheetEntries(timesheetId: Long?, email: String?, startDate: LocalDate?, endDate: LocalDate?): List<TimesheetEntryDTO> {
+        if (!isAuthorizedToGetTimesheetEntries(email)) {
+            throw UnableToGetTimesheetEntriesException()
+        }
         logger.info { "Looking for timesheetEntries with timesheetId: $timesheetId, email: $email, startDate: $startDate and endDate: $endDate" }
         return when {
             timesheetId != null -> timesheetEntryRepository.findAllByTimesheetId(timesheetId).map { TimesheetEntryDTO(it) }
