@@ -42,8 +42,6 @@ class FirebaseService(
             val employee = employeeRepository.findByFirebaseUid(employeeDTO.firebaseUid)
             if (employee != null) {
                 firebaseAuth.setCustomUserClaims(employeeDTO.firebaseUid, customClaims)
-                employee.role = employeeDTO.role
-                employeeRepository.save(employee)
             }
         } else {
             throw UnableToUpdateUserRoleException()

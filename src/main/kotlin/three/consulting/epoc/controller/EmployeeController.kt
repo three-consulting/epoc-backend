@@ -36,14 +36,3 @@ class EmployeeController(
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getAllEmployees() = employeeService.findAllEmployees()
 }
-
-@Profile("default")
-@RestController
-@RequestMapping(path = ["/employee"])
-class FirebaseEmployeeController(
-    private val firebaseService: FirebaseService
-) {
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping(value = ["/update-role"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateEmployeeRole(@Valid @RequestBody employee: EmployeeDTO) = firebaseService.updateFirebaseUserRole(employee)
-}

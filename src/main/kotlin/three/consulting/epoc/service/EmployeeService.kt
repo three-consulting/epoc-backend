@@ -14,7 +14,8 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class EmployeeService(
-    private val employeeRepository: EmployeeRepository
+    private val employeeRepository: EmployeeRepository,
+    private val firebaseService: FirebaseService
 ) {
 
     fun findEmployeeForId(id: Long): EmployeeDTO? {
@@ -40,12 +41,15 @@ class EmployeeService(
 
     fun updateEmployeeForId(employeeRequest: EmployeeDTO): EmployeeDTO {
         logger.info { "Updating employee with id: ${employeeRequest.id}" }
-        if (employeeRequest.id != null) {
-            val employee = Employee(employeeRequest)
-            return EmployeeDTO(employeeRepository.save(employee))
+        val foundEmployee: Employee? = employeeRepository.findByIdOrNull(employeeRequest.id)
+        if (foundEmployee?.id != null) {
+            if (foundEmployee.role != employeeRequest.role) {
+                firebaseService.updateFirebaseUserRole(employeeRequest)
+            }
+            return EmployeeDTO(employeeRepository.save(Employee(employeeRequest)))
         } else {
             val exception = UnableToUpdateEmployeeException()
-            logger.error(exception) { "Cannot update customer" }
+            logger.error(exception) { "Cannot update customer." }
             throw exception
         }
     }
