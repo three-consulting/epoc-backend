@@ -16,7 +16,7 @@ import three.consulting.epoc.service.*
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("it")
+@ActiveProfiles("cit")
 @EnableAutoConfiguration(exclude = [ SecurityAutoConfiguration::class, DataSourceAutoConfiguration::class ])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class ControllerIntegrationTest {

@@ -36,7 +36,7 @@ class FirebaseService(
         }
     }
 
-    fun updateFirebaseUserRole(employeeDTO: EmployeeDTO) {
+    fun updateEmployeeAndFirebaseRole(employeeDTO: EmployeeDTO) {
         if (employeeDTO.firebaseUid != null) {
             val customClaims = mapOf("role" to employeeDTO.role.name)
             val employee = employeeRepository.findByFirebaseUid(employeeDTO.firebaseUid)
