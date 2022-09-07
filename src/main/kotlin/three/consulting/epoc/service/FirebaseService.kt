@@ -36,18 +36,23 @@ class FirebaseService(
         }
     }
 
-    fun updateEmployeeAndFirebaseRole(employeeDTO: EmployeeDTO) {
+    fun updateEmployeeAndFirebaseRole(employeeDTO: EmployeeDTO): EmployeeDTO {
+
+        logger.info { "Updating employee with Firebase uid: ${employeeDTO.firebaseUid}" }
+
         if (employeeDTO.firebaseUid != null) {
             val customClaims = mapOf("role" to employeeDTO.role.name)
             val employee = employeeRepository.findByFirebaseUid(employeeDTO.firebaseUid)
             if (employee != null) {
                 firebaseAuth.setCustomUserClaims(employeeDTO.firebaseUid, customClaims)
-                employee.role = employeeDTO.role
-                employeeRepository.save(employee)
+                val updatedEmployee = Employee(employeeDTO)
+                return EmployeeDTO(employeeRepository.save(updatedEmployee))
+            } else {
+                throw UnableToUpdateEmployeeAndRoleException()
             }
         } else {
-            throw UnableToUpdateUserRoleException()
+            throw UnableToUpdateEmployeeAndRoleException()
         }
     }
 }
-class UnableToUpdateUserRoleException : RuntimeException("Cannot update employee.")
+class UnableToUpdateEmployeeAndRoleException : RuntimeException("Cannot update employee.")
