@@ -42,4 +42,8 @@ class FirebaseEmployeeController(
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateEmployeeForId(@Valid @RequestBody employee: EmployeeDTO) = firebaseService.updateEmployeeAndFirebaseRole(employee)
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(value = ["/employee-sync"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
+    fun syncFirebaseUsers() = firebaseService.syncAllFirebaseUsers()
 }

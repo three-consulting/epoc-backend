@@ -20,23 +20,7 @@ class FirebaseSync(
     private val firebaseService: FirebaseService
 ) : InitializingBean {
     override fun afterPropertiesSet() {
-
-        logger.info { "Starting to sync users found in Firebase with the database" }
-
-        try {
-            val page = FirebaseAuth.getInstance().listUsers(null)
-
-            for (user in page.iterateAll()) {
-                try {
-                    val syncedUser = firebaseService.syncFirebaseUser(user.uid, user.email, user.customClaims)
-                    logger.info { "synced user: $syncedUser" }
-                } catch (e: Exception) {
-                    logger.error(e) { "Could not sync user: ${user.email}" }
-                }
-            }
-        } catch (e: Exception) {
-            logger.error(e) { "Could not iterate and sync firebase users" }
-        }
+        firebaseService.syncAllFirebaseUsers()
     }
 }
 
