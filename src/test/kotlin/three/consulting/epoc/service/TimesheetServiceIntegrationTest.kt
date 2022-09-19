@@ -203,7 +203,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
         assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
         assertThat(addedTimesheet.description).isEqualTo(timesheet.description)
 
-        val inactiveTimesheet = TimesheetDTO(
+        val archivedTimesheet = TimesheetDTO(
             id = addedTimesheet.id,
             name = "Sample",
             description = "Sample timesheet",
@@ -221,8 +221,8 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
             employee = mattiWorkerId4,
             status = Status.ARCHIVED
         )
-        val updatedTimesheet = timesheetService.updateTimesheetForId(inactiveTimesheet)
-        assertThat(inactiveTimesheet.status).isEqualTo(Status.ARCHIVED)
+        val updatedTimesheet = timesheetService.updateTimesheetForId(archivedTimesheet)
+        assertThat(archivedTimesheet.status).isEqualTo(Status.ARCHIVED)
         assertThat(updatedTimesheet.updated).isNotEqualTo(addedTimesheet.updated)
         assertThat(updatedTimesheet.status).isNotEqualTo(addedTimesheet.status)
         assertThat(updatedTimesheet.status).isEqualTo(Status.ARCHIVED)
