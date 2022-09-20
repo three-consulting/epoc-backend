@@ -28,7 +28,6 @@ class EmployeeController(
     @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE])
     fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getAllEmployees() = employeeService.findAllEmployees()
 }
