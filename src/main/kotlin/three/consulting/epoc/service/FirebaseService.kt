@@ -22,7 +22,7 @@ class FirebaseService(
         const val AUTHORITIES_CLAIM_NAME = "role"
     }
 
-    fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String, customClaims: Map<String, Any>): EmployeeDTO? {
+    fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String, customClaims: Map<String, Any>): EmployeeDTO {
 
         logger.info { "Syncing user: $firebaseEmail" }
 
@@ -33,7 +33,7 @@ class FirebaseService(
             firebaseEmail == employee.email &&
             customClaims[AUTHORITIES_CLAIM_NAME] as String == employee.role.name
         ) {
-            return null
+            return EmployeeDTO(employee)
         }
 
         return if (employee == null) {
