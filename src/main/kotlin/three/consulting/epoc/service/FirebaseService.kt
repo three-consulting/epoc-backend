@@ -71,13 +71,13 @@ class FirebaseService(
 
         logger.info { "Starting to sync users found in Firebase with the database" }
 
-        return try {
+        try {
             val users = firebaseAuth.listUsers(null)
             users.iterateAll().mapNotNull { user ->
                 val syncedUser = syncFirebaseUser(user.uid, user.email, user.customClaims)
                 logger.info { "synced user: $syncedUser" }
-                syncedUser
             }
+            return employeeRepository.findAll().map { EmployeeDTO(it) }
         } catch (e: Exception) {
             logger.error(e) { "Failed to sync employees" }
             throw UnableToSyncFirebaseUsersException()
