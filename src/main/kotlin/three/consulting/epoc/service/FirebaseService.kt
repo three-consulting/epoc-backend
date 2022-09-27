@@ -31,7 +31,7 @@ class FirebaseService(
         if (employee != null &&
             firebaseUid == employee.firebaseUid &&
             firebaseEmail == employee.email &&
-            customClaims[AUTHORITIES_CLAIM_NAME] as String == employee.role.name
+            customClaims[AUTHORITIES_CLAIM_NAME] == employee.role.name
         ) {
             return EmployeeDTO(employee)
         }
