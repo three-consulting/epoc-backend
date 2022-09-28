@@ -54,6 +54,10 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         }
     }
 
+    fun createTimesheetEntries(timesheetEntries: List<TimesheetEntryDTO>): List<TimesheetEntryDTO> {
+        return timesheetEntries.map { createTimesheetEntry(it) }
+    }
+
     fun updateTimesheetEntryForId(timesheetEntryRequest: TimesheetEntryDTO): TimesheetEntryDTO {
         logger.info { "Updating timesheetEntry with id: ${timesheetEntryRequest.id}" }
         if (timesheetEntryRequest.id != null) {
@@ -74,6 +78,10 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
             logger.error(e) { "Cannot delete timesheetEntry" }
             throw UnableToDeleteTimesheetEntryException(timesheetEntryId)
         }
+    }
+
+    fun hasValidEmails(timesheetEntries: List<TimesheetEntryDTO>, email: String): Boolean {
+        return timesheetEntries.all { it.timesheet.employee.email == email }
     }
 }
 
