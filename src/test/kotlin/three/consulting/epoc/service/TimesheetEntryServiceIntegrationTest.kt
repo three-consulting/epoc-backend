@@ -26,6 +26,47 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     val newTimesheetWorkerId2 = EmployeeDTO(id = 2, firstName = "New", lastName = "Timesheet-worker", email = "new.timesheet@worker.fi", role = Role.USER)
     val newProjectWorkerId10 = EmployeeDTO(id = 10, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER)
 
+    val sampleTimesheetEntry = TimesheetEntryDTO(
+        description = "Sample timesheetEntry",
+        quantity = 7.5f,
+        date = LocalDate.now(),
+        timesheet = TimesheetDTO(
+            id = 1L,
+            name = "Sample",
+            description = "Sample timesheet",
+            rate = 100.0f,
+            allocation = 100,
+            project = ProjectDTO(
+                id = 1L,
+                name = "Sample",
+                description = "Sample project",
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now(),
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = newProjectWorkerId1,
+            ),
+            employee = newTimesheetWorkerId2,
+            status = Status.ACTIVE,
+        ),
+        timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
+        task = TaskDTO(
+            id = 1L,
+            name = "Sample",
+            description = "Sample task",
+            project = ProjectDTO(
+                id = 1L,
+                name = "Sample",
+                description = "Sample project",
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now(),
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = newProjectWorkerId1,
+            ),
+        )
+    )
+
+    val sampleTimesheetEntries = listOf(sampleTimesheetEntry, sampleTimesheetEntry)
+
     @Test
     fun `searching a timesheetEntry for id return a timesheetEntry`() {
         val timesheetEntry: TimesheetEntryDTO = timesheetEntryService.findTimesheetEntryForId(1L)!!
@@ -41,46 +82,27 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `added timesheetEntry is found from the database`() {
-        val timesheetEntry = TimesheetEntryDTO(
-            description = "Sample timesheetEntry",
-            quantity = 7.5f,
-            date = LocalDate.now(),
-            timesheet = TimesheetDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample timesheet",
-                rate = 100.0f,
-                allocation = 100,
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
-                employee = newTimesheetWorkerId2,
-                status = Status.ACTIVE,
-            ),
-            timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
-            task = TaskDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample task",
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
-            )
-        )
-        val addedTimesheetEntry: TimesheetEntryDTO = timesheetEntryService.createTimesheetEntry(timesheetEntry)
-        assertThat(addedTimesheetEntry.description).isEqualTo(timesheetEntry.description)
+        val addedTimesheetEntry: TimesheetEntryDTO = timesheetEntryService.createTimesheetEntry(sampleTimesheetEntry)
+        assertThat(addedTimesheetEntry.description).isEqualTo(sampleTimesheetEntry.description)
+    }
+
+    @Test
+    fun `added timesheetEntries are found from the database`() {
+        val addedTimesheetEntries = timesheetEntryService.createTimesheetEntries(sampleTimesheetEntries)
+        assertThat(addedTimesheetEntries.size == sampleTimesheetEntries.size)
+        addedTimesheetEntries.forEach { assertThat(it.description).isEqualTo(sampleTimesheetEntry.description) }
+    }
+
+    @Test
+    fun `authorized employee is allowed to create timesheet entries`() {
+        val isAllowed = timesheetEntryService.hasValidEmails(sampleTimesheetEntries, newTimesheetWorkerId2.email)
+        assertThat(isAllowed).isTrue
+    }
+
+    @Test
+    fun `not authorized employee is not allowed to create timesheet entries`() {
+        val isAllowed = timesheetEntryService.hasValidEmails(sampleTimesheetEntries, newProjectWorkerId1.email)
+        assertThat(isAllowed).isFalse
     }
 
     @Test
