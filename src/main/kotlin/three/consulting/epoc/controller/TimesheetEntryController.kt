@@ -26,7 +26,10 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ["/export"], consumes = [ALL_VALUE], produces = [TEXT_PLAIN_VALUE])
-    fun exportTimesheetEntriesAsCsv() = timesheetEntryService.exportToCsv()
+    fun exportTimesheetEntriesAsCsv(
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate
+    ) = timesheetEntryService.exportToCsv(startDate, endDate)
 
     @PreAuthorize("hasAuthority('ADMIN') or #timesheetEntry.timesheet.employee.email == authentication.principal.getClaim(\"email\")")
     @PostMapping(value = ["/timesheet-entry"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
