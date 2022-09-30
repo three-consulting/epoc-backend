@@ -37,6 +37,12 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         throw TimeSheetEntryNotFoundException(id)
     }
 
+    fun exportToCsv(): String {
+        return "date;hours;employee\n" +
+            "09/29/2022;8;Miika Hyttinen\n" +
+            "09/29/2022;8;Touko Haapanen\n"
+    }
+
     fun createTimesheetEntry(timesheetEntryRequest: TimesheetEntryDTO): TimesheetEntryDTO {
         logger.info { "Creating new timesheetEntry" }
         if (timesheetEntryRequest.id == null) {
