@@ -33,7 +33,7 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate
     ) {
         response.contentType = "text/csv"
-        response.addHeader("Content-Disposition", "attachment; filename=entries-${startDate}_$endDate.csv")
+        response.characterEncoding = "utf-8"
         val csvString = timesheetEntryService.exportToCsv(startDate, endDate)
         response.writer.print(csvString)
     }
