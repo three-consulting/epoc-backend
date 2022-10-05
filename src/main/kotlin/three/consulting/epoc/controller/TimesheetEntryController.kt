@@ -26,7 +26,7 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
         timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping(value = ["/csv-export"], consumes = [ALL_VALUE], produces = [TEXT_PLAIN_VALUE])
+    @GetMapping(value = ["timesheet-entry/csv-export"], consumes = [ALL_VALUE], produces = [TEXT_PLAIN_VALUE])
     fun exportTimesheetEntriesAsCsv(
         response: HttpServletResponse,
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate,
