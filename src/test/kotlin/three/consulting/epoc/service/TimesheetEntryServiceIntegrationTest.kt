@@ -303,4 +303,13 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         val timesheetEntries = timesheetEntryService.findTimesheetEntries(null, null, startDate, endDate)
         assertThat(timesheetEntries).hasSize(2)
     }
+
+    @Test
+    fun `timesheet entries csv export contains the right rows`() {
+        val startDate = LocalDate.parse("2022-04-01")
+        val endDate = LocalDate.parse("2022-04-01")
+        val csv = timesheetEntryService.exportToCsv(startDate, endDate)
+        assertThat(csv.contains("7.5;test;test;2022-04-01")).isTrue
+        assertThat(csv.contains("7.5;test;test;2022-04-02")).isFalse
+    }
 }

@@ -37,6 +37,13 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         throw TimeSheetEntryNotFoundException(id)
     }
 
+    fun exportToCsv(startDate: LocalDate, endDate: LocalDate): String {
+        val entries = timesheetEntryRepository.findAllByDates(startDate, endDate)
+        var columnNames = "hours;task;project;date\n"
+        val rows = entries.joinToString("") { entry -> "${entry.quantity};${entry.task.name};${entry.timesheet.project.name};${entry.date}\n" }
+        return columnNames + rows
+    }
+
     fun createTimesheetEntry(timesheetEntryRequest: TimesheetEntryDTO): TimesheetEntryDTO {
         logger.info { "Creating new timesheetEntry" }
         if (timesheetEntryRequest.id == null) {

@@ -85,4 +85,15 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+    @Test
+    fun `get timesheet entries csv export with right request params returns 200`() {
+        val response = restTemplate.getForEntity("/timesheet-entry/csv-export?startDate=2022-01-01&endDate=2023-01-01", String::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun `get timesheet entries csv export with missing request param endDate returns 400`() {
+        val response = restTemplate.getForEntity("/timesheet-entry/csv-export?startDate=2022-01-01", String::class.java)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+    }
 }

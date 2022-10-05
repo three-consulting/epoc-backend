@@ -1,13 +1,13 @@
 package three.consulting.epoc.controller
 
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.http.MediaType.ALL_VALUE
-import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.http.MediaType.*
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import three.consulting.epoc.dto.TimesheetEntryDTO
 import three.consulting.epoc.service.TimesheetEntryService
 import java.time.LocalDate
+import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
@@ -24,6 +24,19 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     @GetMapping(value = ["/timesheet-entry/{timesheetEntryId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
         timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(value = ["timesheet-entry/csv-export"], consumes = [ALL_VALUE], produces = [TEXT_PLAIN_VALUE])
+    fun exportTimesheetEntriesAsCsv(
+        response: HttpServletResponse,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate
+    ) {
+        response.contentType = "text/csv"
+        response.characterEncoding = "utf-8"
+        val csvString = timesheetEntryService.exportToCsv(startDate, endDate)
+        response.writer.print(csvString)
+    }
 
     @PreAuthorize("hasAuthority('ADMIN') or #timesheetEntry.timesheet.employee.email == authentication.principal.getClaim(\"email\")")
     @PostMapping(value = ["/timesheet-entry"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
