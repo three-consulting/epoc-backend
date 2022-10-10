@@ -29,12 +29,13 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     @GetMapping(value = ["timesheet-entry/csv-export"], consumes = [ALL_VALUE], produces = [TEXT_PLAIN_VALUE])
     fun exportTimesheetEntriesAsCsv(
         response: HttpServletResponse,
+        @RequestParam email: String? = null,
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate,
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate
     ) {
         response.contentType = "text/csv"
         response.characterEncoding = "utf-8"
-        val csvString = timesheetEntryService.exportToCsv(startDate, endDate)
+        val csvString = timesheetEntryService.exportToCsv(startDate, endDate, email)
         response.writer.print(csvString)
     }
 

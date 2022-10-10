@@ -305,11 +305,22 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `timesheet entries csv export contains the right rows`() {
+    fun `timesheet entries csv export without email filter contains the right rows`() {
         val startDate = LocalDate.parse("2022-04-01")
         val endDate = LocalDate.parse("2022-04-01")
-        val csv = timesheetEntryService.exportToCsv(startDate, endDate)
-        assertThat(csv.contains("7.5;test;test;2022-04-01")).isTrue
-        assertThat(csv.contains("7.5;test;test;2022-04-02")).isFalse
+        val csv = timesheetEntryService.exportToCsv(startDate, endDate, null)
+        assertThat(csv.contains("7.5;test;test;2022-04-01;testi@tekija.fi")).isTrue
+        assertThat(csv.contains("7.5;test;test;2022-04-01;test@worker.fi")).isTrue
+        assertThat(csv.contains("2022-04-02")).isFalse
+    }
+
+    @Test
+    fun `timesheet entries csv export with email filter contains the right rows`() {
+        val email = "testi@tekija.fi"
+        val startDate = LocalDate.parse("2022-04-01")
+        val endDate = LocalDate.parse("2022-04-03")
+        val csv = timesheetEntryService.exportToCsv(startDate, endDate, email)
+        assertThat(csv.contains("7.5;test;test;2022-04-01;$email")).isTrue
+        assertThat(csv.contains("7.5;test;test;2022-04-03;test@worker.fi")).isFalse
     }
 }
