@@ -37,10 +37,12 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         throw TimeSheetEntryNotFoundException(id)
     }
 
-    fun exportToCsv(startDate: LocalDate, endDate: LocalDate): String {
-        val entries = timesheetEntryRepository.findAllByDates(startDate, endDate)
-        var columnNames = "hours;task;project;date\n"
-        val rows = entries.joinToString("") { entry -> "${entry.quantity};${entry.task.name};${entry.timesheet.project.name};${entry.date}\n" }
+    fun exportToCsv(startDate: LocalDate, endDate: LocalDate, email: String?): String {
+        val entries = if (email != null) timesheetEntryRepository.findAllByEmployeeEmailAndDates(email, startDate, endDate)
+        else timesheetEntryRepository.findAllByDates(startDate, endDate)
+
+        var columnNames = "hours;task;project;date;email\n"
+        val rows = entries.joinToString("") { entry -> "${entry.quantity};${entry.task.name};${entry.timesheet.project.name};${entry.date};${entry.timesheet.employee.email}\n" }
         return columnNames + rows
     }
 
