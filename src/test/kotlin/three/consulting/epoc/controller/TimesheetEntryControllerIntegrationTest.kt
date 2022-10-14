@@ -18,15 +18,9 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `add timesheetEntry returns 200`() {
-        val httpEntity = jsonPostEntity("timesheetEntry/validCreation.json")
-        val response = restTemplate.postForEntity("/timesheet-entry", httpEntity, ObjectNode::class.java)
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-    }
-    @Test
     fun `add timesheetEntries returns 200`() {
         val httpEntity = jsonPostEntity("timesheetEntry/validCreateMany.json")
-        val response = restTemplate.postForEntity("/timesheet-entries", httpEntity, ArrayNode::class.java)
+        val response = restTemplate.postForEntity("/timesheet-entry", httpEntity, ArrayNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
