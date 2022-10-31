@@ -44,7 +44,7 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     fun createTimesheetEntry(@Valid @RequestBody timesheetEntry: TimesheetEntryDTO) =
         timesheetEntryService.createTimesheetEntry(timesheetEntry)
 
-    @PreAuthorize("hasAuthority('ADMIN') or #timesheetEntryService.hasValidEmails(timesheetEntries, authentication.principal.getClaim(\"email\"))")
+    @PreAuthorize("hasAuthority('ADMIN') or @timesheetEntryService.hasValidEmails(#timesheetEntries, authentication.principal.getClaim(\"email\"))")
     @PostMapping(value = ["/timesheet-entries"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createTimesheetEntries(@Valid @RequestBody timesheetEntries: List<TimesheetEntryDTO>) =
         timesheetEntryService.createTimesheetEntries(timesheetEntries)
