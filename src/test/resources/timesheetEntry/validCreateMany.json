@@ -37,10 +37,6 @@
       "role": "USER"
     }
   },
-  "timeCategory": {
-    "id": 1,
-    "name": "Test work"
-  },
   "task": {
     "id": 1,
     "name": "test",
@@ -106,10 +102,6 @@
         "startDate": "2021-09-24",
         "role": "USER"
       }
-    },
-    "timeCategory": {
-      "id": 1,
-      "name": "Test work"
     },
     "task": {
       "id": 1,

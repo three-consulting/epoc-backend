@@ -1,4 +1,4 @@
-INSERT INTO customer( name, description, created, updated, enabled) VALUES
+INSERT INTO customer(name, description, created, updated, enabled) VALUES
     ('Maurin Makkara Oy', 'Get the pile', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE),
     ('Matin Makkara Oy', 'Get the pile', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE);
 
@@ -21,12 +21,8 @@ INSERT INTO task(project_id, name, description, created, updated, billable, stat
     (1, 'test', 'testing', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true, 'ACTIVE'),
     (1, 'test2', 'testing delete', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true, 'ACTIVE');
 
-INSERT INTO time_category(name, description, created, updated) VALUES
-    ('Test work', 'Testing time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Actual work', 'Working time category', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
-INSERT INTO timesheet_entry(timesheet_id, task_id, time_category_id, quantity, date, description, created, updated) VALUES
-    (1, 1, 1, 7.5, '2022-04-01', 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1, 1, 1, 7.5, '2022-04-03', 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 1, 1, 7.5, '2022-04-01', 'Testing timesheet entry3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 1, 1, 1, '2022-04-03', 'Testing timesheet entry4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO timesheet_entry(timesheet_id, task_id, quantity, date, description, created, updated) VALUES
+    (1, 1, 7.5, '2022-04-01', 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (1, 1, 7.5, '2022-04-03', 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 1, 7.5, '2022-04-01', 'Testing timesheet entry3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 1, 1, '2022-04-03', 'Testing timesheet entry4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

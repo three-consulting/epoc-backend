@@ -37,10 +37,6 @@
       "role": "USER"
     }
   },
-  "timeCategory": {
-    "id": 1,
-    "name": "Test work"
-  },
   "task": {
     "id": 1,
     "name": "test",
