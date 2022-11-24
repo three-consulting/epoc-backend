@@ -37,9 +37,6 @@ abstract class ControllerIntegrationTest {
     lateinit var timesheetService: TimesheetService
 
     @MockBean
-    lateinit var timeCategoryService: TimeCategoryService
-
-    @MockBean
     lateinit var taskService: TaskService
 
     @MockBean

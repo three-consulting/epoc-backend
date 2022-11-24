@@ -34,10 +34,6 @@
       "startDate": "2021-09-24"
     }
   },
-  "timeCategory": {
-    "id": 1,
-    "name": "Test work"
-  },
   "task": {
     "id": 1,
     "name": "test",

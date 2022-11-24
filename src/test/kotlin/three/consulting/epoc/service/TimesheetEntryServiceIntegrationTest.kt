@@ -48,7 +48,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
             employee = newTimesheetWorkerId2,
             status = Status.ACTIVE,
         ),
-        timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
         task = TaskDTO(
             id = 1L,
             name = "Sample",
@@ -130,7 +129,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
-            timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
             task = TaskDTO(
                 id = 1L,
                 name = "Sample",
@@ -175,7 +173,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
-            timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
             task = TaskDTO(
                 id = 1L,
                 name = "Sample",
@@ -229,7 +226,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 employee = newTimesheetWorkerId2,
                 status = Status.ACTIVE,
             ),
-            timeCategory = TimeCategoryDTO(id = 1L, name = "Test Category"),
             task = TaskDTO(
                 id = 1L,
                 name = "Sample",

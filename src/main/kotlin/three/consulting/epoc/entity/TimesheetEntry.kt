@@ -9,7 +9,6 @@ import javax.persistence.*
 class TimesheetEntry(
     @ManyToOne @JoinColumn(name = "timesheet_id", nullable = false) var timesheet: Timesheet,
     @ManyToOne @JoinColumn(name = "task_id", nullable = false) var task: Task,
-    @ManyToOne @JoinColumn(name = "time_category_id", nullable = false) var timeCategory: TimeCategory,
     @field:Column(name = "quantity", nullable = false) var quantity: Float,
     @field:Column(name = "date", nullable = false) var date: LocalDate,
     @field:Column(name = "description", nullable = true) var description: String? = null,
@@ -26,7 +25,6 @@ class TimesheetEntry(
         description = timesheetEntryDTO.description,
         timesheet = Timesheet(timesheetEntryDTO.timesheet),
         task = Task(timesheetEntryDTO.task),
-        timeCategory = TimeCategory(timesheetEntryDTO.timeCategory),
         created = timesheetEntryDTO.created ?: LocalDateTime.now(),
         updated = LocalDateTime.now(),
     )

@@ -1,0 +1,4 @@
+ALTER TABLE timesheet_entry DROP CONSTRAINT FK_TIMESHEETENTRY_ON_TIME_CATEGORY;
+ALTER TABLE timesheet_entry DROP COLUMN time_category_id;
+
+DROP TABLE time_category;
