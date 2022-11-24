@@ -3,6 +3,7 @@ package three.consulting.epoc.controller
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
@@ -17,7 +18,7 @@ import three.consulting.epoc.service.*
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("cit")
-@EnableAutoConfiguration(exclude = [ SecurityAutoConfiguration::class, DataSourceAutoConfiguration::class ])
+@EnableAutoConfiguration(exclude = [ SecurityAutoConfiguration::class, DataSourceAutoConfiguration::class, ManagementWebSecurityAutoConfiguration::class ])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class ControllerIntegrationTest {
 
