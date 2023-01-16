@@ -72,6 +72,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         assertThat(timesheetEntry.description).isEqualTo("Testing timesheet entry")
         assertThat(timesheetEntry.task.id).isEqualTo(1L)
     }
+
     @Test
     fun `searching a timesheetEntry for invalid id return null`() {
         assertThatThrownBy { timesheetEntryService.findTimesheetEntryForId(1000000L) }

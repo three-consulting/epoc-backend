@@ -47,6 +47,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
         assertThat(task.description).isEqualTo("testing")
         assertThat(task.project.id).isEqualTo(1L)
     }
+
     @Test
     fun `searching a task for invalid id return null`() {
         Assertions.assertThatThrownBy { taskService.findTaskForId(1000000L) }

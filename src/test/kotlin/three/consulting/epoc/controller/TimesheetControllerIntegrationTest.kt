@@ -23,6 +23,7 @@ class TimesheetControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.postForEntity("/timesheet", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+
     @Test
     fun `add timesheet without name returns 400`() {
         val httpEntity = jsonPostEntity("timesheet/invalidNameCreation.json")

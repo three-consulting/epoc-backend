@@ -1,17 +1,18 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.2"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.allopen") version "1.7.10"
     kotlin("plugin.spring") version "1.7.10"
     kotlin("plugin.jpa") version "1.7.10"
+    id("com.github.ben-manes.versions") version "0.44.0"
 }
 
 val kotlinVersion = "1.7.10"
 val jacksonVersion = "2.13.3"
 val springBootVersion = "2.7.2"
 val junitVersion = "5.9.0"
+
+val ktlint: Configuration by configurations.creating
 
 group = "three.consulting"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -35,35 +36,19 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
     implementation("com.google.firebase:firebase-admin:8.2.0")
+
     runtimeOnly("org.postgresql:postgresql:42.3.6")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.assertj:assertj-core:3.23.1")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")
-}
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    dependsOn(tasks.ktlintCheck)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-    dependsOn(tasks.ktlintCheck)
-}
-
-ktlint {
-    version.set("0.43.2")
-    verbose.set(true)
-    outputToConsole.set(true)
-    coloredOutput.set(true)
-    additionalEditorconfigFile.set(file("./editorconfig"))
-    filter {
-        exclude("**/generated/**")
-        include("**/kotlin/**")
+    ktlint("com.pinterest:ktlint:0.48.1") {
+        attributes {
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        }
     }
 }
 
@@ -71,4 +56,50 @@ allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.Embeddable")
     annotation("javax.persistence.MappedSuperclass")
+}
+
+tasks {
+    val ktlintFormat by creating(JavaExec::class) {
+        inputs.files(project.sourceSets.main.get().allSource)
+
+        classpath = ktlint
+        mainClass.set("com.pinterest.ktlint.Main")
+        args = listOf("-F", "src/**/*.kt", "!src/**/generated/**")
+        jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+    }
+
+    val ktlintCheck by creating(JavaExec::class) {
+        inputs.files(project.sourceSets.main.get().allSource)
+
+        classpath = ktlint
+        mainClass.set("com.pinterest.ktlint.Main")
+        args = listOf("src/**/*.kt", "!src/**/generated/**", "--color", "--color-name=LIGHT_RED")
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_17.toString()
+        }
+        dependsOn(ktlintCheck)
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_17.toString()
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        dependsOn(ktlintCheck)
+    }
+
+    dependencyUpdates {
+        rejectVersionIf {
+            val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { candidate.version.contains(it, ignoreCase = true) }
+            val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+            val isStable = stableKeyword || regex.matches(candidate.version)
+            isStable.not()
+        }
+    }
 }

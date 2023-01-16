@@ -18,9 +18,14 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     fun getTimesheetEntries(
         @RequestParam timesheetId: Long? = null,
         @RequestParam email: String? = null,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate? = null,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate? = null
+        @RequestParam
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        startDate: LocalDate? = null,
+        @RequestParam
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        endDate: LocalDate? = null
     ) = timesheetEntryService.findTimesheetEntries(timesheetId, email, startDate, endDate)
+
     @GetMapping(value = ["/timesheet-entry/{timesheetEntryId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
         timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
@@ -30,8 +35,12 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     fun exportTimesheetEntriesAsCsv(
         response: HttpServletResponse,
         @RequestParam email: String? = null,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate
+        @RequestParam
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        startDate: LocalDate,
+        @RequestParam
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        endDate: LocalDate
     ) {
         response.contentType = "text/csv"
         response.characterEncoding = "utf-8"
@@ -41,11 +50,17 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
 
     @PreAuthorize("hasAuthority('ADMIN') or @timesheetEntryService.hasValidEmails(#timesheetEntries, authentication.principal.getClaim(\"email\"))")
     @PostMapping(value = ["/timesheet-entry"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun createTimesheetEntries(@Valid @RequestBody timesheetEntries: List<TimesheetEntryDTO>) =
+    fun createTimesheetEntries(
+        @Valid @RequestBody
+        timesheetEntries: List<TimesheetEntryDTO>
+    ) =
         timesheetEntryService.createTimesheetEntries(timesheetEntries)
 
     @PutMapping(value = ["/timesheet-entry"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateTimesheetEntryForId(@Valid @RequestBody timesheetEntry: TimesheetEntryDTO) =
+    fun updateTimesheetEntryForId(
+        @Valid @RequestBody
+        timesheetEntry: TimesheetEntryDTO
+    ) =
         timesheetEntryService.updateTimesheetEntryForId(timesheetEntry)
 
     @DeleteMapping(value = ["/timesheet-entry/{timesheetEntryId}"], consumes = [ALL_VALUE])

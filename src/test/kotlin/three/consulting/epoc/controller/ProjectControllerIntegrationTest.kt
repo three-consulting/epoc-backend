@@ -23,6 +23,7 @@ class ProjectControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.postForEntity("/project", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+
     @Test
     fun `add project without name returns 400`() {
         val httpEntity = jsonPostEntity("project/invalidCreation.json")

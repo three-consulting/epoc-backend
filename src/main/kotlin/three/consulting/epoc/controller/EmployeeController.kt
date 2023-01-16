@@ -22,7 +22,10 @@ class EmployeeController(
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun createEmployee(@Valid @RequestBody employee: EmployeeDTO) = employeeService.createEmployee(employee)
+    fun createEmployee(
+        @Valid @RequestBody
+        employee: EmployeeDTO
+    ) = employeeService.createEmployee(employee)
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE])
@@ -40,7 +43,10 @@ class FirebaseEmployeeController(
 ) {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateEmployeeForId(@Valid @RequestBody employee: EmployeeDTO) = firebaseService.updateEmployeeAndFirebaseRole(employee)
+    fun updateEmployeeForId(
+        @Valid @RequestBody
+        employee: EmployeeDTO
+    ) = firebaseService.updateEmployeeAndFirebaseRole(employee)
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ["/employee-sync"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])

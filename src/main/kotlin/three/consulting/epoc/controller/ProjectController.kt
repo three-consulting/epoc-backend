@@ -15,10 +15,16 @@ class ProjectController(private val projectService: ProjectService) {
     fun getProjectForId(@PathVariable projectId: Long) = projectService.findProjectForId(projectId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun createProject(@Valid @RequestBody project: ProjectDTO) = projectService.createProject(project)
+    fun createProject(
+        @Valid @RequestBody
+        project: ProjectDTO
+    ) = projectService.createProject(project)
 
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateProjectForId(@Valid @RequestBody project: ProjectDTO) = projectService.updateProjectForId(project)
+    fun updateProjectForId(
+        @Valid @RequestBody
+        project: ProjectDTO
+    ) = projectService.updateProjectForId(project)
 
     @DeleteMapping(value = ["/{projectId}"], consumes = [ALL_VALUE])
     fun deleteProjectForId(@PathVariable projectId: Long) = projectService.deleteProject(projectId)

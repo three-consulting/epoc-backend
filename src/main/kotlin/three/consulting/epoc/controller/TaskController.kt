@@ -18,10 +18,16 @@ class TaskController(private val taskService: TaskService) {
     fun getTaskForId(@PathVariable taskId: Long) = taskService.findTaskForId(taskId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun createTask(@Valid @RequestBody task: TaskDTO) = taskService.createTask(task)
+    fun createTask(
+        @Valid @RequestBody
+        task: TaskDTO
+    ) = taskService.createTask(task)
 
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateTaskForId(@Valid @RequestBody task: TaskDTO) = taskService.updateTaskForId(task)
+    fun updateTaskForId(
+        @Valid @RequestBody
+        task: TaskDTO
+    ) = taskService.updateTaskForId(task)
 
     @DeleteMapping(value = ["/{taskId}"], consumes = [ALL_VALUE])
     fun deleteTaskForId(@PathVariable taskId: Long) = taskService.deleteTask(taskId)

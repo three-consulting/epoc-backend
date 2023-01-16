@@ -15,10 +15,16 @@ class CustomerController(private val customerService: CustomerService) {
     fun getCustomerForId(@PathVariable customerId: Long) = customerService.findCustomerForId(customerId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun createCustomer(@Valid @RequestBody customer: CustomerDTO) = customerService.createCustomer(customer)
+    fun createCustomer(
+        @Valid @RequestBody
+        customer: CustomerDTO
+    ) = customerService.createCustomer(customer)
 
     @PutMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateCustomerForId(@Valid @RequestBody customer: CustomerDTO) = customerService.updateCustomerForId(customer)
+    fun updateCustomerForId(
+        @Valid @RequestBody
+        customer: CustomerDTO
+    ) = customerService.updateCustomerForId(customer)
 
     @DeleteMapping(value = ["/{customerId}"], consumes = [ALL_VALUE])
     fun deleteCustomerForId(@PathVariable customerId: Long) = customerService.deleteCustomer(customerId)

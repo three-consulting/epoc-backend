@@ -13,7 +13,9 @@ data class TimesheetDTO(
     @field:NotBlank val name: String,
     val description: String? = null,
     @field:Min(0) @field:NotNull val rate: Float,
-    @field:Min(0) @field:Max(100) val allocation: Int,
+    @field:Min(0)
+    @field:Max(100)
+    val allocation: Int,
     @field:NotNull val project: ProjectDTO,
     @field:NotNull val employee: EmployeeDTO,
     val created: LocalDateTime? = null,

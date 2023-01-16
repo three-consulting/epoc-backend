@@ -8,16 +8,23 @@ import javax.persistence.*
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["project_id", "employee_id"])])
 class Timesheet(
-    @ManyToOne @JoinColumn(name = "project_id", nullable = false) var project: Project,
-    @ManyToOne @JoinColumn(name = "employee_id", nullable = false) var employee: Employee,
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    var project: Project,
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    var employee: Employee,
     @field:Column(name = "name", nullable = false) var name: String,
     @field:Column(name = "description", nullable = true) var description: String? = null,
     @field:Column(name = "rate", nullable = false) var rate: Float,
     @field:Column(name = "allocation", nullable = false) var allocation: Int,
     @field:Column(name = "created", nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "updated", nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
-    @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false) var status: Status = Status.ACTIVE,
-    @field:Id @field:Column(name = "id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    var status: Status = Status.ACTIVE,
+    @field:Id
+    @field:Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 ) {

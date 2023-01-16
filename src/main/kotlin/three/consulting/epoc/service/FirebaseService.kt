@@ -23,7 +23,6 @@ class FirebaseService(
     }
 
     fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String, customClaims: Map<String, Any>): EmployeeDTO {
-
         logger.info { "Syncing user: $firebaseEmail" }
 
         val employee = employeeRepository.findByEmail(firebaseEmail)
@@ -49,7 +48,6 @@ class FirebaseService(
     }
 
     fun updateEmployeeAndFirebaseRole(employeeDTO: EmployeeDTO): EmployeeDTO {
-
         logger.info { "Updating employee with Firebase uid: ${employeeDTO.firebaseUid}" }
 
         if (employeeDTO.firebaseUid != null) {
@@ -68,7 +66,6 @@ class FirebaseService(
     }
 
     fun syncAllFirebaseUsers(): List<EmployeeDTO> {
-
         logger.info { "Starting to sync users found in Firebase with the database" }
 
         try {
