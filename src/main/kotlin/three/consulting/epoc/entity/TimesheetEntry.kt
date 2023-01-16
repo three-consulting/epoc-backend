@@ -1,9 +1,9 @@
 package three.consulting.epoc.entity
 
+import jakarta.persistence.*
 import three.consulting.epoc.dto.TimesheetEntryDTO
 import java.time.LocalDate
 import java.time.LocalDateTime
-import javax.persistence.*
 
 @Entity
 class TimesheetEntry(

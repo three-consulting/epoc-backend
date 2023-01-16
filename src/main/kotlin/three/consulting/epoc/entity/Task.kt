@@ -1,9 +1,9 @@
 package three.consulting.epoc.entity
 
+import jakarta.persistence.*
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.TaskDTO
 import java.time.LocalDateTime
-import javax.persistence.*
 
 @Entity
 class Task(

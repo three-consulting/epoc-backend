@@ -1,9 +1,9 @@
 package three.consulting.epoc.dto
 
+import jakarta.validation.constraints.NotNull
 import three.consulting.epoc.entity.TimesheetEntry
 import java.time.LocalDate
 import java.time.LocalDateTime
-import javax.validation.constraints.NotNull
 
 data class TimesheetEntryDTO(
     val id: Long? = null,

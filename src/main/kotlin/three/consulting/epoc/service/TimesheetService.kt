@@ -33,8 +33,8 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
     fun findTimesheetForId(id: Long): TimesheetDTO? {
         logger.info { "Looking for timesheet with id: $id" }
         val timesheet: Timesheet? = timesheetRepository.findByIdOrNull(id)
-        timesheet?.run {
-            return TimesheetDTO(timesheet)
+        timesheet?.let {
+            return TimesheetDTO(it)
         }
 
         logger.info { "No timesheet found for id: $id" }

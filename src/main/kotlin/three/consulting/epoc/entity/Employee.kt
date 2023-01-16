@@ -1,10 +1,10 @@
 package three.consulting.epoc.entity
 
+import jakarta.persistence.*
 import three.consulting.epoc.common.Role
 import three.consulting.epoc.dto.EmployeeDTO
 import java.time.LocalDate
 import java.time.LocalDateTime
-import javax.persistence.*
 
 @Entity
 class Employee(

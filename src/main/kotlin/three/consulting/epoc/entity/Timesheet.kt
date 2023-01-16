@@ -1,9 +1,9 @@
 package three.consulting.epoc.entity
 
+import jakarta.persistence.*
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.TimesheetDTO
 import java.time.LocalDateTime
-import javax.persistence.*
 
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["project_id", "employee_id"])])

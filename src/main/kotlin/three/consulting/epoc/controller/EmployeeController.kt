@@ -1,5 +1,6 @@
 package three.consulting.epoc.controller
 
+import jakarta.validation.Valid
 import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType.ALL_VALUE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.service.EmployeeService
 import three.consulting.epoc.service.FirebaseService
-import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["/employee"])

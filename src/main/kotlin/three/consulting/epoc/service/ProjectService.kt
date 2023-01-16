@@ -19,8 +19,8 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     fun findProjectForId(id: Long): ProjectDTO? {
         logger.info { "Looking for project with id: $id" }
         val project: Project? = projectRepository.findByIdOrNull(id)
-        project?.run {
-            return ProjectDTO(project)
+        project?.let {
+            return ProjectDTO(it)
         }
 
         logger.info { "No project found for id: $id" }

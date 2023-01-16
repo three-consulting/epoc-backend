@@ -31,8 +31,8 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
     fun findTimesheetEntryForId(id: Long): TimesheetEntryDTO? {
         logger.info { "Looking for timesheetEntry with id: $id" }
         val timesheetEntry: TimesheetEntry? = timesheetEntryRepository.findByIdOrNull(id)
-        timesheetEntry?.run {
-            return TimesheetEntryDTO(timesheetEntry)
+        timesheetEntry?.let {
+            return TimesheetEntryDTO(it)
         }
 
         logger.info { "No timesheetEntry found for id: $id" }

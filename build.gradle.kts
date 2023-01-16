@@ -1,16 +1,16 @@
 plugins {
-    id("org.springframework.boot") version "2.7.2"
-    kotlin("jvm") version "1.7.10"
-    kotlin("plugin.allopen") version "1.7.10"
-    kotlin("plugin.spring") version "1.7.10"
-    kotlin("plugin.jpa") version "1.7.10"
+    id("org.springframework.boot") version "3.0.1"
     id("com.github.ben-manes.versions") version "0.44.0"
+    kotlin("jvm") version "1.8.0"
+    kotlin("plugin.allopen") version "1.8.0"
+    kotlin("plugin.spring") version "1.8.0"
+    kotlin("plugin.jpa") version "1.8.0"
 }
 
-val kotlinVersion = "1.7.10"
-val jacksonVersion = "2.13.3"
-val springBootVersion = "2.7.2"
-val junitVersion = "5.9.0"
+val kotlinVersion = "1.8.0"
+val jacksonVersion = "2.14.1"
+val springBootVersion = "3.0.1"
+val junitVersion = "5.9.2"
 
 val ktlint: Configuration by configurations.creating
 
@@ -30,20 +30,20 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation("javax.validation:validation-api:2.0.1.Final")
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.flywaydb:flyway-core:8.5.13")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
-    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
-    implementation("com.google.firebase:firebase-admin:8.2.0")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    implementation("org.flywaydb:flyway-core:9.11.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+    implementation("com.google.firebase:firebase-admin:9.1.1")
 
-    runtimeOnly("org.postgresql:postgresql:42.3.6")
+    runtimeOnly("org.postgresql:postgresql:42.5.1")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation("org.assertj:assertj-core:3.24.1")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")
+    testImplementation("io.zonky.test:embedded-database-spring-test:2.2.0")
 
     ktlint("com.pinterest:ktlint:0.48.1") {
         attributes {
@@ -53,9 +53,9 @@ dependencies {
 }
 
 allOpen {
-    annotation("javax.persistence.Entity")
-    annotation("javax.persistence.Embeddable")
-    annotation("javax.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
 }
 
 tasks {

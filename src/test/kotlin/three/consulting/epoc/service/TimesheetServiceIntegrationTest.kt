@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.transaction.annotation.Transactional
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Role
 import three.consulting.epoc.common.Status
@@ -17,6 +18,7 @@ import three.consulting.epoc.repository.TimesheetRepository
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [TimesheetService::class])
+@Transactional
 class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Autowired

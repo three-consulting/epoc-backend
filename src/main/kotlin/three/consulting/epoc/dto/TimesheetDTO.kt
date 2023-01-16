@@ -1,12 +1,12 @@
 package three.consulting.epoc.dto
 
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.entity.Timesheet
 import java.time.LocalDateTime
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 data class TimesheetDTO(
     val id: Long? = null,

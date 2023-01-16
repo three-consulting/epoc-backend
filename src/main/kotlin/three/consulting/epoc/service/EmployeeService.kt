@@ -20,8 +20,8 @@ class EmployeeService(
     fun findEmployeeForId(id: Long): EmployeeDTO? {
         logger.info { "Looking for employee with id: $id" }
         val employee: Employee? = employeeRepository.findByIdOrNull(id)
-        employee?.run {
-            return EmployeeDTO(employee)
+        employee?.let {
+            return EmployeeDTO(it)
         }
 
         logger.info { "No employee found for id: $id" }
