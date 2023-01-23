@@ -31,15 +31,20 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
     fun findTimesheetEntryForId(id: Long): TimesheetEntryDTO? {
         logger.info { "Looking for timesheetEntry with id: $id" }
         val timesheetEntry: TimesheetEntry? = timesheetEntryRepository.findByIdOrNull(id)
-        if (timesheetEntry != null)
-            return TimesheetEntryDTO(timesheetEntry)
+        timesheetEntry?.let {
+            return TimesheetEntryDTO(it)
+        }
+
         logger.info { "No timesheetEntry found for id: $id" }
         throw TimeSheetEntryNotFoundException(id)
     }
 
     fun exportToCsv(startDate: LocalDate, endDate: LocalDate, email: String?): String {
-        val entries = if (email != null) timesheetEntryRepository.findAllByEmployeeEmailAndDates(email, startDate, endDate)
-        else timesheetEntryRepository.findAllByDates(startDate, endDate)
+        val entries = if (email != null) {
+            timesheetEntryRepository.findAllByEmployeeEmailAndDates(email, startDate, endDate)
+        } else {
+            timesheetEntryRepository.findAllByDates(startDate, endDate)
+        }
 
         var columnNames = "hours;task;project;date;email\n"
         val rows = entries.joinToString("") { entry -> "${entry.quantity};${entry.task.name};${entry.timesheet.project.name};${entry.date};${entry.timesheet.employee.email}\n" }

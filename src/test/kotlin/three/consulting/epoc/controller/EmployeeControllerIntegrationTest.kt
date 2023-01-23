@@ -23,6 +23,7 @@ class EmployeeControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.postForEntity("/employee", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+
     @Test
     fun `add employee without name returns 400`() {
         val httpEntity = jsonPostEntity("employee/invalidCreation.json")

@@ -1,8 +1,8 @@
 package three.consulting.epoc.entity
 
+import jakarta.persistence.*
 import three.consulting.epoc.dto.CustomerDTO
 import java.time.LocalDateTime
-import javax.persistence.*
 
 @Entity
 class Customer(
@@ -11,7 +11,9 @@ class Customer(
     @field:Column(nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var enabled: Boolean = true,
-    @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null
+    @field:Id
+    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
 ) {
     constructor(customerDTO: CustomerDTO) : this (
         id = customerDTO.id,

@@ -3,21 +3,18 @@ package three.consulting.epoc.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.stereotype.Component
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Profile("default")
-@Component
-@EnableGlobalMethodSecurity(
-    prePostEnabled = true
-)
-class SecurityConfig() {
+@Configuration
+@EnableMethodSecurity
+class SecurityConfig {
 
     private companion object {
         const val AUTHORITIES_CLAIM_NAME = "role"
@@ -25,9 +22,9 @@ class SecurityConfig() {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.cors().and().authorizeRequests {
+        http.cors().and().authorizeHttpRequests {
             it
-                .mvcMatchers("/docs", "/docs/**", "/docs-ui.html", "/swagger-ui/**")
+                .requestMatchers("/docs", "/docs/**", "/docs-ui.html", "/swagger-ui/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

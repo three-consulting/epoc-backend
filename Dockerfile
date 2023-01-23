@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 gradle:7.3-jdk17-alpine as builder
+FROM --platform=linux/amd64 gradle:7.6-jdk17-alpine as builder
 
 WORKDIR /builder
 COPY . .

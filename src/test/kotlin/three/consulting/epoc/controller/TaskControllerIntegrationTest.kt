@@ -22,6 +22,7 @@ class TaskControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.postForEntity("/task", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+
     @Test
     fun `add task without name returns 400`() {
         val httpEntity = jsonPostEntity("task/invalidCreation.json")

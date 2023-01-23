@@ -23,6 +23,7 @@ class CustomerControllerIntegrationTest : ControllerIntegrationTest() {
         val response = restTemplate.postForEntity("/customer", httpEntity, ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
+
     @Test
     fun `add customer without name returns 400`() {
         val httpEntity = jsonPostEntity("customer/invalidCreation.json")

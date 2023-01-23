@@ -1,8 +1,8 @@
 package three.consulting.epoc.dto
 
+import jakarta.validation.constraints.NotBlank
 import three.consulting.epoc.entity.Customer
 import java.time.LocalDateTime
-import javax.validation.constraints.NotBlank
 
 data class CustomerDTO(
     val id: Long? = null,

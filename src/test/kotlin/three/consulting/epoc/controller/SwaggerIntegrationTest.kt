@@ -14,8 +14,8 @@ class SwaggerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `docs-ui returns 302 found`() {
+    fun `docs-ui returns 200 found`() {
         val response = restTemplate.getForEntity("/docs-ui.html", String::class.java)
-        assertThat(response.statusCode).isEqualTo(HttpStatus.FOUND)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.transaction.annotation.Transactional
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Role
 import three.consulting.epoc.common.Status
@@ -14,6 +15,7 @@ import three.consulting.epoc.repository.TimesheetEntryRepository
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [TimesheetEntryService::class])
+@Transactional
 class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Autowired
@@ -72,6 +74,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         assertThat(timesheetEntry.description).isEqualTo("Testing timesheet entry")
         assertThat(timesheetEntry.task.id).isEqualTo(1L)
     }
+
     @Test
     fun `searching a timesheetEntry for invalid id return null`() {
         assertThatThrownBy { timesheetEntryService.findTimesheetEntryForId(1000000L) }

@@ -28,8 +28,9 @@ class TaskService(private val taskRepository: TaskRepository) {
     fun findTaskForId(id: Long): TaskDTO? {
         logger.info { "Looking for task with id: $id" }
         val task: Task? = taskRepository.findByIdOrNull(id)
-        if (task != null)
+        if (task != null) {
             return TaskDTO(task)
+        }
         logger.info { "No task found for id: $id" }
         throw TaskNotFoundException(id)
     }

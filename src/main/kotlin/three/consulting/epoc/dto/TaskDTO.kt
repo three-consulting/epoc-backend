@@ -1,10 +1,10 @@
 package three.consulting.epoc.dto
 
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import three.consulting.epoc.common.Status
 import three.consulting.epoc.entity.Task
 import java.time.LocalDateTime
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 data class TaskDTO(
     val id: Long? = null,
