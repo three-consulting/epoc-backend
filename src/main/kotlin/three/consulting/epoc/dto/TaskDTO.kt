@@ -14,7 +14,7 @@ data class TaskDTO(
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
     @field: NotNull val billable: Boolean = true,
-    val status: Status = Status.ACTIVE,
+    val status: Status? = Status.ACTIVE,
 ) {
     constructor(task: Task) : this (
         id = task.id,

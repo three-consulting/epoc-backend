@@ -37,6 +37,6 @@ class Timesheet(
         created = timesheetDTO.created ?: LocalDateTime.now(),
         project = Project(timesheetDTO.project),
         employee = Employee(timesheetDTO.employee),
-        status = timesheetDTO.status
+        status = timesheetDTO.status!!
     )
 }
