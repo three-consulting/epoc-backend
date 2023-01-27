@@ -30,6 +30,6 @@ class Task(
         created = taskDTO.created ?: LocalDateTime.now(),
         project = Project(taskDTO.project),
         billable = taskDTO.billable,
-        status = taskDTO.status
+        status = taskDTO.status!!
     )
 }

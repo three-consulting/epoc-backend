@@ -20,7 +20,7 @@ data class TimesheetDTO(
     @field:NotNull val employee: EmployeeDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
-    val status: Status = Status.ACTIVE,
+    val status: Status? = Status.ACTIVE,
 ) {
     constructor(timesheet: Timesheet) : this (
         id = timesheet.id,

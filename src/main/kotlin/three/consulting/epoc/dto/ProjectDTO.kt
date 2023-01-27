@@ -15,7 +15,7 @@ data class ProjectDTO(
     val endDate: LocalDate? = null,
     @field:NotNull val customer: CustomerDTO,
     @field:NotNull val managingEmployee: EmployeeDTO,
-    val status: Status = Status.ACTIVE,
+    val status: Status? = Status.ACTIVE,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
 ) {

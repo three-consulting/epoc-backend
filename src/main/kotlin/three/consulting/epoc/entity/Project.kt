@@ -37,6 +37,6 @@ class Project(
         created = projectDTO.created ?: LocalDateTime.now(),
         customer = Customer(projectDTO.customer),
         managingEmployee = Employee(projectDTO.managingEmployee),
-        status = projectDTO.status
+        status = projectDTO.status!!
     )
 }
