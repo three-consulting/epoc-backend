@@ -24,7 +24,7 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.cors().and().authorizeHttpRequests {
             it
-                .requestMatchers("/docs", "/docs/**", "/docs-ui.html", "/swagger-ui/**")
+                .requestMatchers("/docs", "/docs/**", "/docs-ui.html", "/swagger-ui/**", "/actuator/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
