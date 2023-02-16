@@ -7,6 +7,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.ProjectDTO
 import three.consulting.epoc.entity.Project
 import three.consulting.epoc.repository.ProjectRepository
@@ -54,6 +55,12 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     fun updateProjectForId(projectRequest: ProjectDTO): ProjectDTO {
         logger.info { "Updating project with id: ${projectRequest.id}" }
         if (projectRequest.id != null) {
+            val previousProject = findProjectForId(projectRequest.id)
+            if (previousProject?.status == Status.ARCHIVED && projectRequest.status == Status.ARCHIVED) {
+                val exception = UnableToUpdateProjectException("Cannot update archived project")
+                logger.error(exception) { "Failed updating project" }
+                throw exception
+            }
             if (projectRequest.endDate != null) {
                 if (projectRequest.startDate >= projectRequest.endDate) {
                     val exception = UnableToUpdateProjectException("Cannot update a project with end date preceding start date.")
@@ -65,7 +72,7 @@ class ProjectService(private val projectRepository: ProjectRepository) {
             return ProjectDTO(projectRepository.save(project))
         } else {
             val exception = UnableToUpdateProjectException("Cannot update project, missing project id")
-            logger.error(exception) { "Cannot update customer" }
+            logger.error(exception) { "Failed updating project" }
             throw exception
         }
     }

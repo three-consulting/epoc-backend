@@ -2,6 +2,7 @@ package three.consulting.epoc.entity
 
 import jakarta.persistence.*
 import three.consulting.epoc.common.Role
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.EmployeeDTO
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -18,6 +19,9 @@ class Employee(
     @field:Enumerated(EnumType.STRING)
     @field:Column(nullable = false)
     var role: Role,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    var status: Status = Status.ACTIVE,
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -30,7 +34,8 @@ class Employee(
         startDate = employeeDTO.startDate ?: LocalDate.now(),
         created = employeeDTO.created ?: LocalDateTime.now(),
         firebaseUid = employeeDTO.firebaseUid,
-        role = employeeDTO.role
+        role = employeeDTO.role,
+        status = employeeDTO.status!!
     )
 
     constructor(firebaseEmail: String, firebaseUid: String, role: Role) : this(
@@ -38,6 +43,7 @@ class Employee(
         startDate = LocalDate.now(),
         created = LocalDateTime.now(),
         firebaseUid = firebaseUid,
-        role = role
+        role = role,
+        status = Status.ACTIVE
     )
 }
