@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.repository.CustomerRepository
 
@@ -69,6 +70,30 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
         assertThatThrownBy { customerService.updateCustomerForId(invalidCustomer) }
             .isInstanceOf(UnableToUpdateCustomerException::class.java)
             .hasMessage("Cannot update customer, missing customer id")
+    }
+
+    @Test
+    fun `update archived customer raises error`() {
+        val archivedCustomer = CustomerDTO(name = "Archived Ltd", status = Status.ARCHIVED)
+        val id = customerService.createCustomer(archivedCustomer).id
+        if (id != null) {
+            val updatedCustomer = CustomerDTO(id = id, name = "Updated Ltd", status = Status.ARCHIVED)
+            assertThatThrownBy { customerService.updateCustomerForId(updatedCustomer) }
+                .isInstanceOf(UnableToUpdateCustomerException::class.java)
+                .hasMessage("Cannot update archived customer")
+        }
+    }
+
+    @Test
+    fun `unarchive customer`() {
+        val archivedCustomer = CustomerDTO(name = "Archived Ltd", status = Status.ARCHIVED)
+        val id = customerService.createCustomer(archivedCustomer).id
+        if (id != null) {
+            val unarchivedCustomer = CustomerDTO(id = id, name = "Unarchived Ltd", status = Status.ACTIVE)
+            val updatedCustomer = customerService.updateCustomerForId(unarchivedCustomer)
+            assertThat(updatedCustomer.id).isEqualTo(id)
+            assertThat(updatedCustomer.status).isEqualTo(Status.ACTIVE)
+        }
     }
 
     @Test

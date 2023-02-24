@@ -6,6 +6,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import three.consulting.epoc.entity.Customer
 import three.consulting.epoc.repository.CustomerRepository
@@ -40,10 +41,16 @@ class CustomerService(private val customerRepository: CustomerRepository) {
     fun updateCustomerForId(customerRequest: CustomerDTO): CustomerDTO {
         logger.info { "Updating customer with id: ${customerRequest.id}" }
         if (customerRequest.id != null) {
+            val previousCustomer = findCustomerForId(customerRequest.id)
+            if (previousCustomer?.status == Status.ARCHIVED && customerRequest.status == Status.ARCHIVED) {
+                val exception = UnableToUpdateCustomerException("Cannot update archived customer")
+                logger.error(exception) { "Failed updating customer" }
+                throw exception
+            }
             val customer = Customer(customerRequest)
             return CustomerDTO(customerRepository.save(customer))
         } else {
-            val exception = UnableToUpdateCustomerException()
+            val exception = UnableToUpdateCustomerException("Cannot update customer, missing customer id")
             logger.error(exception) { "Cannot update customer" }
             throw exception
         }
@@ -66,7 +73,7 @@ class CustomerService(private val customerRepository: CustomerRepository) {
 }
 
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
-class UnableToUpdateCustomerException : RuntimeException("Cannot update customer, missing customer id")
+class UnableToUpdateCustomerException(message: String) : RuntimeException(message)
 class UnableToDeleteCustomerException(id: Long) :
     RuntimeException("Cannot delete customer, no customer found for the given id: $id")
 class CustomerNotFoundException(id: Long) :

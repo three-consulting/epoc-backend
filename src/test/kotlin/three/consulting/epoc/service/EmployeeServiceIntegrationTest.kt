@@ -8,6 +8,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import three.consulting.epoc.common.Role
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.repository.EmployeeRepository
 
@@ -82,6 +83,56 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
         assertThatThrownBy { employeeService.updateEmployeeForId(invalidEmployee) }
             .isInstanceOf(UnableToUpdateEmployeeException::class.java)
             .hasMessage("Cannot update employee, missing employee id")
+    }
+
+    @Test
+    fun `update archived employee raises error`() {
+        val archivedEmployee = EmployeeDTO(
+            firstName = "Test",
+            lastName = "Archived",
+            email = "test@archived.com",
+            role = Role.USER,
+            status = Status.ARCHIVED
+        )
+        val id = employeeService.createEmployee(archivedEmployee).id
+        if (id != null) {
+            val updatedEmployee = EmployeeDTO(
+                id = id,
+                firstName = "Testest",
+                lastName = "Archived",
+                email = "testest@archived.com",
+                role = Role.ADMIN,
+                status = Status.ARCHIVED
+            )
+            assertThatThrownBy { employeeService.updateEmployeeForId(updatedEmployee) }
+                .isInstanceOf(UnableToUpdateEmployeeException::class.java)
+                .hasMessage("Cannot update archived employee")
+        }
+    }
+
+    @Test
+    fun `unarchive employee`() {
+        val archivedEmployee = EmployeeDTO(
+            firstName = "Test",
+            lastName = "Archived",
+            email = "test@archived.com",
+            role = Role.USER,
+            status = Status.ARCHIVED
+        )
+        val id = employeeService.createEmployee(archivedEmployee).id
+        if (id != null) {
+            val unarchivedEmployee = EmployeeDTO(
+                id = id,
+                firstName = "Test",
+                lastName = "Archived",
+                email = "test@archived.com",
+                role = Role.USER,
+                status = Status.ACTIVE
+            )
+            val updatedEmployee = employeeService.updateEmployeeForId(unarchivedEmployee)
+            assertThat(updatedEmployee.id).isEqualTo(id)
+            assertThat(updatedEmployee.status).isEqualTo(Status.ACTIVE)
+        }
     }
 
     @Test

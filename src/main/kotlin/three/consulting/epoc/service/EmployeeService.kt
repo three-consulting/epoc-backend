@@ -6,6 +6,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.EmployeeDTO
 import three.consulting.epoc.entity.Employee
 import three.consulting.epoc.repository.EmployeeRepository
@@ -43,10 +44,16 @@ class EmployeeService(
     fun updateEmployeeForId(employeeRequest: EmployeeDTO): EmployeeDTO {
         logger.info { "Updating employee with id: ${employeeRequest.id}" }
         if (employeeRequest.id != null) {
+            val previousEmployee = findEmployeeForId(employeeRequest.id)
+            if (previousEmployee?.status == Status.ARCHIVED && employeeRequest.status == Status.ARCHIVED) {
+                val exception = UnableToUpdateEmployeeException("Cannot update archived employee")
+                logger.error(exception) { "Failed updating employee" }
+                throw exception
+            }
             val employee = Employee(employeeRequest)
             return EmployeeDTO(employeeRepository.save(employee))
         } else {
-            val exception = UnableToUpdateEmployeeException()
+            val exception = UnableToUpdateEmployeeException("Cannot update employee, missing employee id")
             logger.error(exception) { "Cannot update customer" }
             throw exception
         }
@@ -69,7 +76,7 @@ class EmployeeService(
 }
 
 class UnableToCreateEmployeeException : RuntimeException("Cannot create an employee with existing id")
-class UnableToUpdateEmployeeException : RuntimeException("Cannot update employee, missing employee id")
+class UnableToUpdateEmployeeException(message: String) : RuntimeException(message)
 class UnableToDeleteEmployeeException(id: Long) :
     RuntimeException("Cannot delete employee, no employee found for given id: $id")
 class EmployeeNotFoundException(id: Long) :

@@ -24,10 +24,10 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Autowired
     private lateinit var projectRepository: ProjectRepository
 
-    val newProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER)
-    val updatingProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "Updating", lastName = "Project-Worker", email = "updatingProject@worker.fi", role = Role.USER)
-    val failingProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "Failing", lastName = "Project-Worker", email = "failing-worker@project.fi", role = Role.USER)
-    val testPersonId100 = EmployeeDTO(id = 100L, firstName = "Test", lastName = "Person", email = "test@person.fi", role = Role.USER)
+    val newProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER, status = Status.ACTIVE)
+    val updatingProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "Updating", lastName = "Project-Worker", email = "updatingProject@worker.fi", role = Role.USER, status = Status.ACTIVE)
+    val failingProjectWorkerId1 = EmployeeDTO(id = 1, firstName = "Failing", lastName = "Project-Worker", email = "failing-worker@project.fi", role = Role.USER, status = Status.ACTIVE)
+    val testPersonId100 = EmployeeDTO(id = 100L, firstName = "Test", lastName = "Person", email = "test@person.fi", role = Role.USER, status = Status.ACTIVE)
 
     @Test
     fun `searching a project for id return a project`() {
@@ -113,6 +113,62 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
         Assertions.assertThatThrownBy { projectService.updateProjectForId(invalidProject) }
             .isInstanceOf(UnableToUpdateProjectException::class.java)
             .hasMessage("Cannot update project, missing project id")
+    }
+
+    @Test
+    fun `update archived project raises error`() {
+        val archivedProject = ProjectDTO(
+            name = "asd",
+            customer = CustomerDTO(1, "Updating Project customer"),
+            managingEmployee = updatingProjectWorkerId1,
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
+            status = Status.ARCHIVED,
+        )
+        val id = projectService.createProject(archivedProject).id
+
+        if (id != null) {
+            val updatedProject = ProjectDTO(
+                id = id,
+                name = "asd-asd",
+                customer = CustomerDTO(1, "Updating Project customer"),
+                managingEmployee = updatingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+                status = Status.ARCHIVED,
+            )
+            Assertions.assertThatThrownBy { projectService.updateProjectForId(updatedProject) }
+                .isInstanceOf(UnableToUpdateProjectException::class.java)
+                .hasMessage("Cannot update archived project")
+        }
+    }
+
+    @Test
+    fun `unarchive project`() {
+        val archivedProject = ProjectDTO(
+            name = "asd",
+            customer = CustomerDTO(1, "Updating project customer"),
+            managingEmployee = updatingProjectWorkerId1,
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(1),
+            status = Status.ARCHIVED,
+        )
+        val id = projectService.createProject(archivedProject).id
+
+        if (id != null) {
+            val unarchivedProject = ProjectDTO(
+                id = id,
+                name = "asd",
+                customer = CustomerDTO(1, "Updating project customer"),
+                managingEmployee = updatingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+                status = Status.ACTIVE,
+            )
+            val updatedProject = projectService.updateProjectForId(unarchivedProject)
+            assertThat(updatedProject.id).isEqualTo(id)
+            assertThat(updatedProject.status).isEqualTo(Status.ACTIVE)
+        }
     }
 
     @Test

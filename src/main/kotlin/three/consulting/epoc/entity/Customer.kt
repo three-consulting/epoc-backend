@@ -1,6 +1,7 @@
 package three.consulting.epoc.entity
 
 import jakarta.persistence.*
+import three.consulting.epoc.common.Status
 import three.consulting.epoc.dto.CustomerDTO
 import java.time.LocalDateTime
 
@@ -11,6 +12,9 @@ class Customer(
     @field:Column(nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
     @field:Column(nullable = false) var enabled: Boolean = true,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    var status: Status = Status.ACTIVE,
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -20,6 +24,7 @@ class Customer(
         name = customerDTO.name,
         description = customerDTO.description,
         enabled = customerDTO.enabled ?: true,
-        created = customerDTO.created ?: LocalDateTime.now()
+        created = customerDTO.created ?: LocalDateTime.now(),
+        status = customerDTO.status!!
     )
 }
