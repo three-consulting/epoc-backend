@@ -25,4 +25,7 @@ INSERT INTO timesheet_entry(timesheet_id, task_id, quantity, date, description, 
     (1, 1, 7.5, '2022-04-01', 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (1, 1, 7.5, '2022-04-03', 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (2, 1, 7.5, '2022-04-01', 'Testing timesheet entry3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 1, 1, '2022-04-03', 'Testing timesheet entry4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (2, 1, 1, '2022-04-03', 'Testing timesheet entry4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 1, 7.5, '2023-03-01', 'Testing timesheet entry5', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 1, 7.5, '2023-03-03', 'Testing timesheet entry6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 1, 7.5, '2023-03-02', 'Testing timesheet entry7', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

@@ -322,4 +322,26 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         assertThat(csv.contains("7.5;test;test;2022-04-01;$email")).isTrue
         assertThat(csv.contains("7.5;test;test;2022-04-03;test@worker.fi")).isFalse
     }
+
+    @Test
+    fun `timesheet entries for csv export order exists`() {
+        val date = LocalDate.parse("2023-03-01")
+        val desc = "Testing timesheet entry5"
+        val entry = timesheetEntryService.findTimesheetEntryForId(5)
+        assertThat(entry?.description).isEqualTo(desc)
+        assertThat(entry?.date).isEqualTo(date)
+    }
+
+    @Test
+    fun `timesheet entries are sorted when exported to csv`() {
+        val startDate = LocalDate.parse("2023-03-01")
+        val endDate = LocalDate.parse("2023-03-03")
+        val email = "matti@worker.fi"
+
+        val csv = timesheetEntryService.exportToCsv(startDate, endDate, email)
+        val csvHeader = "hours;task;project;date;email\n"
+        val comparedCsv = csvHeader + listOf(1, 2, 3).joinToString("") { "7.5;test;test;2023-03-0$it;$email\n" }
+
+        assertThat(csv).isEqualTo(comparedCsv)
+    }
 }

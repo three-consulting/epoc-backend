@@ -47,7 +47,8 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         }
 
         var columnNames = "hours;task;project;date;email\n"
-        val rows = entries.joinToString("") { entry -> "${entry.quantity};${entry.task.name};${entry.timesheet.project.name};${entry.date};${entry.timesheet.employee.email}\n" }
+        val sortedEntries = entries.sortedBy { it.date }
+        val rows = sortedEntries.joinToString("") { entry -> "${entry.quantity};${entry.task.name};${entry.timesheet.project.name};${entry.date};${entry.timesheet.employee.email}\n" }
         return columnNames + rows
     }
 
