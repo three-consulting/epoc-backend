@@ -35,6 +35,9 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     fun exportTimesheetEntriesAsCsv(
         response: HttpServletResponse,
         @RequestParam email: String? = null,
+        @RequestParam projectId: Long? = null,
+        @RequestParam customerId: Long? = null,
+        @RequestParam taskId: Long? = null,
         @RequestParam
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         startDate: LocalDate,
@@ -44,7 +47,7 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     ) {
         response.contentType = "text/csv"
         response.characterEncoding = "utf-8"
-        val csvString = timesheetEntryService.exportToCsv(startDate, endDate, email)
+        val csvString = timesheetEntryService.exportToCsv(startDate, endDate, email, projectId, customerId, taskId)
         response.writer.print(csvString)
     }
 

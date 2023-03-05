@@ -32,7 +32,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching a project for id return a project`() {
         val project: ProjectDTO = projectService.findProjectForId(1L)!!
-        assertThat(project.name).isEqualTo("test")
+        assertThat(project.name).isEqualTo("project")
         assertThat(project.description).isEqualTo("testing")
         assertThat(project.customer.id).isEqualTo(1L)
     }
@@ -188,7 +188,7 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `get all projects`() {
         val projects = projectService.findAllProjects()
-        assertThat(projects.map { it.name }).containsExactlyElementsOf(listOf("test", "test2"))
+        assertThat(projects.map { it.name }).containsExactlyElementsOf(listOf("project", "project2", "project3"))
     }
 
     @Test
