@@ -43,7 +43,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching a task for id return a task`() {
         val task: TaskDTO = taskService.findTaskForId(1L)!!
-        assertThat(task.name).isEqualTo("test")
+        assertThat(task.name).isEqualTo("task")
         assertThat(task.description).isEqualTo("testing")
         assertThat(task.project.id).isEqualTo(1L)
     }
@@ -162,7 +162,7 @@ class TaskServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching task with project id 1 returns array of task objects`() {
         val tasks = taskService.findTasks(1L)
-        assertThat(tasks.map { it.name }).containsExactlyElementsOf(listOf("test", "test2"))
+        assertThat(tasks.map { it.name }).containsExactlyElementsOf(listOf("task", "task2", "task3"))
     }
 
     @Test
@@ -174,6 +174,6 @@ class TaskServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching task without project id returns array of task objects`() {
         val tasks = taskService.findTasks(null)
-        assertThat(tasks.map { it.name }).containsExactlyElementsOf(listOf("test", "test2"))
+        assertThat(tasks.map { it.name }).containsExactlyElementsOf(listOf("task", "task2", "task3"))
     }
 }

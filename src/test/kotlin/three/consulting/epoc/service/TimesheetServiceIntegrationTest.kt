@@ -70,7 +70,7 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching a timesheet for id return a timesheet`() {
         val timesheet: TimesheetDTO = timesheetService.findTimesheetForId(1L)!!
-        assertThat(timesheet.name).isEqualTo("test")
+        assertThat(timesheet.name).isEqualTo("timesheet")
         assertThat(timesheet.description).isEqualTo("testing")
         assertThat(timesheet.project.id).isEqualTo(1L)
     }
@@ -281,28 +281,27 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `searching timesheets with employeeId 2 returns a timesheet`() {
         val timesheets = timesheetService.findTimesheets(null, 2L, null)
-        assertThat(timesheets).hasSize(1)
-        assertThat(timesheets.first().name).isEqualTo("test2")
+        assertThat(timesheets).hasSize(2)
+        assertThat(timesheets.map { it.name }).containsExactlyElementsOf(listOf("timesheet2", "timesheet5"))
     }
 
     @Test
     fun `searching timesheets with employeeId and projectId returns a timesheet`() {
         val timesheets = timesheetService.findTimesheets(1L, 1L, null)
         assertThat(timesheets).hasSize(1)
-        assertThat(timesheets.first().name).isEqualTo("test")
+        assertThat(timesheets.first().name).isEqualTo("timesheet")
     }
 
     @Test
     fun `searching timesheets with email returns timesheets for that employee`() {
         val timesheets = timesheetService.findTimesheets(null, null, "testi@tekija.fi")
-        assertThat(timesheets).hasSize(1)
-        assertThat(timesheets.first().employee.id).isEqualTo(1)
+        assertThat(timesheets).hasSize(2)
+        assertThat(timesheets.map { it.employee.id }).allMatch { it == 1L }
     }
 
     @Test
     fun `searching timesheets without request parameters returns all timesheets`() {
         val timesheets = timesheetService.findTimesheets(null, null, null)
-        assertThat(timesheets).hasSize(3)
-        assertThat(timesheets.first().employee.id).isEqualTo(1)
+        assertThat(timesheets).hasSize(5)
     }
 }

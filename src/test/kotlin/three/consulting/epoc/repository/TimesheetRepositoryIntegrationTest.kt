@@ -15,6 +15,6 @@ class TimesheetRepositoryIntegrationTest : IntegrationTest() {
     @Test
     fun `searching a timesheet using an employee email returns timesheets for that employee`() {
         val timesheets = timesheetRepository.findAllByEmployeeEmail("testi@tekija.fi")
-        assertThat(timesheets).hasSize(1)
+        assertThat(timesheets).hasSize(2)
     }
 }

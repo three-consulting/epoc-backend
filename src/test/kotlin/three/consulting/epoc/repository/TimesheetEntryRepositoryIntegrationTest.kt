@@ -33,4 +33,151 @@ class TimesheetEntryRepositoryIntegrationTest : IntegrationTest() {
 
         assertThat(timesheetEntries).hasSize(2)
     }
+
+    @Test
+    fun `find timesheet entries by all params`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            "test@worker.fi",
+            3L,
+            2L,
+            3L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry12"))
+        assertThat(entries).hasSize(1)
+    }
+
+    @Test
+    fun `find timesheet entries by email`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            "test@worker.fi"
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry9", "Testing timesheet entry12"))
+        assertThat(entries).hasSize(2)
+    }
+
+    @Test
+    fun `find timesheet entries by project`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            null,
+            3L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry11", "Testing timesheet entry12"))
+        assertThat(entries).hasSize(2)
+    }
+
+    @Test
+    fun `find timesheet entries by customer`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            null,
+            null,
+            2L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry11", "Testing timesheet entry12"))
+        assertThat(entries).hasSize(2)
+    }
+
+    @Test
+    fun `find timesheet entries by task`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            null,
+            null,
+            null,
+            3L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry11", "Testing timesheet entry12"))
+        assertThat(entries).hasSize(2)
+    }
+
+    @Test
+    fun `find timesheet entries by missing email`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            null,
+            3L,
+            2L,
+            3L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry11", "Testing timesheet entry12"))
+        assertThat(entries).hasSize(2)
+    }
+
+    @Test
+    fun `find timesheet entries by missing project`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            "test@worker.fi",
+            null,
+            2L,
+            3L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry12"))
+        assertThat(entries).hasSize(1)
+    }
+
+    @Test
+    fun `find timesheet entries by missing customer`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            "test@worker.fi",
+            3L,
+            null,
+            3L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry12"))
+        assertThat(entries).hasSize(1)
+    }
+
+    @Test
+    fun `find timesheet entries by missing task`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+            "test@worker.fi",
+            3L,
+            2L,
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry12"))
+        assertThat(entries).hasSize(1)
+    }
+
+    @Test
+    fun `find timesheet entries by only dates`() {
+        val entries = timesheetEntryRepository.findAllByParams(
+            LocalDate.parse("2023-04-01"),
+            LocalDate.parse("2023-04-05"),
+        )
+
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(
+            listOf(
+                "Testing timesheet entry8",
+                "Testing timesheet entry9",
+                "Testing timesheet entry10",
+                "Testing timesheet entry11",
+                "Testing timesheet entry12"
+            )
+        )
+        assertThat(entries).hasSize(5)
+    }
 }

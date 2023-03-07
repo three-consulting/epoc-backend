@@ -98,9 +98,9 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `delete customer removes customer from the database`() {
-        assertThat(customerRepository.findByIdOrNull(2L)).isNotNull
-        customerService.deleteCustomer(2L)
-        assertThat(customerRepository.findByIdOrNull(2L)).isNull()
+        assertThat(customerRepository.findByIdOrNull(3L)).isNotNull
+        customerService.deleteCustomer(3L)
+        assertThat(customerRepository.findByIdOrNull(3L)).isNull()
     }
 
     @Test
@@ -113,6 +113,6 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `get all customers`() {
         val customers = customerService.findAllCustomers()
-        assertThat(customers.map { it.name }).containsExactlyElementsOf(listOf("Maurin Makkara Oy", "Matin Makkara Oy"))
+        assertThat(customers.map { it.name }).containsExactlyElementsOf(listOf("Maurin Makkara Oy", "Matin Makkara Oy", "Poisto Makkara Oy"))
     }
 }

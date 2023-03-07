@@ -265,10 +265,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `getting timesheet entries for timesheetId returns multiple entries`() {
-        val timesheets = timesheetEntryService.findTimesheetEntries(1L, null, null, null)
-        assertThat(timesheets).hasSize(2)
-        assertThat(timesheets.first().description).isEqualTo("Testing timesheet entry")
-        assertThat(timesheets.last().description).isEqualTo("Testing timesheet entry2")
+        val entries = timesheetEntryService.findTimesheetEntries(1L, null, null, null)
+        assertThat(entries).hasSize(3)
+        assertThat(entries.map { it.description }).containsExactlyElementsOf(listOf("Testing timesheet entry", "Testing timesheet entry2", "Testing timesheet entry8"))
     }
 
     @Test
@@ -307,9 +306,9 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     fun `timesheet entries csv export without email filter contains the right rows`() {
         val startDate = LocalDate.parse("2022-04-01")
         val endDate = LocalDate.parse("2022-04-01")
-        val csv = timesheetEntryService.exportToCsv(startDate, endDate, null)
-        assertThat(csv.contains("7.5;test;test;2022-04-01;testi@tekija.fi")).isTrue
-        assertThat(csv.contains("7.5;test;test;2022-04-01;test@worker.fi")).isTrue
+        val csv = timesheetEntryService.exportToCsv(startDate, endDate)
+        assertThat(csv.contains("7.5;task;project;2022-04-01;testi@tekija.fi")).isTrue
+        assertThat(csv.contains("7.5;task;project;2022-04-01;test@worker.fi")).isTrue
         assertThat(csv.contains("2022-04-02")).isFalse
     }
 
@@ -319,8 +318,8 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         val startDate = LocalDate.parse("2022-04-01")
         val endDate = LocalDate.parse("2022-04-03")
         val csv = timesheetEntryService.exportToCsv(startDate, endDate, email)
-        assertThat(csv.contains("7.5;test;test;2022-04-01;$email")).isTrue
-        assertThat(csv.contains("7.5;test;test;2022-04-03;test@worker.fi")).isFalse
+        assertThat(csv.contains("7.5;task;project;2022-04-01;$email")).isTrue
+        assertThat(csv.contains("7.5;task;project;2022-04-03;test@worker.fi")).isFalse
     }
 
     @Test
@@ -340,7 +339,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
         val csv = timesheetEntryService.exportToCsv(startDate, endDate, email)
         val csvHeader = "hours;task;project;date;email\n"
-        val comparedCsv = csvHeader + listOf(1, 2, 3).joinToString("") { "7.5;test;test;2023-03-0$it;$email\n" }
+        val comparedCsv = csvHeader + listOf(1, 2, 3).joinToString("") { "7.5;task;project;2023-03-0$it;$email\n" }
 
         assertThat(csv).isEqualTo(comparedCsv)
     }
