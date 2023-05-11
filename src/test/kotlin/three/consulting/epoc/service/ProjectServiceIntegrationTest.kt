@@ -179,13 +179,6 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `delete project with non-existing id raise error`() {
-        Assertions.assertThatThrownBy { projectService.deleteProject(1000L) }
-            .isInstanceOf(UnableToDeleteProjectException::class.java)
-            .hasMessage("Cannot delete project, no project found for given id: 1000")
-    }
-
-    @Test
     fun `get all projects`() {
         val projects = projectService.findAllProjects()
         assertThat(projects.map { it.name }).containsExactlyElementsOf(listOf("project", "project2", "project3"))

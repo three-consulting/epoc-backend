@@ -2,7 +2,6 @@ package three.consulting.epoc.service
 
 import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -78,13 +77,8 @@ class ProjectService(private val projectRepository: ProjectRepository) {
     }
 
     fun deleteProject(projectId: Long) {
-        try {
-            logger.info { "Deleting project with id: $projectId" }
-            projectRepository.deleteById(projectId)
-        } catch (e: EmptyResultDataAccessException) {
-            logger.error(e) { "Cannot delete project" }
-            throw UnableToDeleteProjectException(projectId)
-        }
+        logger.info { "Deleting project with id: $projectId" }
+        projectRepository.deleteById(projectId)
     }
 
     fun findAllProjects(): List<ProjectDTO> {

@@ -1,16 +1,16 @@
 plugins {
-    id("org.springframework.boot") version "3.0.1"
-    id("com.github.ben-manes.versions") version "0.44.0"
-    kotlin("jvm") version "1.8.0"
-    kotlin("plugin.allopen") version "1.8.0"
-    kotlin("plugin.spring") version "1.8.0"
-    kotlin("plugin.jpa") version "1.8.0"
+    id("org.springframework.boot") version "3.0.6"
+    id("com.github.ben-manes.versions") version "0.46.0"
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.allopen") version "1.8.21"
+    kotlin("plugin.spring") version "1.8.21"
+    kotlin("plugin.jpa") version "1.8.21"
 }
 
-val kotlinVersion = "1.8.0"
-val jacksonVersion = "2.14.1"
-val springBootVersion = "3.0.1"
-val junitVersion = "5.9.2"
+val kotlinVersion = "1.8.21"
+val jacksonVersion = "2.15.0"
+val springBootVersion = "3.0.6"
+val junitVersion = "5.9.3"
 
 val ktlint: Configuration by configurations.creating
 
@@ -33,20 +33,20 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
-    implementation("org.flywaydb:flyway-core:9.11.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+    implementation("org.flywaydb:flyway-core:9.17.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("com.google.firebase:firebase-admin:9.1.1")
 
-    runtimeOnly("org.postgresql:postgresql:42.5.1")
+    runtimeOnly("org.postgresql:postgresql:42.6.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.assertj:assertj-core:3.24.1")
+    testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("io.zonky.test:embedded-database-spring-test:2.2.0")
 
-    ktlint("com.pinterest:ktlint:0.48.1") {
+    ktlint("com.pinterest:ktlint:0.49.0") {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
         }

@@ -2,7 +2,6 @@ package three.consulting.epoc.service
 
 import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -65,13 +64,8 @@ class TaskService(private val taskRepository: TaskRepository) {
     }
 
     fun deleteTask(taskId: Long) {
-        try {
-            logger.info { "Deleting task with id: $taskId" }
-            taskRepository.deleteById(taskId)
-        } catch (e: EmptyResultDataAccessException) {
-            logger.error(e) { "Cannot delete task" }
-            throw UnableToDeleteTaskException(taskId)
-        }
+        logger.info { "Deleting task with id: $taskId" }
+        taskRepository.deleteById(taskId)
     }
 }
 

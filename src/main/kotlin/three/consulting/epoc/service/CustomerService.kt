@@ -1,7 +1,6 @@
 package three.consulting.epoc.service
 
 import mu.KotlinLogging
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -57,13 +56,8 @@ class CustomerService(private val customerRepository: CustomerRepository) {
     }
 
     fun deleteCustomer(customerId: Long) {
-        try {
-            logger.info { "Deleting customer with id: $customerId" }
-            customerRepository.deleteById(customerId)
-        } catch (e: EmptyResultDataAccessException) {
-            logger.error(e) { "Cannot delete customer" }
-            throw UnableToDeleteCustomerException(customerId)
-        }
+        logger.info { "Deleting customer with id: $customerId" }
+        customerRepository.deleteById(customerId)
     }
 
     fun findAllCustomers(): List<CustomerDTO> {
