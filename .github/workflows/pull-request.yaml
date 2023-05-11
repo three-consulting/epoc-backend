@@ -49,9 +49,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
-    runs-on:
-      - self-hosted
-      - kaas
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     if: github.actor == 'dependabot[bot]'
     steps:
