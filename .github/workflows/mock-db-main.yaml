@@ -96,7 +96,7 @@ jobs:
           options: "-O -x"
 
       - name: Build and push mock db image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: mock-db/.
           file: mock-db/Dockerfile
