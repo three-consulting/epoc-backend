@@ -44,3 +44,19 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
+  automerge:
+    needs: run_tests_and_build
+    permissions:
+      pull-requests: write
+      contents: write
+    runs-on:
+      - self-hosted
+      - kaas
+    timeout-minutes: 15
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Automerge dependabot PR
+        uses: fastify/github-action-merge-dependabot@v3
+        with:
+          target: minor
+          skip-commit-verification: true
