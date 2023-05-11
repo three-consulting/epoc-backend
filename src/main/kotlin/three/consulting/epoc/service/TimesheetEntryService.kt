@@ -2,7 +2,6 @@ package three.consulting.epoc.service
 
 import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -96,13 +95,8 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
     }
 
     fun deleteTimesheetEntry(timesheetEntryId: Long) {
-        try {
-            logger.info { "Deleting timesheetEntry with id: $timesheetEntryId" }
-            timesheetEntryRepository.deleteById(timesheetEntryId)
-        } catch (e: EmptyResultDataAccessException) {
-            logger.error(e) { "Cannot delete timesheetEntry" }
-            throw UnableToDeleteTimesheetEntryException(timesheetEntryId)
-        }
+        logger.info { "Deleting timesheetEntry with id: $timesheetEntryId" }
+        timesheetEntryRepository.deleteById(timesheetEntryId)
     }
 
     fun hasValidEmails(timesheetEntries: List<TimesheetEntryDTO>, email: String): Boolean {

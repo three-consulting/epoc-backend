@@ -257,13 +257,6 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `delete timesheetEntry with non-existing id raise error`() {
-        assertThatThrownBy { timesheetEntryService.deleteTimesheetEntry(1000L) }
-            .isInstanceOf(UnableToDeleteTimesheetEntryException::class.java)
-            .hasMessage("Cannot delete timesheetEntry, no timesheetEntry found for given id: 1000")
-    }
-
-    @Test
     fun `getting timesheet entries for timesheetId returns multiple entries`() {
         val entries = timesheetEntryService.findTimesheetEntries(1L, null, null, null)
         assertThat(entries).hasSize(3)

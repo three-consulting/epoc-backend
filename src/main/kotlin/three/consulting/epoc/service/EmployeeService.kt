@@ -1,7 +1,6 @@
 package three.consulting.epoc.service
 
 import mu.KotlinLogging
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -60,13 +59,8 @@ class EmployeeService(
     }
 
     fun deleteEmployee(employeeId: Long) {
-        try {
-            logger.info { "Deleting employee with id: $employeeId" }
-            employeeRepository.deleteById(employeeId)
-        } catch (e: EmptyResultDataAccessException) {
-            logger.error(e) { "Cannot delete employee" }
-            throw UnableToDeleteEmployeeException(employeeId)
-        }
+        logger.info { "Deleting employee with id: $employeeId" }
+        employeeRepository.deleteById(employeeId)
     }
 
     fun findAllEmployees(): List<EmployeeDTO> {
