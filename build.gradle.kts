@@ -44,7 +44,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testImplementation("io.zonky.test:embedded-database-spring-test:2.2.0")
+    testImplementation("io.zonky.test:embedded-database-spring-test:2.3.0")
 
     ktlint("com.pinterest:ktlint:0.49.1") {
         attributes {
