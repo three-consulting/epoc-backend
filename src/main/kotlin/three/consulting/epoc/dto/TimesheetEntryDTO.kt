@@ -14,6 +14,7 @@ data class TimesheetEntryDTO(
     @field:NotNull val task: TaskDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
+    @field:NotNull val flex: Float = 0f,
 ) {
     constructor(timesheetEntry: TimesheetEntry) : this (
         id = timesheetEntry.id,
@@ -24,5 +25,6 @@ data class TimesheetEntryDTO(
         task = TaskDTO(timesheetEntry.task),
         created = timesheetEntry.created,
         updated = timesheetEntry.updated,
+        flex = timesheetEntry.flex,
     )
 }

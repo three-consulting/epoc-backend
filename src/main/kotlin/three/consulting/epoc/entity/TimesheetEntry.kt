@@ -18,6 +18,7 @@ class TimesheetEntry(
     @field:Column(name = "description", nullable = true) var description: String? = null,
     @field:Column(name = "created", nullable = false) var created: LocalDateTime = LocalDateTime.now(),
     @field:Column(name = "updated", nullable = false) var updated: LocalDateTime = LocalDateTime.now(),
+    @field:Column(name = "flex", nullable = false) var flex: Float,
     @field:Id
     @field:Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +33,6 @@ class TimesheetEntry(
         task = Task(timesheetEntryDTO.task),
         created = timesheetEntryDTO.created ?: LocalDateTime.now(),
         updated = LocalDateTime.now(),
+        flex = timesheetEntryDTO.flex,
     )
 }
