@@ -63,7 +63,8 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
                 customer = CustomerDTO(1, "New Project Customer"),
                 managingEmployee = newProjectWorkerId1,
             ),
-        )
+        ),
+        flex = 0f
     )
 
     val sampleTimesheetEntries = listOf(sampleTimesheetEntry, sampleTimesheetEntry)
@@ -73,6 +74,7 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
         val timesheetEntry: TimesheetEntryDTO = timesheetEntryService.findTimesheetEntryForId(1L)!!
         assertThat(timesheetEntry.description).isEqualTo("Testing timesheet entry")
         assertThat(timesheetEntry.task.id).isEqualTo(1L)
+        assertThat(timesheetEntry.flex).isEqualTo(1.5f)
     }
 
     @Test

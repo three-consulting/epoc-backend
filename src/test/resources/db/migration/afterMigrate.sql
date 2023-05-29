@@ -26,16 +26,16 @@ INSERT INTO task(project_id, name, description, created, updated, billable, stat
     (1, 'task2', 'testing delete', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true, 'ACTIVE'),
     (1, 'task3', 'testing', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true, 'ACTIVE');
 
-INSERT INTO timesheet_entry(timesheet_id, task_id, quantity, date, description, created, updated) VALUES
-    (1, 1, 7.5, '2022-04-01', 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1, 1, 7.5, '2022-04-03', 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 1, 7.5, '2022-04-01', 'Testing timesheet entry3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 1, 1, '2022-04-03', 'Testing timesheet entry4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 1, 7.5, '2023-03-01', 'Testing timesheet entry5', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 1, 7.5, '2023-03-03', 'Testing timesheet entry6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 1, 7.5, '2023-03-02', 'Testing timesheet entry7', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1, 1, 7.5, '2023-04-01', 'Testing timesheet entry8', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 1, 7.5, '2023-04-02', 'Testing timesheet entry9', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 1, 7.5, '2023-04-03', 'Testing timesheet entry10', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (4, 3, 7.5, '2023-04-04', 'Testing timesheet entry11', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (5, 3, 7.5, '2023-04-05', 'Testing timesheet entry12', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO timesheet_entry(timesheet_id, task_id, quantity, date, description, created, updated, flex) VALUES
+    (1, 1, 7.5, '2022-04-01', 'Testing timesheet entry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1.5),
+    (1, 1, 7.5, '2022-04-03', 'Testing timesheet entry2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (2, 1, 7.5, '2022-04-01', 'Testing timesheet entry3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (2, 1, 1, '2022-04-03', 'Testing timesheet entry4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (3, 1, 7.5, '2023-03-01', 'Testing timesheet entry5', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (3, 1, 7.5, '2023-03-03', 'Testing timesheet entry6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (3, 1, 7.5, '2023-03-02', 'Testing timesheet entry7', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (1, 1, 7.5, '2023-04-01', 'Testing timesheet entry8', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (2, 1, 7.5, '2023-04-02', 'Testing timesheet entry9', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (3, 1, 7.5, '2023-04-03', 'Testing timesheet entry10', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (4, 3, 7.5, '2023-04-04', 'Testing timesheet entry11', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0),
+    (5, 3, 7.5, '2023-04-05', 'Testing timesheet entry12', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0);
