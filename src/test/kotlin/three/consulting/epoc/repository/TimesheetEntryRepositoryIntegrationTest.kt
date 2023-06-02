@@ -1,8 +1,10 @@
 package three.consulting.epoc.repository
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.test.context.ContextConfiguration
 import three.consulting.epoc.IntegrationTest
 import java.time.LocalDate
@@ -32,6 +34,20 @@ class TimesheetEntryRepositoryIntegrationTest : IntegrationTest() {
         )
 
         assertThat(timesheetEntries).hasSize(2)
+    }
+
+    @Test
+    fun `searching employee flex using valid email`() {
+        val employeeFlex = timesheetEntryRepository.sumEmployeeFLexByEmail(
+            "testi@tekija.fi"
+        )
+        assertThat(employeeFlex).isEqualTo(4.5f)
+    }
+
+    @Test
+    fun `searching employee flex using invalid email`() {
+        assertThatThrownBy { timesheetEntryRepository.sumEmployeeFLexByEmail("koira@koiralandia.fi") }
+            .isInstanceOf(EmptyResultDataAccessException::class.java)
     }
 
     @Test

@@ -2,6 +2,7 @@ package three.consulting.epoc.service
 
 import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -33,9 +34,19 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         timesheetEntry?.let {
             return TimesheetEntryDTO(it)
         }
-
         logger.info { "No timesheetEntry found for id: $id" }
         throw TimeSheetEntryNotFoundException(id)
+    }
+
+    fun findEmployeeFlexByEmail(email: String): Float {
+        try {
+            logger.info { "Looking for employee flex with email: $email" }
+            val flex: Float = timesheetEntryRepository.sumEmployeeFLexByEmail(email)
+            return flex
+        } catch (exc: EmptyResultDataAccessException) {
+            logger.error { "No flex found for email: $email" }
+            throw FlexNotFoundException(email)
+        }
     }
 
     fun exportToCsv(
@@ -108,7 +119,7 @@ class UnableToGetTimesheetEntriesException : RuntimeException("Cannot get timesh
 
 class UnableToCreateTimesheetEntryException(message: String) : RuntimeException(message)
 class UnableToUpdateTimesheetEntryException : RuntimeException("Cannot update timesheetEntry, missing timesheetEntry id")
-class UnableToDeleteTimesheetEntryException(id: Long) :
-    RuntimeException("Cannot delete timesheetEntry, no timesheetEntry found for given id: $id")
 class TimeSheetEntryNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Timesheet entry not found for id: $id")
+class FlexNotFoundException(email: String) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Flex not found for email: $email")

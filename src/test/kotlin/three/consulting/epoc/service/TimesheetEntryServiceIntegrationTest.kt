@@ -85,6 +85,18 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
+    fun `searching an employee flex for email`() {
+        val addedTimesheetEntry: TimesheetEntryDTO = timesheetEntryService.createTimesheetEntry(sampleTimesheetEntry)
+        assertThat(addedTimesheetEntry.flex).isEqualTo(0f)
+    }
+
+    @Test
+    fun `searching an employee flex for invalid email`() {
+        assertThatThrownBy { timesheetEntryService.findEmployeeFlexByEmail("koira@tekija.fi") }
+            .isInstanceOf(FlexNotFoundException::class.java)
+    }
+
+    @Test
     fun `added timesheetEntry is found from the database`() {
         val addedTimesheetEntry: TimesheetEntryDTO = timesheetEntryService.createTimesheetEntry(sampleTimesheetEntry)
         assertThat(addedTimesheetEntry.description).isEqualTo(sampleTimesheetEntry.description)
