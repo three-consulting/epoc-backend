@@ -18,13 +18,13 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `get employeeFlex for valid email return 200`() {
+    fun `get employeeFlex for valid email returns 200`() {
         val response = restTemplate.getForEntity("/timesheet-entry/flex?email=testi@tekija.fi", Float::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
-    fun `get employeeFlex for invalid email return 400`() {
+    fun `get employeeFlex without email returns 400`() {
         val response = restTemplate.getForEntity("/timesheet-entry/flex", ObjectNode::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }

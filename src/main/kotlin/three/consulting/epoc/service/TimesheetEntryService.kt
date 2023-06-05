@@ -38,16 +38,14 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         throw TimeSheetEntryNotFoundException(id)
     }
 
-    fun findEmployeeFlexByEmail(email: String): Float {
+    fun findEmployeeFlexByEmail(email: String): Float =
         try {
             logger.info { "Looking for employee flex with email: $email" }
-            val flex: Float = timesheetEntryRepository.sumEmployeeFLexByEmail(email)
-            return flex
+            timesheetEntryRepository.sumEmployeeFLexByEmail(email)
         } catch (exc: EmptyResultDataAccessException) {
             logger.error { "No flex found for email: $email" }
             throw FlexNotFoundException(email)
         }
-    }
 
     fun exportToCsv(
         startDate: LocalDate,
