@@ -28,6 +28,19 @@ interface TimesheetEntryRepository : JpaRepository<TimesheetEntry, Long> {
 
     @Query(
         """
+           SELECT sum(flex) from timesheet_entry te 
+           LEFT JOIN timesheet t ON te.timesheet_id = t.id 
+           JOIN employee e ON e.id = t.employee_id 
+           where e.email = :email
+        """,
+        nativeQuery = true
+    )
+    fun sumEmployeeFLexByEmail(
+        @Param("email") email: String
+    ): Float
+
+    @Query(
+        """
            SELECT te.* from timesheet_entry te 
            WHERE te.date >= :startDate AND te.date <= :endDate
         """,

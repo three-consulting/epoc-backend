@@ -30,6 +30,12 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     fun getTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
         timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
 
+    @PreAuthorize("hasAuthority('ADMIN') or #email == authentication.principal.getClaim(\"email\")")
+    @GetMapping(value = ["/timesheet-entry/flex"], consumes = [ALL_VALUE], produces = [ALL_VALUE])
+    fun getEmployeeFlex(
+        @RequestParam email: String,
+    ) = timesheetEntryService.findEmployeeFlexByEmail(email)
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ["timesheet-entry/csv-export"], consumes = [ALL_VALUE], produces = [TEXT_PLAIN_VALUE])
     fun exportTimesheetEntriesAsCsv(
