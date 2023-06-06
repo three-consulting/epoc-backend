@@ -57,7 +57,7 @@ docker run --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=passw
 
 Run the db with seed data in a container
 ```bash
-docker run --rm --name epoc-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 ghcr.io/three-consulting/epoc-db:latest
+docker run --rm --name epoc-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=epoc -p 5432:5432 ghcr.io/three-consulting/epoc-mock-db:latest
 ```
 
 ## Run tests
