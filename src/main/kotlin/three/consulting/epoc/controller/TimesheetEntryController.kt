@@ -31,7 +31,7 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
         timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
 
     @PreAuthorize("hasAuthority('ADMIN') or #email == authentication.principal.getClaim(\"email\")")
-    @GetMapping(value = ["/timesheet-entry/flex"], consumes = [ALL_VALUE], produces = [ALL_VALUE])
+    @GetMapping(value = ["/timesheet-entry/flex"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getEmployeeFlex(
         @RequestParam email: String,
     ) = timesheetEntryService.findEmployeeFlexByEmail(email)
