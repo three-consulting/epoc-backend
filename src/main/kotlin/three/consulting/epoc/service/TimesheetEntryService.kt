@@ -103,9 +103,17 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         }
     }
 
-    fun deleteTimesheetEntry(timesheetEntryId: Long) {
+    fun updateTimesheetEntriesForId(timesheetEntries: List<TimesheetEntryDTO>): List<TimesheetEntryDTO> {
+        return timesheetEntries.map { updateTimesheetEntryForId(it) }
+    }
+
+    fun deleteTimesheetEntryForId(timesheetEntryId: Long) {
         logger.info { "Deleting timesheetEntry with id: $timesheetEntryId" }
         timesheetEntryRepository.deleteById(timesheetEntryId)
+    }
+
+    fun deleteTimesheetEntriesForId(timesheetIds: List<Long>) {
+        timesheetIds.map { deleteTimesheetEntryForId(it) }
     }
 
     fun hasValidEmails(timesheetEntries: List<TimesheetEntryDTO>, email: String): Boolean {

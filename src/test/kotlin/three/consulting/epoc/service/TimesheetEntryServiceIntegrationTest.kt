@@ -264,9 +264,30 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     }
 
     @Test
+    fun `update timesheetEntries changes the updated time`() {
+        val firstTimesheetEntry = timesheetEntryService.findTimesheetEntryForId(1L)
+        val secondTimesheetEntry = timesheetEntryService.findTimesheetEntryForId(2L)
+        if (firstTimesheetEntry != null && secondTimesheetEntry != null) {
+            val updatedTimesheetEntries = timesheetEntryService.updateTimesheetEntriesForId(listOf(firstTimesheetEntry, secondTimesheetEntry))
+            val updated = updatedTimesheetEntries.map { it.updated }
+            assertThat(updated[0]).isNotEqualTo(firstTimesheetEntry.updated)
+            assertThat(updated[1]).isNotEqualTo(secondTimesheetEntry.updated)
+        }
+    }
+
+    @Test
     fun `delete timesheetEntry removes timesheetEntry from database`() {
         assertThat(timesheetEntryRepository.findByIdOrNull(2L)).isNotNull
-        timesheetEntryService.deleteTimesheetEntry(2L)
+        timesheetEntryService.deleteTimesheetEntryForId(2L)
+        assertThat(timesheetEntryRepository.findByIdOrNull(2L)).isNull()
+    }
+
+    @Test
+    fun `delete timesheetEntries removes timesheetEntries from database`() {
+        assertThat(timesheetEntryRepository.findByIdOrNull(1L)).isNotNull
+        assertThat(timesheetEntryRepository.findByIdOrNull(2L)).isNotNull
+        timesheetEntryService.deleteTimesheetEntriesForId(listOf(1, 2))
+        assertThat(timesheetEntryRepository.findByIdOrNull(1L)).isNull()
         assertThat(timesheetEntryRepository.findByIdOrNull(2L)).isNull()
     }
 
