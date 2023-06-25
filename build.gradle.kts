@@ -9,7 +9,7 @@ plugins {
 
 val kotlinVersion = "1.8.22"
 val jacksonVersion = "2.15.2"
-val springBootVersion = "3.1.0"
+val springBootVersion = "3.1.1"
 val junitVersion = "5.9.3"
 
 val ktlint: Configuration by configurations.creating
