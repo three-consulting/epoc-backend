@@ -65,14 +65,14 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     ) =
         timesheetEntryService.createTimesheetEntries(timesheetEntries)
 
-    @PutMapping(value = ["/timesheet-entry"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updateTimesheetEntryForId(
+    @PutMapping(value = ["/timesheet-entries"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
+    fun updateTimesheetEntriesForId(
         @Valid @RequestBody
-        timesheetEntry: TimesheetEntryDTO
+        timesheetEntries: List<TimesheetEntryDTO>
     ) =
-        timesheetEntryService.updateTimesheetEntryForId(timesheetEntry)
+        timesheetEntryService.updateTimesheetEntriesForId(timesheetEntries)
 
-    @DeleteMapping(value = ["/timesheet-entry/{timesheetEntryId}"], consumes = [ALL_VALUE])
-    fun deleteTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
-        timesheetEntryService.deleteTimesheetEntry(timesheetEntryId)
+    @DeleteMapping(value = ["/timesheet-entry"], consumes = [ALL_VALUE])
+    fun deleteTimesheetEntriesForId(@Valid @RequestBody timesheetIds: List<Long>) =
+        timesheetEntryService.deleteTimesheetEntriesForId(timesheetIds)
 }

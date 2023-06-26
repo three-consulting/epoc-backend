@@ -44,37 +44,38 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     }
 
     @Test
-    fun `update timesheetEntry returns 200`() {
+    fun `update timesheetEntries returns 200`() {
         val httpEntity = jsonPostEntity("timesheetEntry/validUpdate.json")
         val response = restTemplate.exchange(
-            URI("/timesheet-entry"),
+            URI("/timesheet-entries"),
             HttpMethod.PUT,
             httpEntity,
-            ObjectNode::class.java
+            ArrayNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
-    fun `delete timesheetEntry returns 204`() {
+    fun `delete timesheetEntries returns 204`() {
+        val httpEntity = jsonPostEntity("timesheetEntry/deleteEntries.json")
         val response = restTemplate.exchange(
-            URI("/timesheet-entry/1"),
+            URI("/timesheet-entry"),
             HttpMethod.DELETE,
-            null,
-            ObjectNode::class.java
+            httpEntity,
+            ArrayNode::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
-    fun `delete without path id returns 400`() {
+    fun `delete without request body returns 400`() {
         val response = restTemplate.exchange(
             URI("/timesheet-entry"),
             HttpMethod.DELETE,
             null,
             ObjectNode::class.java
         )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
     @Test
