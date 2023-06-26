@@ -47,7 +47,7 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     fun `update timesheetEntries returns 200`() {
         val httpEntity = jsonPostEntity("timesheetEntry/validUpdate.json")
         val response = restTemplate.exchange(
-            URI("/timesheet-entries"),
+            URI("/timesheet-entry"),
             HttpMethod.PUT,
             httpEntity,
             ArrayNode::class.java

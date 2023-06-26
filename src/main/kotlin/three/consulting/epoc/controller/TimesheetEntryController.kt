@@ -65,7 +65,7 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     ) =
         timesheetEntryService.createTimesheetEntries(timesheetEntries)
 
-    @PutMapping(value = ["/timesheet-entries"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
+    @PutMapping(value = ["/timesheet-entry"], consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun updateTimesheetEntriesForId(
         @Valid @RequestBody
         timesheetEntries: List<TimesheetEntryDTO>
