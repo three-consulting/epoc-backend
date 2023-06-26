@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "3.1.0"
+    id("org.springframework.boot") version "3.1.1"
     id("com.github.ben-manes.versions") version "0.47.0"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.allopen") version "1.8.22"
@@ -9,7 +9,7 @@ plugins {
 
 val kotlinVersion = "1.8.22"
 val jacksonVersion = "2.15.2"
-val springBootVersion = "3.1.0"
+val springBootVersion = "3.1.1"
 val junitVersion = "5.9.3"
 
 val ktlint: Configuration by configurations.creating
@@ -36,7 +36,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:9.19.4")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("com.google.firebase:firebase-admin:9.1.1")
+    implementation("com.google.firebase:firebase-admin:9.2.0")
 
     runtimeOnly("org.postgresql:postgresql:42.6.0")
 
