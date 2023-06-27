@@ -55,6 +55,7 @@ class FirebaseService(
             val employee = employeeRepository.findByFirebaseUid(employeeDTO.firebaseUid)
             if (employee != null) {
                 firebaseAuth.setCustomUserClaims(employeeDTO.firebaseUid, customClaims)
+                firebaseAuth.revokeRefreshTokens(employeeDTO.firebaseUid)
                 val updatedEmployee = Employee(employeeDTO)
                 return EmployeeDTO(employeeRepository.save(updatedEmployee))
             } else {
