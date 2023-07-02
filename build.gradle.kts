@@ -46,7 +46,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("io.zonky.test:embedded-database-spring-test:2.3.0")
 
-    ktlint("com.pinterest:ktlint:0.49.1") {
+    ktlint("com.pinterest:ktlint:0.50.0") {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
         }
