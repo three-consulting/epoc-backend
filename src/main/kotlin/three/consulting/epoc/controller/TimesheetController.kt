@@ -3,6 +3,7 @@ package three.consulting.epoc.controller
 import jakarta.validation.Valid
 import org.springframework.http.MediaType.ALL_VALUE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.security.access.prepost.PostFilter
 import org.springframework.web.bind.annotation.*
 import three.consulting.epoc.dto.TimesheetDTO
 import three.consulting.epoc.service.TimesheetService
@@ -11,6 +12,7 @@ import three.consulting.epoc.service.TimesheetService
 @RequestMapping(path = ["/timesheet"])
 class TimesheetController(private val timesheetService: TimesheetService) {
 
+    @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheets(
         @RequestParam projectId: Long? = null,

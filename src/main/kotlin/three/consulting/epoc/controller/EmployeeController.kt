@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType.ALL_VALUE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.security.access.prepost.PostFilter
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import three.consulting.epoc.dto.EmployeeDTO
@@ -31,6 +32,7 @@ class EmployeeController(
     @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE])
     fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
 
+    @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getAllEmployees() = employeeService.findAllEmployees()
 }
