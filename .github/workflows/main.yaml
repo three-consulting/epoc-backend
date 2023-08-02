@@ -59,7 +59,7 @@ jobs:
       #      latest=true
 
       - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@main
         with:
           project_id: epoc-auth-dev-361109
           service_account_key: ${{ secrets.GCP_SA_KEY }}
