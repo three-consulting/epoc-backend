@@ -73,7 +73,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: gcr.io/epoc-auth-dev-361109/epoc-backend-dev:latest
+          tags: europe-north1-docker.pkg.dev/epoc-auth-dev-361109/epoc-dev-container-repository/epoc-dev-backend:latest
 
       # - name: Deploy to Cloud Run
       #  uses: google-github-actions/deploy-cloudrun@main
