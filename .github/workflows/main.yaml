@@ -62,7 +62,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@main
         with:
           project_id: epoc-auth-dev-361109
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          service_account_key: ${{ secrets.GCP_SA_EPOC_DEV_KEY }}
           export_default_credentials: true
 
       - name: Configure docker for GCP
