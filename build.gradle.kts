@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.allopen") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
-    kotlin("plugin.jpa") version "1.9.0"
+    kotlin("plugin.jpa") version "1.9.10"
 }
 
 val kotlinVersion = "1.9.0"
