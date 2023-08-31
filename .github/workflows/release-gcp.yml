@@ -1,20 +1,18 @@
-name: Dev
+name: Release GCP
 
 on:
-  push:
-    branches:
-      - dev
-  workflow_dispatch:
+  release:
+    types:
+      - published
 
 env:
-  PROJECT_ID: epoc-auth-dev-361109
-  REPOSITORY: epoc-dev-container-repository
-  SERVICE: epoc-backend-dev
+  PROJECT_ID: epoc-auth
+  REPOSITORY: epoc-prod-container-repository
+  SERVICE: epoc-backend-prod
   REGION: europe-north1
 
-
 jobs:
-  run_tests_and_deploy_to_gcp:
+  run_tests_and_create_release:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -47,7 +45,7 @@ jobs:
         with:
           images: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}
           tags: |
-            type=raw,value=${{ github.sha }}
+            type=raw,value=${{ github.event.release.tag_name }}
           labels: |
             org.opencontainers.image.authors=epoc
             org.opencontainers.image.vendor=three.consulting
@@ -58,7 +56,7 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS_DEV }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_PROD }}
           token_format: access_token
 
       - name: Docker Auth
@@ -84,7 +82,7 @@ jobs:
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
+          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.event.release.tag_name }}
           secrets: |
             FIREBASE_SERVICE_ACCOUNT_JSON=FIREBASE_SERVICE_ACCOUNT_JSON:latest
             SPRING_DATASOURCE_PASSWORD=SPRING_DATASOURCE_PASSWORD:latest
