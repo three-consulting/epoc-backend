@@ -1,9 +1,15 @@
 name: Release GCP
 
+#on:
+#  release:
+#    types:
+#      - published
+
 on:
-  release:
-    types:
-      - published
+  push:
+    branches:
+      - migrate-prod-to-google-cloud
+  workflow_dispatch:
 
 env:
   PROJECT_ID: epoc-auth
