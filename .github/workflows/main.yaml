@@ -17,7 +17,7 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -74,7 +74,7 @@ jobs:
     needs: run_tests
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build, Push and Release a Docker container to Heroku.
         uses: akhileshns/heroku-deploy@v3.12.14
@@ -92,7 +92,7 @@ jobs:
       - build_and_push
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
