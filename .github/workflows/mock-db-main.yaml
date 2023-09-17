@@ -62,7 +62,7 @@ jobs:
 
       - name: Define test db image meta
         id: docker_meta_db
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.TEST_DB_IMAGE }}
           tags: |
