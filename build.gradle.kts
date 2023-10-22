@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "3.1.4"
+    id("org.springframework.boot") version "3.1.5"
     id("com.github.ben-manes.versions") version "0.49.0"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.allopen") version "1.9.10"
