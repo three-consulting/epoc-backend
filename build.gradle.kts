@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.jpa") version "1.9.20"
 }
 
-val kotlinVersion = "1.9.20"
+val kotlinVersion = "1.9.21"
 val jacksonVersion = "2.16.0"
 val springBootVersion = "3.1.5"
 val junitVersion = "5.10.1"
