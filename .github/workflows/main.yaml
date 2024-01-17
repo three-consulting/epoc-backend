@@ -7,11 +7,13 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE: ${{ github.repository }}
+  PROJECT_ID: epoc-auth-dev-361109
+  REPOSITORY: epoc-dev-container-repository
+  SERVICE: epoc-backend-dev
+  REGION: europe-north1
 
 jobs:
-  run_tests:
+  run_tests_and_deploy_to_gcp:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -38,27 +40,35 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Github Packages
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Define image meta
         id: docker_meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE }}
+          images: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}
           tags: |
-            type=raw,value=sha-${{ github.sha }}
+            type=raw,value=${{ github.sha }}
           labels: |
             org.opencontainers.image.authors=epoc
             org.opencontainers.image.vendor=three.consulting
           flavor: |
             latest=true
 
-      - name: Build and push image
+      - name: Google Auth
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_DEV }}
+          token_format: access_token
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGION }}-docker.pkg.dev
+          username: 'oauth2accesstoken'
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Build and push image to artifact registry
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -68,30 +78,24 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-  build_and_push:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs: run_tests
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build, Push and Release a Docker container to Heroku.
-        uses: akhileshns/heroku-deploy@v3.13.15
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1
         with:
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_DEV_APP_NAME }}
-          usedocker: true
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
+          secrets: |
+            FIREBASE_SERVICE_ACCOUNT_JSON=FIREBASE_SERVICE_ACCOUNT_JSON:latest
+            SPRING_DATASOURCE_PASSWORD=SPRING_DATASOURCE_PASSWORD:latest
+            SPRING_DATASOURCE_URL=SPRING_DATASOURCE_URL:latest
+            SPRING_DATASOURCE_USERNAME=SPRING_DATASOURCE_USERNAME:latest
+            SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI:latest
+            SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI=SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI:latest
 
   draft_release:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs:
-      - run_tests
-      - build_and_push
     steps:
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
