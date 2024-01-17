@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 gradle:8.1.1-jdk17-alpine as builder
+FROM --platform=linux/amd64 gradle:8.5-jdk21-alpine as builder
 
 WORKDIR /builder
 COPY . .
@@ -7,7 +7,7 @@ RUN gradle clean bootJar
 # extract layers from built jar
 RUN java -Djarmode=layertools -jar build/libs/epoc.jar extract --destination layers
 
-FROM --platform=linux/amd64 azul/zulu-openjdk-alpine:17-jre
+FROM --platform=linux/amd64 azul/zulu-openjdk-alpine:21-jre
 
 RUN adduser -u 1999 -D user
 
@@ -19,4 +19,4 @@ EXPOSE 8080
 
 USER user
 
-ENTRYPOINT ["java", "-XX:+ExitOnOutOfMemoryError", "-Xms128m", "-Xmx256m", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "-XX:+ExitOnOutOfMemoryError", "-Xms128m", "-Xmx256m", "org.springframework.boot.loader.launch.JarLauncher"]
