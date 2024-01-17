@@ -54,8 +54,12 @@ class FirebaseService(
             val customClaims = mapOf(AUTHORITIES_CLAIM_NAME to employeeDTO.role.name)
             val employee = employeeRepository.findByFirebaseUid(employeeDTO.firebaseUid)
             if (employee != null) {
-                firebaseAuth.setCustomUserClaims(employeeDTO.firebaseUid, customClaims)
-                firebaseAuth.revokeRefreshTokens(employeeDTO.firebaseUid)
+                try {
+                    firebaseAuth.setCustomUserClaims(employeeDTO.firebaseUid, customClaims)
+                    firebaseAuth.revokeRefreshTokens(employeeDTO.firebaseUid)
+                } catch (exc: Exception) {
+                    logger.warn(exc) { "Failed to update employee in firebase, ignoring exception" }
+                }
                 val updatedEmployee = Employee(employeeDTO)
                 return EmployeeDTO(employeeRepository.save(updatedEmployee))
             } else {

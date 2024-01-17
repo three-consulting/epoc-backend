@@ -5,24 +5,12 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
 import mu.KotlinLogging
-import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-import three.consulting.epoc.service.FirebaseService
 
 private val logger = KotlinLogging.logger {}
-
-@Profile("default")
-@Configuration
-class FirebaseSync(
-    private val firebaseService: FirebaseService
-) : InitializingBean {
-    override fun afterPropertiesSet() {
-        firebaseService.syncAllFirebaseUsers()
-    }
-}
 
 @Profile("default")
 @Configuration

@@ -15,7 +15,7 @@ val junitVersion = "5.10.1"
 val ktlint: Configuration by configurations.creating
 
 group = "three.consulting"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
     mavenCentral()
@@ -79,14 +79,14 @@ tasks {
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = JavaVersion.VERSION_21.toString()
         }
         dependsOn(ktlintCheck)
     }
 
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = JavaVersion.VERSION_21.toString()
         }
     }
 
