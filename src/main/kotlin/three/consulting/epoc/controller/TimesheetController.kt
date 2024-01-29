@@ -11,7 +11,6 @@ import three.consulting.epoc.service.TimesheetService
 @RestController
 @RequestMapping(path = ["/timesheet"])
 class TimesheetController(private val timesheetService: TimesheetService) {
-
     @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheets(
@@ -21,7 +20,9 @@ class TimesheetController(private val timesheetService: TimesheetService) {
     ) = timesheetService.findTimesheets(projectId, employeeId, email)
 
     @GetMapping(value = ["/{timesheetId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.findTimesheetForId(timesheetId)
+    fun getTimesheetForId(
+        @PathVariable timesheetId: Long
+    ) = timesheetService.findTimesheetForId(timesheetId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createTimesheet(
@@ -36,5 +37,7 @@ class TimesheetController(private val timesheetService: TimesheetService) {
     ) = timesheetService.updateTimesheetForId(timesheet)
 
     @DeleteMapping(value = ["/{timesheetId}"], consumes = [ALL_VALUE])
-    fun deleteTimesheetForId(@PathVariable timesheetId: Long) = timesheetService.deleteTimesheet(timesheetId)
+    fun deleteTimesheetForId(
+        @PathVariable timesheetId: Long
+    ) = timesheetService.deleteTimesheet(timesheetId)
 }

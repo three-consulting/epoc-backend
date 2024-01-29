@@ -13,7 +13,6 @@ import three.consulting.epoc.repository.CustomerRepository
 
 @ContextConfiguration(classes = [CustomerService::class])
 class CustomerServiceIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var customerService: CustomerService
 
@@ -37,10 +36,11 @@ class CustomerServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `added customer is found from database`() {
-        val customer = CustomerDTO(
-            name = "Älykäs Oy",
-            description = "Innovating new innovation"
-        )
+        val customer =
+            CustomerDTO(
+                name = "Älykäs Oy",
+                description = "Innovating new innovation"
+            )
         val addedCustomer: CustomerDTO = customerService.createCustomer(customer)
         assertThat(addedCustomer.name).isEqualTo(customer.name)
         assertThat(addedCustomer.description).isEqualTo(customer.description)

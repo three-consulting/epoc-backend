@@ -11,13 +11,16 @@ import three.consulting.epoc.service.TaskService
 @RestController
 @RequestMapping(path = ["/task"])
 class TaskController(private val taskService: TaskService) {
-
     @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getTasks(@RequestParam projectId: Long?) = taskService.findTasks(projectId)
+    fun getTasks(
+        @RequestParam projectId: Long?
+    ) = taskService.findTasks(projectId)
 
     @GetMapping(value = ["/{taskId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getTaskForId(@PathVariable taskId: Long) = taskService.findTaskForId(taskId)
+    fun getTaskForId(
+        @PathVariable taskId: Long
+    ) = taskService.findTaskForId(taskId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createTask(
@@ -32,5 +35,7 @@ class TaskController(private val taskService: TaskService) {
     ) = taskService.updateTaskForId(task)
 
     @DeleteMapping(value = ["/{taskId}"], consumes = [ALL_VALUE])
-    fun deleteTaskForId(@PathVariable taskId: Long) = taskService.deleteTask(taskId)
+    fun deleteTaskForId(
+        @PathVariable taskId: Long
+    ) = taskService.deleteTask(taskId)
 }

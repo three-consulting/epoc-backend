@@ -14,17 +14,21 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class TimesheetService(private val timesheetRepository: TimesheetRepository) {
-
-    fun findTimesheets(projectId: Long?, employeeId: Long?, email: String?): List<TimesheetDTO> {
+    fun findTimesheets(
+        projectId: Long?,
+        employeeId: Long?,
+        email: String?
+    ): List<TimesheetDTO> {
         logger.info { "Looking for timesheets with projectId: $projectId, employeeId: $employeeId and email: $email" }
 
-        val timesheets = when {
-            employeeId != null && projectId != null -> timesheetRepository.findAllByProjectIdAndEmployeeId(projectId, employeeId)
-            employeeId == null && projectId != null -> timesheetRepository.findAllByProjectId(projectId)
-            employeeId != null && projectId == null -> timesheetRepository.findAllByEmployeeId(employeeId)
-            email != null -> timesheetRepository.findAllByEmployeeEmail(email)
-            else -> timesheetRepository.findAll()
-        }
+        val timesheets =
+            when {
+                employeeId != null && projectId != null -> timesheetRepository.findAllByProjectIdAndEmployeeId(projectId, employeeId)
+                employeeId == null && projectId != null -> timesheetRepository.findAllByProjectId(projectId)
+                employeeId != null && projectId == null -> timesheetRepository.findAllByEmployeeId(employeeId)
+                email != null -> timesheetRepository.findAllByEmployeeEmail(email)
+                else -> timesheetRepository.findAll()
+            }
 
         return timesheets.map { TimesheetDTO(it) }
     }
@@ -76,8 +80,11 @@ class TimesheetService(private val timesheetRepository: TimesheetRepository) {
 }
 
 class UnableToCreateTimesheetException(message: String) : RuntimeException(message)
+
 class UnableToUpdateTimesheetException : RuntimeException("Cannot update timesheet, missing timesheet id")
+
 class UnableToDeleteTimesheetException(id: Long) :
     RuntimeException("Cannot delete timesheet, no timesheet found for given id: $id")
+
 class TimesheetNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Timesheet not found for id: $id")

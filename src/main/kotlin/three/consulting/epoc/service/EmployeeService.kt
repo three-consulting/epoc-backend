@@ -16,7 +16,6 @@ private val logger = KotlinLogging.logger {}
 class EmployeeService(
     private val employeeRepository: EmployeeRepository
 ) {
-
     fun findEmployeeForId(id: Long): EmployeeDTO? {
         logger.info { "Looking for employee with id: $id" }
         val employee: Employee? = employeeRepository.findByIdOrNull(id)
@@ -70,8 +69,11 @@ class EmployeeService(
 }
 
 class UnableToCreateEmployeeException : RuntimeException("Cannot create an employee with existing id")
+
 class UnableToUpdateEmployeeException(message: String) : RuntimeException(message)
+
 class UnableToDeleteEmployeeException(id: Long) :
     RuntimeException("Cannot delete employee, no employee found for given id: $id")
+
 class EmployeeNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found for id: $id")

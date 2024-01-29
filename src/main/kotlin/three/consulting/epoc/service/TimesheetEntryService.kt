@@ -16,8 +16,12 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntryRepository) {
-
-    fun findTimesheetEntries(timesheetId: Long?, email: String?, startDate: LocalDate?, endDate: LocalDate?): List<TimesheetEntryDTO> {
+    fun findTimesheetEntries(
+        timesheetId: Long?,
+        email: String?,
+        startDate: LocalDate?,
+        endDate: LocalDate?
+    ): List<TimesheetEntryDTO> {
         logger.info { "Looking for timesheetEntries with timesheetId: $timesheetId, email: $email, startDate: $startDate and endDate: $endDate" }
         return when {
             timesheetId != null -> timesheetEntryRepository.findAllByTimesheetId(timesheetId).map { TimesheetEntryDTO(it) }
@@ -55,14 +59,15 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         customerId: Long? = null,
         taskId: Long? = null
     ): String {
-        val entries = timesheetEntryRepository.findAllByParams(
-            startDate,
-            endDate,
-            email,
-            projectId,
-            customerId,
-            taskId,
-        )
+        val entries =
+            timesheetEntryRepository.findAllByParams(
+                startDate,
+                endDate,
+                email,
+                projectId,
+                customerId,
+                taskId,
+            )
 
         var columnNames = "hours;task;project;date;email\n"
         val sortedEntries = entries.sortedBy { it.date }
@@ -116,7 +121,10 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
         timesheetIds.map { deleteTimesheetEntryForId(it) }
     }
 
-    fun hasValidEmails(timesheetEntries: List<TimesheetEntryDTO>, email: String): Boolean {
+    fun hasValidEmails(
+        timesheetEntries: List<TimesheetEntryDTO>,
+        email: String
+    ): Boolean {
         return timesheetEntries.all { it.timesheet.employee.email == email }
     }
 }
@@ -124,8 +132,11 @@ class TimesheetEntryService(private val timesheetEntryRepository: TimesheetEntry
 class UnableToGetTimesheetEntriesException : RuntimeException("Cannot get timesheetEntries, invalid request parameters")
 
 class UnableToCreateTimesheetEntryException(message: String) : RuntimeException(message)
+
 class UnableToUpdateTimesheetEntryException : RuntimeException("Cannot update timesheetEntry, missing timesheetEntry id")
+
 class TimeSheetEntryNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Timesheet entry not found for id: $id")
+
 class FlexNotFoundException(email: String) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Flex not found for email: $email")

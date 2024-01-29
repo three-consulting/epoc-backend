@@ -17,12 +17,15 @@ class FirebaseService(
     private val employeeRepository: EmployeeRepository,
     private val firebaseAuth: FirebaseAuth
 ) {
-
     private companion object {
         const val AUTHORITIES_CLAIM_NAME = "role"
     }
 
-    fun syncFirebaseUser(firebaseUid: String, firebaseEmail: String, customClaims: Map<String, Any>): EmployeeDTO {
+    fun syncFirebaseUser(
+        firebaseUid: String,
+        firebaseEmail: String,
+        customClaims: Map<String, Any>
+    ): EmployeeDTO {
         logger.info { "Syncing user: $firebaseEmail" }
 
         val employee = employeeRepository.findByEmail(firebaseEmail)
@@ -86,5 +89,7 @@ class FirebaseService(
         }
     }
 }
+
 class UnableToUpdateEmployeeAndRoleException : RuntimeException("Cannot update employee.")
+
 class UnableToSyncFirebaseUsersException : RuntimeException("Cannot sync Firebase users.")

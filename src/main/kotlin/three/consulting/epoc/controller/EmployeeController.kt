@@ -16,10 +16,11 @@ import three.consulting.epoc.service.FirebaseService
 class EmployeeController(
     private val employeeService: EmployeeService
 ) {
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getEmployeeForId(@PathVariable employeeId: Long) = employeeService.findEmployeeForId(employeeId)
+    fun getEmployeeForId(
+        @PathVariable employeeId: Long
+    ) = employeeService.findEmployeeForId(employeeId)
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
@@ -30,7 +31,9 @@ class EmployeeController(
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = ["/{employeeId}"], consumes = [ALL_VALUE])
-    fun deleteEmployeeForId(@PathVariable employeeId: Long) = employeeService.deleteEmployee(employeeId)
+    fun deleteEmployeeForId(
+        @PathVariable employeeId: Long
+    ) = employeeService.deleteEmployee(employeeId)
 
     @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])

@@ -17,7 +17,6 @@ import java.time.LocalDate
 
 @ContextConfiguration(classes = [ProjectService::class])
 class ProjectServiceIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var projectService: ProjectService
 
@@ -46,15 +45,16 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `added project is found from the database`() {
-        val project = ProjectDTO(
-            name = "Sample",
-            description = "Sample project",
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-            customer = CustomerDTO(1, "New Project Customer"),
-            managingEmployee = newProjectWorkerId1,
-            status = Status.ARCHIVED,
-        )
+        val project =
+            ProjectDTO(
+                name = "Sample",
+                description = "Sample project",
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = newProjectWorkerId1,
+                status = Status.ARCHIVED,
+            )
         val addedProject: ProjectDTO = projectService.createProject(project)
         assertThat(addedProject.name).isEqualTo(project.name)
         assertThat(addedProject.description).isEqualTo(project.description)
@@ -65,14 +65,15 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding project with id fails`() {
-        val invalidProject = ProjectDTO(
-            id = 2,
-            name = "asd",
-            customer = CustomerDTO(1, "Failing Project Customer"),
-            managingEmployee = failingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-        )
+        val invalidProject =
+            ProjectDTO(
+                id = 2,
+                name = "asd",
+                customer = CustomerDTO(1, "Failing Project Customer"),
+                managingEmployee = failingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+            )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
             .hasMessage("Cannot create a project with existing id")
@@ -80,13 +81,14 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding project with non-existing relation fails`() {
-        val invalidProject = ProjectDTO(
-            name = "asd",
-            customer = CustomerDTO(100L, "Non existing company", enabled = true),
-            managingEmployee = testPersonId100,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-        )
+        val invalidProject =
+            ProjectDTO(
+                name = "asd",
+                customer = CustomerDTO(100L, "Non existing company", enabled = true),
+                managingEmployee = testPersonId100,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+            )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
             .hasMessage("Cannot create a project with non-existing relation")
@@ -103,13 +105,14 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update project without id raises error`() {
-        val invalidProject = ProjectDTO(
-            name = "asd",
-            customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = updatingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-        )
+        val invalidProject =
+            ProjectDTO(
+                name = "asd",
+                customer = CustomerDTO(1, "Updating Project customer"),
+                managingEmployee = updatingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+            )
         Assertions.assertThatThrownBy { projectService.updateProjectForId(invalidProject) }
             .isInstanceOf(UnableToUpdateProjectException::class.java)
             .hasMessage("Cannot update project, missing project id")
@@ -117,26 +120,28 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update archived project raises error`() {
-        val archivedProject = ProjectDTO(
-            name = "asd",
-            customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = updatingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-            status = Status.ARCHIVED,
-        )
-        val id = projectService.createProject(archivedProject).id
-
-        if (id != null) {
-            val updatedProject = ProjectDTO(
-                id = id,
-                name = "asd-asd",
+        val archivedProject =
+            ProjectDTO(
+                name = "asd",
                 customer = CustomerDTO(1, "Updating Project customer"),
                 managingEmployee = updatingProjectWorkerId1,
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now().plusDays(1),
                 status = Status.ARCHIVED,
             )
+        val id = projectService.createProject(archivedProject).id
+
+        if (id != null) {
+            val updatedProject =
+                ProjectDTO(
+                    id = id,
+                    name = "asd-asd",
+                    customer = CustomerDTO(1, "Updating Project customer"),
+                    managingEmployee = updatingProjectWorkerId1,
+                    startDate = LocalDate.now(),
+                    endDate = LocalDate.now().plusDays(1),
+                    status = Status.ARCHIVED,
+                )
             Assertions.assertThatThrownBy { projectService.updateProjectForId(updatedProject) }
                 .isInstanceOf(UnableToUpdateProjectException::class.java)
                 .hasMessage("Cannot update archived project")
@@ -145,26 +150,28 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `unarchive project`() {
-        val archivedProject = ProjectDTO(
-            name = "asd",
-            customer = CustomerDTO(1, "Updating project customer"),
-            managingEmployee = updatingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-            status = Status.ARCHIVED,
-        )
-        val id = projectService.createProject(archivedProject).id
-
-        if (id != null) {
-            val unarchivedProject = ProjectDTO(
-                id = id,
+        val archivedProject =
+            ProjectDTO(
                 name = "asd",
                 customer = CustomerDTO(1, "Updating project customer"),
                 managingEmployee = updatingProjectWorkerId1,
                 startDate = LocalDate.now(),
                 endDate = LocalDate.now().plusDays(1),
-                status = Status.ACTIVE,
+                status = Status.ARCHIVED,
             )
+        val id = projectService.createProject(archivedProject).id
+
+        if (id != null) {
+            val unarchivedProject =
+                ProjectDTO(
+                    id = id,
+                    name = "asd",
+                    customer = CustomerDTO(1, "Updating project customer"),
+                    managingEmployee = updatingProjectWorkerId1,
+                    startDate = LocalDate.now(),
+                    endDate = LocalDate.now().plusDays(1),
+                    status = Status.ACTIVE,
+                )
             val updatedProject = projectService.updateProjectForId(unarchivedProject)
             assertThat(updatedProject.id).isEqualTo(id)
             assertThat(updatedProject.status).isEqualTo(Status.ACTIVE)
@@ -186,14 +193,15 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `create project with end date preceding start date raises error`() {
-        val invalidProject = ProjectDTO(
-            name = "End date precedes start date",
-            description = "Project fail",
-            startDate = LocalDate.parse("2021-11-11"),
-            endDate = LocalDate.parse("2011-11-11"),
-            customer = CustomerDTO(1, "Failing Project Customer"),
-            managingEmployee = failingProjectWorkerId1,
-        )
+        val invalidProject =
+            ProjectDTO(
+                name = "End date precedes start date",
+                description = "Project fail",
+                startDate = LocalDate.parse("2021-11-11"),
+                endDate = LocalDate.parse("2011-11-11"),
+                customer = CustomerDTO(1, "Failing Project Customer"),
+                managingEmployee = failingProjectWorkerId1,
+            )
         Assertions.assertThatThrownBy { projectService.createProject(invalidProject) }
             .isInstanceOf(UnableToCreateProjectException::class.java)
             .hasMessage("Cannot create a project with end date preceding start date.")
@@ -201,15 +209,16 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `create project with null end date`() {
-        val project = ProjectDTO(
-            name = "Sample",
-            description = "Sample project with null end date",
-            startDate = LocalDate.now(),
-            endDate = null,
-            customer = CustomerDTO(1, "New Project Customer"),
-            managingEmployee = newProjectWorkerId1,
-            status = Status.ARCHIVED,
-        )
+        val project =
+            ProjectDTO(
+                name = "Sample",
+                description = "Sample project with null end date",
+                startDate = LocalDate.now(),
+                endDate = null,
+                customer = CustomerDTO(1, "New Project Customer"),
+                managingEmployee = newProjectWorkerId1,
+                status = Status.ARCHIVED,
+            )
         val addedProject: ProjectDTO = projectService.createProject(project)
         assertThat(addedProject.name).isEqualTo(project.name)
         assertThat(addedProject.description).isEqualTo(project.description)
@@ -220,14 +229,15 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update project with end date preceding start date raises error`() {
-        val invalidProject = ProjectDTO(
-            id = 1,
-            name = "asd",
-            customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = updatingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().minusDays(1),
-        )
+        val invalidProject =
+            ProjectDTO(
+                id = 1,
+                name = "asd",
+                customer = CustomerDTO(1, "Updating Project customer"),
+                managingEmployee = updatingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().minusDays(1),
+            )
         Assertions.assertThatThrownBy { projectService.updateProjectForId(invalidProject) }
             .isInstanceOf(UnableToUpdateProjectException::class.java)
             .hasMessage("Cannot update a project with end date preceding start date.")
@@ -236,14 +246,15 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `update project with null end date passes`() {
         val existingProject = projectService.findProjectForId(1)
-        val project = ProjectDTO(
-            id = 1,
-            name = "asd",
-            customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = updatingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = null,
-        )
+        val project =
+            ProjectDTO(
+                id = 1,
+                name = "asd",
+                customer = CustomerDTO(1, "Updating Project customer"),
+                managingEmployee = updatingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = null,
+            )
         val updatedProject = projectService.updateProjectForId(project)
         assertThat(updatedProject.name).isNotEqualTo(existingProject?.name)
     }
@@ -251,14 +262,15 @@ class ProjectServiceIntegrationTest : IntegrationTest() {
     @Test
     fun `update project with start date preceding end date passes`() {
         val existingProject = projectService.findProjectForId(1)
-        val project = ProjectDTO(
-            id = 1,
-            name = "asd",
-            customer = CustomerDTO(1, "Updating Project customer"),
-            managingEmployee = updatingProjectWorkerId1,
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now().plusDays(1),
-        )
+        val project =
+            ProjectDTO(
+                id = 1,
+                name = "asd",
+                customer = CustomerDTO(1, "Updating Project customer"),
+                managingEmployee = updatingProjectWorkerId1,
+                startDate = LocalDate.now(),
+                endDate = LocalDate.now().plusDays(1),
+            )
         val updatedProject = projectService.updateProjectForId(project)
         assertThat(updatedProject.updated).isNotEqualTo(existingProject?.updated)
     }

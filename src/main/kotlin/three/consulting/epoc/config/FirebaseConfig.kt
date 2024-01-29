@@ -22,9 +22,10 @@ class FirebaseConfig(
         try {
             val serviceAccount = firebaseServiceAccountJson.byteInputStream()
 
-            val options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .build()
+            val options =
+                FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .build()
 
             val firebaseApp = FirebaseApp.initializeApp(options)
             FirebaseAuth.getInstance(firebaseApp)

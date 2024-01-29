@@ -15,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 @EnableMethodSecurity
 class SecurityConfig {
-
     private companion object {
         const val AUTHORITIES_CLAIM_NAME = "role"
     }
@@ -48,7 +47,6 @@ class SecurityConfig {
 
 @Configuration
 class CorsConfig {
-
     @Bean
     fun webMvcConfigurer(): WebMvcConfigurer =
         object : WebMvcConfigurer {

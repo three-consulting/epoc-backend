@@ -12,8 +12,13 @@ interface TimesheetRepository : JpaRepository<Timesheet, Long> {
 
     fun findAllByEmployeeId(employeeId: Long): List<Timesheet>
 
-    fun findAllByProjectIdAndEmployeeId(projectId: Long, employeeId: Long): List<Timesheet>
+    fun findAllByProjectIdAndEmployeeId(
+        projectId: Long,
+        employeeId: Long
+    ): List<Timesheet>
 
     @Query("SELECT t.* FROM timesheet t JOIN employee e ON t.employee_id = e.id WHERE e.email = :email", nativeQuery = true)
-    fun findAllByEmployeeEmail(@Param("email") email: String): List<Timesheet>
+    fun findAllByEmployeeEmail(
+        @Param("email") email: String
+    ): List<Timesheet>
 }

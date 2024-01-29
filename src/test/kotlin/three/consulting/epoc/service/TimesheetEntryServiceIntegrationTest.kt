@@ -17,7 +17,6 @@ import java.time.LocalDate
 @ContextConfiguration(classes = [TimesheetEntryService::class])
 @Transactional
 class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var timesheetEntryService: TimesheetEntryService
 
@@ -28,44 +27,49 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
     val newTimesheetWorkerId2 = EmployeeDTO(id = 2, firstName = "New", lastName = "Timesheet-worker", email = "new.timesheet@worker.fi", role = Role.USER)
     val newProjectWorkerId10 = EmployeeDTO(id = 10, firstName = "New", lastName = "Project-worker", email = "new.project@worker.fi", role = Role.USER)
 
-    val sampleTimesheetEntry = TimesheetEntryDTO(
-        description = "Sample timesheetEntry",
-        quantity = 7.5f,
-        date = LocalDate.now(),
-        timesheet = TimesheetDTO(
-            id = 1L,
-            name = "Sample",
-            description = "Sample timesheet",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = newTimesheetWorkerId2,
-            status = Status.ACTIVE,
-        ),
-        task = TaskDTO(
-            id = 1L,
-            name = "Sample",
-            description = "Sample task",
-            project = ProjectDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-        ),
-        flex = 0f
-    )
+    val sampleTimesheetEntry =
+        TimesheetEntryDTO(
+            description = "Sample timesheetEntry",
+            quantity = 7.5f,
+            date = LocalDate.now(),
+            timesheet =
+                TimesheetDTO(
+                    id = 1L,
+                    name = "Sample",
+                    description = "Sample timesheet",
+                    rate = 100.0f,
+                    allocation = 100,
+                    project =
+                        ProjectDTO(
+                            id = 1L,
+                            name = "Sample",
+                            description = "Sample project",
+                            startDate = LocalDate.now(),
+                            endDate = LocalDate.now(),
+                            customer = CustomerDTO(1, "New Project Customer"),
+                            managingEmployee = newProjectWorkerId1,
+                        ),
+                    employee = newTimesheetWorkerId2,
+                    status = Status.ACTIVE,
+                ),
+            task =
+                TaskDTO(
+                    id = 1L,
+                    name = "Sample",
+                    description = "Sample task",
+                    project =
+                        ProjectDTO(
+                            id = 1L,
+                            name = "Sample",
+                            description = "Sample project",
+                            startDate = LocalDate.now(),
+                            endDate = LocalDate.now(),
+                            customer = CustomerDTO(1, "New Project Customer"),
+                            managingEmployee = newProjectWorkerId1,
+                        ),
+                ),
+            flex = 0f
+        )
 
     val sampleTimesheetEntries = listOf(sampleTimesheetEntry, sampleTimesheetEntry)
 
@@ -123,44 +127,49 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding timesheetEntry with id fails`() {
-        val invalidTimesheetEntry = TimesheetEntryDTO(
-            id = 2,
-            description = "Sample timesheetEntry",
-            quantity = 7.5f,
-            date = LocalDate.now(),
-            timesheet = TimesheetDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample timesheet",
-                rate = 100.0f,
-                allocation = 100,
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
-                employee = newTimesheetWorkerId2,
-                status = Status.ACTIVE,
-            ),
-            task = TaskDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample task",
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
+        val invalidTimesheetEntry =
+            TimesheetEntryDTO(
+                id = 2,
+                description = "Sample timesheetEntry",
+                quantity = 7.5f,
+                date = LocalDate.now(),
+                timesheet =
+                    TimesheetDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample timesheet",
+                        rate = 100.0f,
+                        allocation = 100,
+                        project =
+                            ProjectDTO(
+                                id = 1L,
+                                name = "Sample",
+                                description = "Sample project",
+                                startDate = LocalDate.now(),
+                                endDate = LocalDate.now(),
+                                customer = CustomerDTO(1, "New Project Customer"),
+                                managingEmployee = newProjectWorkerId1,
+                            ),
+                        employee = newTimesheetWorkerId2,
+                        status = Status.ACTIVE,
+                    ),
+                task =
+                    TaskDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample task",
+                        project =
+                            ProjectDTO(
+                                id = 1L,
+                                name = "Sample",
+                                description = "Sample project",
+                                startDate = LocalDate.now(),
+                                endDate = LocalDate.now(),
+                                customer = CustomerDTO(1, "New Project Customer"),
+                                managingEmployee = newProjectWorkerId1,
+                            ),
+                    )
             )
-        )
         assertThatThrownBy { timesheetEntryService.createTimesheetEntry(invalidTimesheetEntry) }
             .isInstanceOf(UnableToCreateTimesheetEntryException::class.java)
             .hasMessage("Cannot create a timesheetEntry with existing id")
@@ -168,43 +177,48 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding timesheetEntry with non-existing relation fails`() {
-        val invalidTimesheetEntry = TimesheetEntryDTO(
-            description = "Sample timesheetEntry",
-            quantity = 7.5f,
-            date = LocalDate.now(),
-            timesheet = TimesheetDTO(
-                id = 10L,
-                name = "Sample",
-                description = "Sample timesheet",
-                rate = 100.0f,
-                allocation = 100,
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(10, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId10,
-                ),
-                employee = newTimesheetWorkerId2,
-                status = Status.ACTIVE,
-            ),
-            task = TaskDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample task",
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
+        val invalidTimesheetEntry =
+            TimesheetEntryDTO(
+                description = "Sample timesheetEntry",
+                quantity = 7.5f,
+                date = LocalDate.now(),
+                timesheet =
+                    TimesheetDTO(
+                        id = 10L,
+                        name = "Sample",
+                        description = "Sample timesheet",
+                        rate = 100.0f,
+                        allocation = 100,
+                        project =
+                            ProjectDTO(
+                                id = 1L,
+                                name = "Sample",
+                                description = "Sample project",
+                                startDate = LocalDate.now(),
+                                endDate = LocalDate.now(),
+                                customer = CustomerDTO(10, "New Project Customer"),
+                                managingEmployee = newProjectWorkerId10,
+                            ),
+                        employee = newTimesheetWorkerId2,
+                        status = Status.ACTIVE,
+                    ),
+                task =
+                    TaskDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample task",
+                        project =
+                            ProjectDTO(
+                                id = 1L,
+                                name = "Sample",
+                                description = "Sample project",
+                                startDate = LocalDate.now(),
+                                endDate = LocalDate.now(),
+                                customer = CustomerDTO(1, "New Project Customer"),
+                                managingEmployee = newProjectWorkerId1,
+                            ),
+                    )
             )
-        )
         assertThatThrownBy { timesheetEntryService.createTimesheetEntry(invalidTimesheetEntry) }
             .isInstanceOf(UnableToCreateTimesheetEntryException::class.java)
             .hasMessage("Cannot create a timesheetEntry with non-existing relation")
@@ -221,43 +235,48 @@ class TimesheetEntryServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update timesheetEntry without id raises error`() {
-        val invalidTimesheetEntry = TimesheetEntryDTO(
-            description = "Sample timesheetEntry",
-            quantity = 7.5f,
-            date = LocalDate.now(),
-            timesheet = TimesheetDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample timesheet",
-                rate = 100f,
-                allocation = 100,
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
-                employee = newTimesheetWorkerId2,
-                status = Status.ACTIVE,
-            ),
-            task = TaskDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample task",
-                project = ProjectDTO(
-                    id = 1L,
-                    name = "Sample",
-                    description = "Sample project",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now(),
-                    customer = CustomerDTO(1, "New Project Customer"),
-                    managingEmployee = newProjectWorkerId1,
-                ),
+        val invalidTimesheetEntry =
+            TimesheetEntryDTO(
+                description = "Sample timesheetEntry",
+                quantity = 7.5f,
+                date = LocalDate.now(),
+                timesheet =
+                    TimesheetDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample timesheet",
+                        rate = 100f,
+                        allocation = 100,
+                        project =
+                            ProjectDTO(
+                                id = 1L,
+                                name = "Sample",
+                                description = "Sample project",
+                                startDate = LocalDate.now(),
+                                endDate = LocalDate.now(),
+                                customer = CustomerDTO(1, "New Project Customer"),
+                                managingEmployee = newProjectWorkerId1,
+                            ),
+                        employee = newTimesheetWorkerId2,
+                        status = Status.ACTIVE,
+                    ),
+                task =
+                    TaskDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample task",
+                        project =
+                            ProjectDTO(
+                                id = 1L,
+                                name = "Sample",
+                                description = "Sample project",
+                                startDate = LocalDate.now(),
+                                endDate = LocalDate.now(),
+                                customer = CustomerDTO(1, "New Project Customer"),
+                                managingEmployee = newProjectWorkerId1,
+                            ),
+                    )
             )
-        )
         assertThatThrownBy { timesheetEntryService.updateTimesheetEntryForId(invalidTimesheetEntry) }
             .isInstanceOf(UnableToUpdateTimesheetEntryException::class.java)
             .hasMessage("Cannot update timesheetEntry, missing timesheetEntry id")

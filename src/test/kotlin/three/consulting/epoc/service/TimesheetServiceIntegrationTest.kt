@@ -20,52 +20,56 @@ import java.time.LocalDate
 @ContextConfiguration(classes = [TimesheetService::class])
 @Transactional
 class TimesheetServiceIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var timesheetService: TimesheetService
 
     @Autowired
     private lateinit var timesheetRepository: TimesheetRepository
 
-    val newProjectWorkerId1 = EmployeeDTO(
-        id = 1,
-        firstName = "New",
-        lastName = "Project-worker",
-        email = "new.project@worker.fi",
-        role = Role.USER
-    )
+    val newProjectWorkerId1 =
+        EmployeeDTO(
+            id = 1,
+            firstName = "New",
+            lastName = "Project-worker",
+            email = "new.project@worker.fi",
+            role = Role.USER
+        )
 
-    val mattiWorkerId4 = EmployeeDTO(
-        id = 4,
-        firstName = "Matti",
-        lastName = "Meikälainen",
-        email = "matti@worker.fi",
-        role = Role.USER
-    )
+    val mattiWorkerId4 =
+        EmployeeDTO(
+            id = 4,
+            firstName = "Matti",
+            lastName = "Meikälainen",
+            email = "matti@worker.fi",
+            role = Role.USER
+        )
 
-    val testWorkerId2 = EmployeeDTO(
-        id = 2,
-        firstName = "Test",
-        lastName = "Worker",
-        email = "test@worker.fi",
-        role = Role.USER
-    )
+    val testWorkerId2 =
+        EmployeeDTO(
+            id = 2,
+            firstName = "Test",
+            lastName = "Worker",
+            email = "test@worker.fi",
+            role = Role.USER
+        )
 
-    val failingTimesheetWorkerId1 = EmployeeDTO(
-        id = 1,
-        firstName = "Failing",
-        lastName = "Timesheet-Worker",
-        email = "failing-worker@timesheet.fi",
-        role = Role.USER
-    )
+    val failingTimesheetWorkerId1 =
+        EmployeeDTO(
+            id = 1,
+            firstName = "Failing",
+            lastName = "Timesheet-Worker",
+            email = "failing-worker@timesheet.fi",
+            role = Role.USER
+        )
 
-    val failingTimesheetWorkerId100L = EmployeeDTO(
-        id = 100L,
-        firstName = "Failing",
-        lastName = "Timesheet-Worker",
-        email = "failing-worker@timesheet.fi",
-        role = Role.USER
-    )
+    val failingTimesheetWorkerId100L =
+        EmployeeDTO(
+            id = 100L,
+            firstName = "Failing",
+            lastName = "Timesheet-Worker",
+            email = "failing-worker@timesheet.fi",
+            role = Role.USER
+        )
 
     @Test
     fun `searching a timesheet for id return a timesheet`() {
@@ -84,22 +88,24 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `added timesheet is found from the database`() {
-        val timesheet = TimesheetDTO(
-            name = "Sample",
-            description = "Sample timesheet",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
+        val timesheet =
+            TimesheetDTO(
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = mattiWorkerId4,
-        )
+                description = "Sample timesheet",
+                rate = 100.0f,
+                allocation = 100,
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = mattiWorkerId4,
+            )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
         assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
         assertThat(addedTimesheet.description).isEqualTo(timesheet.description)
@@ -107,22 +113,24 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding timesheet with non-unique project and employee fails`() {
-        val invalidTimesheet = TimesheetDTO(
-            name = "Sample",
-            description = "Sample timesheet",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
+        val invalidTimesheet =
+            TimesheetDTO(
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = testWorkerId2,
-        )
+                description = "Sample timesheet",
+                rate = 100.0f,
+                allocation = 100,
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = testWorkerId2,
+            )
         assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
             .hasMessage("Cannot create a timesheet that violates data integrity")
@@ -130,22 +138,24 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding timesheet with id fails`() {
-        val invalidTimesheet = TimesheetDTO(
-            id = 2,
-            name = "asd",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = failingTimesheetWorkerId1,
-        )
+        val invalidTimesheet =
+            TimesheetDTO(
+                id = 2,
+                name = "asd",
+                rate = 100.0f,
+                allocation = 100,
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = failingTimesheetWorkerId1,
+            )
         assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
             .hasMessage("Cannot create a timesheet with existing id")
@@ -153,21 +163,23 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding timesheet with non-existing relation fails`() {
-        val invalidTimesheet = TimesheetDTO(
-            name = "asd",
-            allocation = 100,
-            rate = 100.0f,
-            project = ProjectDTO(
-                id = 100L,
-                name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = failingTimesheetWorkerId100L,
-        )
+        val invalidTimesheet =
+            TimesheetDTO(
+                name = "asd",
+                allocation = 100,
+                rate = 100.0f,
+                project =
+                    ProjectDTO(
+                        id = 100L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = failingTimesheetWorkerId100L,
+            )
         assertThatThrownBy { timesheetService.createTimesheet(invalidTimesheet) }
             .isInstanceOf(UnableToCreateTimesheetException::class.java)
             .hasMessage("Cannot create a timesheet that violates data integrity")
@@ -184,45 +196,49 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update timesheet with status archived changes status value`() {
-        val timesheet = TimesheetDTO(
-            name = "Sample",
-            description = "Sample timesheet",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
+        val timesheet =
+            TimesheetDTO(
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = mattiWorkerId4,
-            status = Status.ACTIVE
-        )
+                description = "Sample timesheet",
+                rate = 100.0f,
+                allocation = 100,
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = mattiWorkerId4,
+                status = Status.ACTIVE
+            )
         val addedTimesheet: TimesheetDTO = timesheetService.createTimesheet(timesheet)
         assertThat(addedTimesheet.name).isEqualTo(timesheet.name)
         assertThat(addedTimesheet.description).isEqualTo(timesheet.description)
 
-        val archivedTimesheet = TimesheetDTO(
-            id = addedTimesheet.id,
-            name = "Sample",
-            description = "Sample timesheet",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
+        val archivedTimesheet =
+            TimesheetDTO(
+                id = addedTimesheet.id,
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = mattiWorkerId4,
-            status = Status.ARCHIVED
-        )
+                description = "Sample timesheet",
+                rate = 100.0f,
+                allocation = 100,
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = mattiWorkerId4,
+                status = Status.ARCHIVED
+            )
         val updatedTimesheet = timesheetService.updateTimesheetForId(archivedTimesheet)
         assertThat(archivedTimesheet.status).isEqualTo(Status.ARCHIVED)
         assertThat(updatedTimesheet.updated).isNotEqualTo(addedTimesheet.updated)
@@ -232,21 +248,23 @@ class TimesheetServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update timesheet without id raises error`() {
-        val invalidTimesheet = TimesheetDTO(
-            name = "asd",
-            rate = 100.0f,
-            allocation = 100,
-            project = ProjectDTO(
-                id = 1L,
-                name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-            employee = failingTimesheetWorkerId1,
-        )
+        val invalidTimesheet =
+            TimesheetDTO(
+                name = "asd",
+                rate = 100.0f,
+                allocation = 100,
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+                employee = failingTimesheetWorkerId1,
+            )
         assertThatThrownBy { timesheetService.updateTimesheetForId(invalidTimesheet) }
             .isInstanceOf(UnableToUpdateTimesheetException::class.java)
             .hasMessage("Cannot update timesheet, missing timesheet id")

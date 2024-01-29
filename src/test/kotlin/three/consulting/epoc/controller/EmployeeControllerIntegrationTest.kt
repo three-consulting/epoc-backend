@@ -10,7 +10,6 @@ import three.consulting.epoc.utils.jsonPostEntity
 import java.net.URI
 
 class EmployeeControllerIntegrationTest : ControllerIntegrationTest() {
-
     @Test
     fun `get employee for id returns 200`() {
         val response = restTemplate.getForEntity("/employee/1", ObjectNode::class.java)
@@ -34,46 +33,50 @@ class EmployeeControllerIntegrationTest : ControllerIntegrationTest() {
     @Test
     fun `update employee returns 200`() {
         val httpEntity = jsonPostEntity("employee/validUpdate.json")
-        val response = restTemplate.exchange(
-            URI("/employee"),
-            HttpMethod.PUT,
-            httpEntity,
-            ObjectNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/employee"),
+                HttpMethod.PUT,
+                httpEntity,
+                ObjectNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
     fun `update employee without name returns 400`() {
         val httpEntity = jsonPostEntity("employee/invalidUpdate.json")
-        val response = restTemplate.exchange(
-            URI("/employee"),
-            HttpMethod.PUT,
-            httpEntity,
-            ObjectNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/employee"),
+                HttpMethod.PUT,
+                httpEntity,
+                ObjectNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
     @Test
     fun `delete employee returns 204`() {
-        val response = restTemplate.exchange(
-            URI("/employee/1"),
-            HttpMethod.DELETE,
-            null,
-            ObjectNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/employee/1"),
+                HttpMethod.DELETE,
+                null,
+                ObjectNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
     fun `delete without path id returns 400`() {
-        val response = restTemplate.exchange(
-            URI("/employee"),
-            HttpMethod.DELETE,
-            null,
-            ObjectNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/employee"),
+                HttpMethod.DELETE,
+                null,
+                ObjectNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED)
     }
 

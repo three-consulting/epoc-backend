@@ -17,28 +17,29 @@ import java.time.LocalDate
 
 @ContextConfiguration(classes = [TaskService::class])
 class TaskServiceIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var taskService: TaskService
 
     @Autowired
     private lateinit var taskRepository: TaskRepository
 
-    val newProjectWorkerId1 = EmployeeDTO(
-        id = 1,
-        firstName = "New",
-        lastName = "Project-worker",
-        email = "new.project@worker.fi",
-        role = Role.USER
-    )
+    val newProjectWorkerId1 =
+        EmployeeDTO(
+            id = 1,
+            firstName = "New",
+            lastName = "Project-worker",
+            email = "new.project@worker.fi",
+            role = Role.USER
+        )
 
-    val newProjectWorkerId100 = EmployeeDTO(
-        id = 100,
-        firstName = "New",
-        lastName = "Project-worker",
-        email = "new.project@worker.fi",
-        role = Role.USER
-    )
+    val newProjectWorkerId100 =
+        EmployeeDTO(
+            id = 100,
+            firstName = "New",
+            lastName = "Project-worker",
+            email = "new.project@worker.fi",
+            role = Role.USER
+        )
 
     @Test
     fun `searching a task for id return a task`() {
@@ -57,19 +58,21 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `added task is found from the database`() {
-        val task = TaskDTO(
-            name = "Sample",
-            description = "Sample task",
-            project = ProjectDTO(
-                id = 1L,
+        val task =
+            TaskDTO(
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-        )
+                description = "Sample task",
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+            )
         val addedTask: TaskDTO = taskService.createTask(task)
         assertThat(addedTask.name).isEqualTo(task.name)
         assertThat(addedTask.description).isEqualTo(task.description)
@@ -77,20 +80,22 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding task with id fails`() {
-        val invalidTask = TaskDTO(
-            id = 2,
-            name = "Sample",
-            description = "Sample task",
-            project = ProjectDTO(
-                id = 1L,
+        val invalidTask =
+            TaskDTO(
+                id = 2,
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-        )
+                description = "Sample task",
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+            )
         Assertions.assertThatThrownBy { taskService.createTask(invalidTask) }
             .isInstanceOf(UnableToCreateTaskException::class.java)
             .hasMessage("Cannot create a task with existing id")
@@ -98,19 +103,21 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding task with non-existing relation fails`() {
-        val invalidTask = TaskDTO(
-            name = "Sample",
-            description = "Sample task",
-            project = ProjectDTO(
-                id = 100L,
+        val invalidTask =
+            TaskDTO(
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(100, "New Project Customer"),
-                managingEmployee = newProjectWorkerId100,
-            ),
-        )
+                description = "Sample task",
+                project =
+                    ProjectDTO(
+                        id = 100L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(100, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId100,
+                    ),
+            )
         Assertions.assertThatThrownBy { taskService.createTask(invalidTask) }
             .isInstanceOf(UnableToCreateTaskException::class.java)
             .hasMessage("Cannot create a task with non-existing relation")
@@ -127,19 +134,21 @@ class TaskServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update task without id raises error`() {
-        val invalidTask = TaskDTO(
-            name = "Sample",
-            description = "Sample task",
-            project = ProjectDTO(
-                id = 1L,
+        val invalidTask =
+            TaskDTO(
                 name = "Sample",
-                description = "Sample project",
-                startDate = LocalDate.now(),
-                endDate = LocalDate.now(),
-                customer = CustomerDTO(1, "New Project Customer"),
-                managingEmployee = newProjectWorkerId1,
-            ),
-        )
+                description = "Sample task",
+                project =
+                    ProjectDTO(
+                        id = 1L,
+                        name = "Sample",
+                        description = "Sample project",
+                        startDate = LocalDate.now(),
+                        endDate = LocalDate.now(),
+                        customer = CustomerDTO(1, "New Project Customer"),
+                        managingEmployee = newProjectWorkerId1,
+                    ),
+            )
         Assertions.assertThatThrownBy { taskService.updateTaskForId(invalidTask) }
             .isInstanceOf(UnableToUpdateTaskException::class.java)
             .hasMessage("Cannot update task, missing task id")
