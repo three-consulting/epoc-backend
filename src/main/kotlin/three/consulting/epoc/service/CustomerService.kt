@@ -14,7 +14,6 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class CustomerService(private val customerRepository: CustomerRepository) {
-
     fun findCustomerForId(id: Long): CustomerDTO? {
         logger.info { "Looking for customer with id: $id" }
         val customer: Customer? = customerRepository.findByIdOrNull(id)
@@ -67,8 +66,11 @@ class CustomerService(private val customerRepository: CustomerRepository) {
 }
 
 class UnableToCreateCustomerException : RuntimeException("Cannot create a customer with existing id")
+
 class UnableToUpdateCustomerException(message: String) : RuntimeException(message)
+
 class UnableToDeleteCustomerException(id: Long) :
     RuntimeException("Cannot delete customer, no customer found for the given id: $id")
+
 class CustomerNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found for id: $id")

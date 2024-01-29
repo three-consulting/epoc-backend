@@ -11,9 +11,10 @@ import three.consulting.epoc.service.CustomerService
 @RestController
 @RequestMapping(path = ["/customer"])
 class CustomerController(private val customerService: CustomerService) {
-
     @GetMapping(value = ["/{customerId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getCustomerForId(@PathVariable customerId: Long) = customerService.findCustomerForId(customerId)
+    fun getCustomerForId(
+        @PathVariable customerId: Long
+    ) = customerService.findCustomerForId(customerId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createCustomer(
@@ -28,7 +29,9 @@ class CustomerController(private val customerService: CustomerService) {
     ) = customerService.updateCustomerForId(customer)
 
     @DeleteMapping(value = ["/{customerId}"], consumes = [ALL_VALUE])
-    fun deleteCustomerForId(@PathVariable customerId: Long) = customerService.deleteCustomer(customerId)
+    fun deleteCustomerForId(
+        @PathVariable customerId: Long
+    ) = customerService.deleteCustomer(customerId)
 
     @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])

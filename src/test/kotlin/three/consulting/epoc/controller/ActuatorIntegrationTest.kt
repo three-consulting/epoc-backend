@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
 class ActuatorIntegrationTest : ControllerIntegrationTest() {
-
     @Test
     fun `actuator health returns 200`() {
         val response = restTemplate.getForEntity("/actuator/health", ObjectNode::class.java)

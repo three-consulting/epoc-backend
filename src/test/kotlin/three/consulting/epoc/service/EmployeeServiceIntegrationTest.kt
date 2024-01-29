@@ -14,7 +14,6 @@ import three.consulting.epoc.repository.EmployeeRepository
 
 @ContextConfiguration(classes = [EmployeeService::class])
 class EmployeeServiceIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var employeeService: EmployeeService
 
@@ -37,12 +36,13 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `added employee is found from the database`() {
-        val employee = EmployeeDTO(
-            firstName = "Esimerkki",
-            lastName = "Testaaja",
-            email = "esimerkki@testaaja.fi",
-            role = Role.USER
-        )
+        val employee =
+            EmployeeDTO(
+                firstName = "Esimerkki",
+                lastName = "Testaaja",
+                email = "esimerkki@testaaja.fi",
+                role = Role.USER
+            )
         val addedEmployee: EmployeeDTO = employeeService.createEmployee(employee)
         assertThat(addedEmployee.firstName).isEqualTo(employee.firstName)
         assertThat(addedEmployee.lastName).isEqualTo(employee.lastName)
@@ -51,13 +51,14 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `adding employee with id fails`() {
-        val invalidEmployee = EmployeeDTO(
-            id = 2,
-            firstName = "Esimerkki",
-            lastName = "Testaja",
-            email = "esimerkki@testaaja.fi",
-            role = Role.USER
-        )
+        val invalidEmployee =
+            EmployeeDTO(
+                id = 2,
+                firstName = "Esimerkki",
+                lastName = "Testaja",
+                email = "esimerkki@testaaja.fi",
+                role = Role.USER
+            )
         assertThatThrownBy { employeeService.createEmployee(invalidEmployee) }
             .isInstanceOf(UnableToCreateEmployeeException::class.java)
             .hasMessage("Cannot create an employee with existing id")
@@ -74,12 +75,13 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update employee without id raises error`() {
-        val invalidEmployee = EmployeeDTO(
-            firstName = "Test",
-            lastName = "Failure",
-            email = "test@failure.fi",
-            role = Role.USER
-        )
+        val invalidEmployee =
+            EmployeeDTO(
+                firstName = "Test",
+                lastName = "Failure",
+                email = "test@failure.fi",
+                role = Role.USER
+            )
         assertThatThrownBy { employeeService.updateEmployeeForId(invalidEmployee) }
             .isInstanceOf(UnableToUpdateEmployeeException::class.java)
             .hasMessage("Cannot update employee, missing employee id")
@@ -87,23 +89,25 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `update archived employee raises error`() {
-        val archivedEmployee = EmployeeDTO(
-            firstName = "Test",
-            lastName = "Archived",
-            email = "test@archived.com",
-            role = Role.USER,
-            status = Status.ARCHIVED
-        )
-        val id = employeeService.createEmployee(archivedEmployee).id
-        if (id != null) {
-            val updatedEmployee = EmployeeDTO(
-                id = id,
-                firstName = "Testest",
+        val archivedEmployee =
+            EmployeeDTO(
+                firstName = "Test",
                 lastName = "Archived",
-                email = "testest@archived.com",
-                role = Role.ADMIN,
+                email = "test@archived.com",
+                role = Role.USER,
                 status = Status.ARCHIVED
             )
+        val id = employeeService.createEmployee(archivedEmployee).id
+        if (id != null) {
+            val updatedEmployee =
+                EmployeeDTO(
+                    id = id,
+                    firstName = "Testest",
+                    lastName = "Archived",
+                    email = "testest@archived.com",
+                    role = Role.ADMIN,
+                    status = Status.ARCHIVED
+                )
             assertThatThrownBy { employeeService.updateEmployeeForId(updatedEmployee) }
                 .isInstanceOf(UnableToUpdateEmployeeException::class.java)
                 .hasMessage("Cannot update archived employee")
@@ -112,23 +116,25 @@ class EmployeeServiceIntegrationTest : IntegrationTest() {
 
     @Test
     fun `unarchive employee`() {
-        val archivedEmployee = EmployeeDTO(
-            firstName = "Test",
-            lastName = "Archived",
-            email = "test@archived.com",
-            role = Role.USER,
-            status = Status.ARCHIVED
-        )
-        val id = employeeService.createEmployee(archivedEmployee).id
-        if (id != null) {
-            val unarchivedEmployee = EmployeeDTO(
-                id = id,
+        val archivedEmployee =
+            EmployeeDTO(
                 firstName = "Test",
                 lastName = "Archived",
                 email = "test@archived.com",
                 role = Role.USER,
-                status = Status.ACTIVE
+                status = Status.ARCHIVED
             )
+        val id = employeeService.createEmployee(archivedEmployee).id
+        if (id != null) {
+            val unarchivedEmployee =
+                EmployeeDTO(
+                    id = id,
+                    firstName = "Test",
+                    lastName = "Archived",
+                    email = "test@archived.com",
+                    role = Role.USER,
+                    status = Status.ACTIVE
+                )
             val updatedEmployee = employeeService.updateEmployeeForId(unarchivedEmployee)
             assertThat(updatedEmployee.id).isEqualTo(id)
             assertThat(updatedEmployee.status).isEqualTo(Status.ACTIVE)

@@ -14,13 +14,13 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class TaskService(private val taskRepository: TaskRepository) {
-
     fun findTasks(id: Long?): List<TaskDTO> {
         logger.info { "Looking for tasks with project_id: $id" }
-        val tasks = when {
-            id != null -> taskRepository.findAllByProjectId(id)
-            else -> taskRepository.findAll()
-        }
+        val tasks =
+            when {
+                id != null -> taskRepository.findAllByProjectId(id)
+                else -> taskRepository.findAll()
+            }
         return tasks.map { TaskDTO(it) }
     }
 
@@ -70,8 +70,11 @@ class TaskService(private val taskRepository: TaskRepository) {
 }
 
 class UnableToCreateTaskException(message: String) : RuntimeException(message)
+
 class UnableToUpdateTaskException : RuntimeException("Cannot update task, missing task id")
+
 class UnableToDeleteTaskException(id: Long) :
     RuntimeException("Cannot delete task, no task found for given id: $id")
+
 class TaskNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found for id: $id")

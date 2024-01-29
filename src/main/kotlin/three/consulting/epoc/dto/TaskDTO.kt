@@ -13,7 +13,7 @@ data class TaskDTO(
     @field:NotNull val project: ProjectDTO,
     val created: LocalDateTime? = null,
     val updated: LocalDateTime? = null,
-    @field: NotNull val billable: Boolean = true,
+    @field:NotNull val billable: Boolean = true,
     val status: Status? = Status.ACTIVE,
 ) {
     constructor(task: Task) : this (

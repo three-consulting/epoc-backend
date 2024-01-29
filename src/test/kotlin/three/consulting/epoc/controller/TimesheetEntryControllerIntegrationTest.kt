@@ -10,7 +10,6 @@ import three.consulting.epoc.utils.jsonPostEntity
 import java.net.URI
 
 class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
-
     @Test
     fun `get timesheetEntry for id returns 200`() {
         val response = restTemplate.getForEntity("/timesheet-entry/1", ObjectNode::class.java)
@@ -46,35 +45,38 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
     @Test
     fun `update timesheetEntries returns 200`() {
         val httpEntity = jsonPostEntity("timesheetEntry/validUpdate.json")
-        val response = restTemplate.exchange(
-            URI("/timesheet-entry"),
-            HttpMethod.PUT,
-            httpEntity,
-            ArrayNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/timesheet-entry"),
+                HttpMethod.PUT,
+                httpEntity,
+                ArrayNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
     fun `delete timesheetEntries returns 204`() {
         val httpEntity = jsonPostEntity("timesheetEntry/deleteEntries.json")
-        val response = restTemplate.exchange(
-            URI("/timesheet-entry"),
-            HttpMethod.DELETE,
-            httpEntity,
-            ArrayNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/timesheet-entry"),
+                HttpMethod.DELETE,
+                httpEntity,
+                ArrayNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
     fun `delete without request body returns 400`() {
-        val response = restTemplate.exchange(
-            URI("/timesheet-entry"),
-            HttpMethod.DELETE,
-            null,
-            ObjectNode::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                URI("/timesheet-entry"),
+                HttpMethod.DELETE,
+                null,
+                ObjectNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
@@ -86,10 +88,11 @@ class TimesheetEntryControllerIntegrationTest : ControllerIntegrationTest() {
 
     @Test
     fun `getting timesheet with all request parameters returns 200`() {
-        val response = restTemplate.getForEntity(
-            "/timesheet-entry?email=testi@tekija.fi&startDate=2022-01-01&endDate=2022-04-01",
-            ArrayNode::class.java
-        )
+        val response =
+            restTemplate.getForEntity(
+                "/timesheet-entry?email=testi@tekija.fi&startDate=2022-01-01&endDate=2022-04-01",
+                ArrayNode::class.java
+            )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 

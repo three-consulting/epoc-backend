@@ -8,7 +8,6 @@ import three.consulting.epoc.IntegrationTest
 
 @ContextConfiguration(classes = [TimesheetRepository::class])
 class TimesheetRepositoryIntegrationTest : IntegrationTest() {
-
     @Autowired
     private lateinit var timesheetRepository: TimesheetRepository
 

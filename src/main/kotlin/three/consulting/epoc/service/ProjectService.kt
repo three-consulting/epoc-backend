@@ -15,7 +15,6 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class ProjectService(private val projectRepository: ProjectRepository) {
-
     fun findProjectForId(id: Long): ProjectDTO? {
         logger.info { "Looking for project with id: $id" }
         val project: Project? = projectRepository.findByIdOrNull(id)
@@ -88,8 +87,11 @@ class ProjectService(private val projectRepository: ProjectRepository) {
 }
 
 class UnableToCreateProjectException(message: String) : RuntimeException(message)
+
 class UnableToUpdateProjectException(message: String) : RuntimeException(message)
+
 class UnableToDeleteProjectException(id: Long) :
     RuntimeException("Cannot delete project, no project found for given id: $id")
+
 class ProjectNotFoundException(id: Long) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found for id: $id")

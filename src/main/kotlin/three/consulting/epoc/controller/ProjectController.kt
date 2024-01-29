@@ -11,9 +11,10 @@ import three.consulting.epoc.service.ProjectService
 @RestController
 @RequestMapping(path = ["/project"])
 class ProjectController(private val projectService: ProjectService) {
-
     @GetMapping(value = ["/{projectId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getProjectForId(@PathVariable projectId: Long) = projectService.findProjectForId(projectId)
+    fun getProjectForId(
+        @PathVariable projectId: Long
+    ) = projectService.findProjectForId(projectId)
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun createProject(
@@ -28,7 +29,9 @@ class ProjectController(private val projectService: ProjectService) {
     ) = projectService.updateProjectForId(project)
 
     @DeleteMapping(value = ["/{projectId}"], consumes = [ALL_VALUE])
-    fun deleteProjectForId(@PathVariable projectId: Long) = projectService.deleteProject(projectId)
+    fun deleteProjectForId(
+        @PathVariable projectId: Long
+    ) = projectService.deleteProject(projectId)
 
     @PostFilter("hasAuthority('ADMIN') or filterObject.status.name() == 'ACTIVE'")
     @GetMapping(consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])

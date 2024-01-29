@@ -21,7 +21,6 @@ import three.consulting.epoc.service.*
 @EnableAutoConfiguration(exclude = [ SecurityAutoConfiguration::class, DataSourceAutoConfiguration::class, ManagementWebSecurityAutoConfiguration::class ])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class ControllerIntegrationTest {
-
     @Autowired
     lateinit var restTemplate: TestRestTemplate
 

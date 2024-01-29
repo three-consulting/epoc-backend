@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
 class SwaggerIntegrationTest : ControllerIntegrationTest() {
-
     @Test
     fun `docs returns 200`() {
         val response = restTemplate.getForEntity("/docs", ObjectNode::class.java)

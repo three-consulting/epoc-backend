@@ -12,7 +12,6 @@ import java.time.LocalDate
 
 @RestController
 class TimesheetEntryController(private val timesheetEntryService: TimesheetEntryService) {
-
     @PreAuthorize("hasAuthority('ADMIN') or #email == authentication.principal.getClaim(\"email\")")
     @GetMapping(value = ["/timesheet-entry"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
     fun getTimesheetEntries(
@@ -27,7 +26,9 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
     ) = timesheetEntryService.findTimesheetEntries(timesheetId, email, startDate, endDate)
 
     @GetMapping(value = ["/timesheet-entry/{timesheetEntryId}"], consumes = [ALL_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun getTimesheetEntryForId(@PathVariable timesheetEntryId: Long) =
+    fun getTimesheetEntryForId(
+        @PathVariable timesheetEntryId: Long
+    ) =
         timesheetEntryService.findTimesheetEntryForId(timesheetEntryId)
 
     @PreAuthorize("hasAuthority('ADMIN') or #email == authentication.principal.getClaim(\"email\")")
@@ -73,6 +74,8 @@ class TimesheetEntryController(private val timesheetEntryService: TimesheetEntry
         timesheetEntryService.updateTimesheetEntriesForId(timesheetEntries)
 
     @DeleteMapping(value = ["/timesheet-entry"], consumes = [ALL_VALUE])
-    fun deleteTimesheetEntriesForId(@Valid @RequestBody timesheetIds: List<Long>) =
+    fun deleteTimesheetEntriesForId(
+        @Valid @RequestBody timesheetIds: List<Long>
+    ) =
         timesheetEntryService.deleteTimesheetEntriesForId(timesheetIds)
 }
