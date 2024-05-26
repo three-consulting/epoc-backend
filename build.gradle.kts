@@ -36,7 +36,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:9.22.3")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("com.google.firebase:firebase-admin:9.2.0")
+    implementation("com.google.firebase:firebase-admin:9.3.0")
 
     runtimeOnly("org.postgresql:postgresql:42.7.3")
 
